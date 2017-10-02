@@ -9,9 +9,9 @@ Gem::Specification.new do |spec|
   spec.authors       = ["dlbunker"]
   spec.email         = ["dan@iserve.com"]
 
-  spec.summary       = %q{TODO: Write a short summary, because Rubygems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.summary       = %q{Ruby gem for the Amazon Advertising API}
+  spec.description   = %q{Amazon released a new Advertising API in 2017. This gem will integrate and allow you to make API calls to Amazon.}
+  spec.homepage      = "https://github.com/iserve-products/blurb"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
@@ -33,4 +33,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.14"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
+
+  spec.add_runtime_dependency "rest-client", "~> 2.0"
+  spec.add_runtime_dependency "oauth2", "~> 1.4.0"
+
 end
