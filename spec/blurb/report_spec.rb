@@ -18,9 +18,10 @@ RSpec.describe Blurb::Report do
         status = Blurb::Report.status(payload_response["reportId"])
         expect(status).not_to be nil
 
-        RestClient.log = 'stdout'
-        report = Blurb::Report.download(status["location"])
-        expect(report).not_to be nil
+        if status["location"]
+          report = Blurb::Report.download(status["location"])
+          expect(report).not_to be nil
+        end
       end
     end
   end

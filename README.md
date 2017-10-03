@@ -35,6 +35,16 @@ Blurb.client_secret = "<YOUR_CLIENT_SECRET>"
 Blurb.refresh_token = "<YOUR_REFRESH_TOKEN>"
 ```
 
+## API Environments
+
+By default Blurb will run API calls to the Amazon Advertising API production environment.
+If you are under development and want to test out the API to see what it can do you can set
+the following Blurb property to use the API test environment.
+
+```ruby
+Blurb.test_env = true
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
