@@ -38,8 +38,6 @@ module Blurb
           max_redirects: 0
         }
 
-      puts request_config
-
       begin
         resp = RestClient::Request.execute(request_config)
       rescue RestClient::ExceptionWithResponse => err
