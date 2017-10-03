@@ -1,8 +1,7 @@
 # Blurb
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/blurb`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Blurb is an API wrapper (written in Ruby and packaged as a Gem) for the Amazon Advertising API. The Amazon Ad API lets you tie in programmatically to
+Amazon's Advertising Service. More info can be found at https://services.amazon.com/advertising/overview.htm?ld=NSGoogleAS
 
 ## Installation
 
@@ -22,7 +21,19 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Getting setup to make calls to the Amazon Advertising API can unfortunately be a tedious process.
+
+## Rails Integration
+
+You can setup the Amazon API keys and tokens in an initializer script.
+Create a file called config/initializers/blurb.rb and setup the following values
+
+```ruby
+Blurb.profile_id = "<YOUR_PROFILE_ID>"
+Blurb.client_id = "<YOUR_CLIENT_ID>"
+Blurb.client_secret = "<YOUR_CLIENT_SECRET>"
+Blurb.refresh_token = "<YOUR_REFRESH_TOKEN>"
+```
 
 ## Development
 
@@ -38,4 +49,3 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/[USERN
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
