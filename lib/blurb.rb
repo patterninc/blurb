@@ -4,9 +4,11 @@ require "rest-client"
 require "blurb/version"
 require "blurb/base_resource"
 
+require "blurb/bid_recommendation"
 require "blurb/profile"
 require "blurb/report"
 require "blurb/snapshot"
+require "blurb/suggested_keyword"
 require "blurb/token"
 
 module Blurb

@@ -47,7 +47,8 @@ module Blurb
         end
       end
 
-      return JSON.parse(resp)
+      response = JSON.parse(resp) if resp
+      return response
     end
 
     def self.post_request(api_path, payload)
