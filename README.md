@@ -26,8 +26,9 @@ You will need to apply for and have a valid Amazon Advertising Account. You can 
 here: [Amazon Advertising](https://services.amazon.com/advertising/overview.htm?ld=NSGoogleAS)
 
 You may also want to get a copy of the advertising docs and getting started guides which can be found here:
-[Amazon Advertising API Getting Started Guide.pdf](https://advertising.amazon.com/downloads/Amazon_Advertising_API_Getting_Started_Guide.pdf)
-[Amazon Advertising API Reference.pdf](https://advertising.amazon.com/downloads/Amazon_Advertising_API_Reference.pdf)
+
+1. [Amazon Advertising API Getting Started Guide.pdf](https://advertising.amazon.com/downloads/Amazon_Advertising_API_Getting_Started_Guide.pdf)
+2. [Amazon Advertising API Reference.pdf](https://advertising.amazon.com/downloads/Amazon_Advertising_API_Reference.pdf)
 
 Once you have an account you will be assigned a "client_id" and a "client_secret".
 
