@@ -1,5 +1,7 @@
 # Blurb
 
+[![CircleCI](https://circleci.com/gh/iserve-products/blurb.svg?style=shield)](https://circleci.com/gh/iserve-products/blurb)
+
 Blurb is an API wrapper (written in Ruby and packaged as a Gem) for the Amazon Advertising API. The Amazon Ad API lets you tie in programmatically to
 Amazon's Advertising Service. More info can be found at [Amazon Advertising](https://services.amazon.com/advertising/overview.htm?ld=NSGoogleAS)
 
