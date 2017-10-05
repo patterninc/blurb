@@ -5,7 +5,12 @@ RSpec.describe Blurb::Profile do
 
   describe "#list" do
     it "returns profiles" do
-      expect(Blurb::Profile.list()).not_to be nil
+      profiles = Blurb::Profile.list()
+      expect(profiles).not_to be nil
+
+      profiles.each do | p |
+        expect(Blurb::Profile.retrieve(p["profileId"])).not_to be nil
+      end
     end
   end
 
