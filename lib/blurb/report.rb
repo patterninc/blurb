@@ -9,12 +9,15 @@ module Blurb
       # required argument checks
       raise ArgumentError.new("params hash must contain a recordType") unless params["recordType"]
 
-      post_request("/v1/#{params["recordType"]}/report", {
+      api_params = {
         "campaignType" => "sponsoredProducts",
-        "segment" => "query",
         "reportDate" => params["reportDate"],
         "metrics" => params["metrics"]
-      })
+      }
+
+      api_params["segment"] = params["segment"] if params["segment"]
+
+      post_request("/v1/#{params["recordType"]}/report", api_params)
     end
 
     def self.status(report_id, opts = {})
