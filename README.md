@@ -128,11 +128,40 @@ Blurb.test_env = true
 All API calls have been setup as closely as possible to REST Resource calls.
 All you need to do is find the appropriate resource object and make a method call on it and Blurb will do the rest.
 
+NOTE: Not all API endpoints are currently supported by Blurb.  Over time we will get more
+endpoints added. In the mean time you are always welcome to submit a pull request.
+
 ### Profiles
 List account profiles
 
 ```ruby
 Blurb::Profile.list()
+```
+
+### Campaigns
+List campaigns
+
+```ruby
+Blurb::Campaign.list()
+```
+
+Get a campaign
+
+```ruby
+Blurb::Campaign.retrieve(campaign_id)
+```
+
+Create a campaign
+
+```ruby
+Blurb::Campaign.create({
+  "name" => "test",
+  "campaignType" => "sponsoredProducts",
+  "state" => "enabled",
+  "dailyBudget" => 10,
+  "startDate" => (Time.now).strftime('%Y%m%d'),
+  "targetingType" => "abc"
+})
 ```
 
 ### Reports
@@ -153,6 +182,23 @@ Blurb::Report::KEYWORDS
 Blurb::Report::CAMPAIGNS
 Blurb::Report::AD_GROUPS
 Blurb::Report::PRODUCT_ADS
+```
+
+### Suggested Keywords
+Suggestions by ASIN
+
+```ruby
+Blurb::SuggestedKeyword.asin_suggestions({
+  "asinValue" => "B0006HUJJO"
+})
+```
+
+Suggestions for a list of ASIN's
+
+```ruby
+Blurb::SuggestedKeyword.bulk_asin_suggestions({
+  "asins" => ["B0006HUJJO","B0042SWOHI"]
+})
 ```
 
 ## Development
