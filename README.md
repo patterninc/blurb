@@ -1,7 +1,7 @@
 # Blurb
 
 Blurb is an API wrapper (written in Ruby and packaged as a Gem) for the Amazon Advertising API. The Amazon Ad API lets you tie in programmatically to
-Amazon's Advertising Service. More info can be found at https://services.amazon.com/advertising/overview.htm?ld=NSGoogleAS
+Amazon's Advertising Service. More info can be found at [Amazon Advertising](https://services.amazon.com/advertising/overview.htm?ld=NSGoogleAS)
 
 ## Installation
 
@@ -23,19 +23,17 @@ Or install it yourself as:
 
 Getting setup to make calls to the Amazon Advertising API can unfortunately be a tedious process.
 You will need to apply for and have a valid Amazon Advertising Account. You can find that info
-here: https://services.amazon.com/advertising/overview.htm?ld=NSGoogleAS
+here: [Amazon Advertising](https://services.amazon.com/advertising/overview.htm?ld=NSGoogleAS)
 
 You may also want to get a copy of the advertising docs and getting started guides which can be found here:
-https://advertising.amazon.com/downloads/Amazon_Advertising_API_Getting_Started_Guide.pdf
-https://advertising.amazon.com/downloads/Amazon_Advertising_API_Reference.pdf
+[Amazon Advertising API Getting Started Guide.pdf](https://advertising.amazon.com/downloads/Amazon_Advertising_API_Getting_Started_Guide.pdf)
 
 Once you have an account you will be assigned a "client_id" and a "client_secret".
 
 Next you will need to obtain an authorization code from the Amazon API. You can do that by making a browser request to the following URL:
 
 ```
-https://www.amazon.com/ap/oa?client_id=YOUR_LWA_CLIENT_ID &scope=cpc_advertising:campaign_management &response_type=code
-&redirect_uri=YOUR_RETURN_URL
+https://www.amazon.com/ap/oa?client_id=YOUR_LWA_CLIENT_ID &scope=cpc_advertising:campaign_management&response_type=code&redirect_uri=YOUR_RETURN_URL
 ```
 
 Enter your client ID in the URL and a valid website as the return URL. Amazon will direct you to login.  Login with your
@@ -48,10 +46,10 @@ Do that by making a curl call to the following:
 
 ```
 curl \
-       -X POST \
-       -H "Content-Type:application/x-www-form-urlencoded;charset=UTF-8" \
-       --data "grant_type=authorization_code&code=AUTH_CODE&redirect_uri=YOUR_RETURN_URL&client_id=YOUR_C LIENT_ID&client_secret=YOUR_SECRET_KEY" \
-       https://api.amazon.com/auth/o2/token
+  -X POST \
+  -H "Content-Type:application/x-www-form-urlencoded;charset=UTF-8" \
+  --data "grant_type=authorization_code&code=AUTH_CODE&redirect_uri=YOUR_RETURN_URL&client_id=YOUR_CLIENT_ID&client_secret=YOUR_SECRET_KEY" \
+  https://api.amazon.com/auth/o2/token
 ```
 
 The response should return a JSON payload. Find the "refresh token" and save it's value.  
@@ -161,7 +159,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/blurb. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/iserve-products/blurb. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 
 ## License
