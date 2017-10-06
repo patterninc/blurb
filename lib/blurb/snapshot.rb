@@ -16,5 +16,14 @@ module Blurb
         "stateFilter" => params["stateFilter"]
       })
     end
+
+    def self.status(snapshot_id, opts = {})
+      get_request("/v1/snapshots/#{snapshot_id}")
+    end
+
+    def self.download(location, opts = {})
+      opts.merge!({:full_path => true, :gzip => true, :no_token => true})
+      get_request(location, opts)
+    end
   end
 end

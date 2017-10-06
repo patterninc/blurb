@@ -184,6 +184,51 @@ Blurb::Report::AD_GROUPS
 Blurb::Report::PRODUCT_ADS
 ```
 
+Check report status
+
+```ruby
+Blurb::Report.status(report_id)
+```
+
+Download report file content
+
+```ruby
+Blurb::Report.download(report_location_url)
+```
+
+### Snapshots
+Request a snapshot
+
+```ruby
+payload_response = Blurb::Snapshot.create({
+  "recordType" => Blurb::Snapshot::KEYWORDS,
+  "stateFilter" => "enabled,paused,archived"
+})
+```
+
+Report record types are
+
+```ruby
+Blurb::Snapshot::KEYWORDS
+Blurb::Snapshot::CAMPAIGNS
+Blurb::Snapshot::AD_GROUPS
+Blurb::Snapshot::PRODUCT_ADS
+Blurb::Snapshot::NEGATIVE_KEYWORDS
+Blurb::Snapshot::CAMPAIGN_NEGATIVE_KEYWORDS
+```
+
+Check snapshot status
+
+```ruby
+Blurb::Snapshot.status(snapshot_id)
+```
+
+Download snapshot file content
+
+```ruby
+Blurb::Snapshot.download(snapshot_location_url)
+```
+
 ### Suggested Keywords
 Suggestions by ASIN
 
