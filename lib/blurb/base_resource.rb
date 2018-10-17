@@ -39,17 +39,7 @@ module Blurb
           max_redirects: 0
         }
 
-      begin
-        resp = RestClient::Request.execute(request_config)
-      rescue RestClient::ExceptionWithResponse => err
-        # If this happens, then we are downloading a report from the api, so we can simply download the location
-        if err.response.code == 307
-          return RestClient.get(err.response.headers[:location])
-        end
-      end
-
-      response = JSON.parse(resp) if resp
-      return response
+      return make_request(response_config)
     end
 
     def self.post_request(api_path, payload)
@@ -67,8 +57,25 @@ module Blurb
           }
         }
 
-      resp = RestClient::Request.execute(request_config)
-      return JSON.parse(resp)
+      return make_request(response_config)
+    end
+
+    private
+
+    def self.make_request(request_config)
+      begin
+        resp = RestClient::Request.execute(request_config)
+      rescue RestClient::ExceptionWithResponse => err
+        # If this happens, then we are downloading a report from the api, so we can simply download the location
+        if err.response.code == 307
+          return RestClient.get(err.response.headers[:location])
+        else
+          return err
+        end
+      end
+
+      response = JSON.parse(resp) if resp
+      return response
     end
   end
 end
