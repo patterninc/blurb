@@ -39,7 +39,7 @@ module Blurb
           max_redirects: 0
         }
 
-      return make_request(response_config)
+      return make_request(request_config)
     end
 
     def self.post_request(api_path, payload)
