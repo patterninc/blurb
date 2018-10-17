@@ -57,7 +57,7 @@ module Blurb
           }
         }
 
-      return make_request(response_config)
+      return make_request(request_config)
     end
 
     private
