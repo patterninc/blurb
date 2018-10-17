@@ -70,7 +70,7 @@ module Blurb
         if err.response.code == 307
           return RestClient.get(err.response.headers[:location])
         else
-          return err
+          return err.response.body
         end
       end
 
