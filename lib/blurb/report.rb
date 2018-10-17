@@ -18,7 +18,7 @@ module Blurb
 
       api_params["segment"] = params["segment"] if params["segment"]
 
-      post_request("/v2/#{campaignType}/#{params["recordType"]}/report", api_params)
+      post_request("/v2/#{params["campaignType"]}/#{params["recordType"]}/report", api_params)
     end
 
     def self.status(report_id, opts = {})
