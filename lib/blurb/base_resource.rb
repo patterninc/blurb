@@ -25,7 +25,8 @@ module Blurb
       headers_hash = {
         "Authorization" => "Bearer #{access_token['access_token']}",
         "Content-Type" => "application/json",
-        "Amazon-Advertising-API-Scope" => Blurb.profile_id
+        "Amazon-Advertising-API-Scope" => Blurb.profile_id,
+        "Amazon-Advertising-API-ClientId" => Blurb.client_id
       }
 
       headers_hash["Content-Encoding"] = "gzip" if opts[:gzip]
@@ -59,9 +60,10 @@ module Blurb
           url: "#{Blurb::API_URL}#{api_path}",
           payload: payload.to_json,
           headers: {
-            :Authorization => "Bearer #{access_token['access_token']}",
+            "Authorization" => "Bearer #{access_token['access_token']}",
             "Content-Type" => "application/json",
-            "Amazon-Advertising-API-Scope" => Blurb.profile_id.to_i
+            "Amazon-Advertising-API-Scope" => Blurb.profile_id.to_i,
+            "Amazon-Advertising-API-ClientId" => Blurb.client_id
           }
         }
 
