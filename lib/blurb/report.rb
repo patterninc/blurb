@@ -37,66 +37,181 @@ module Blurb
     private
 
     def self.get_default_metrics(record_type, campaign_type)
-      metrics = [
-        "campaignName",
-        "campaignId",
-        "impressions",
-        "clicks",
-        "cost",
-        "attributedSales14d",
-        "attributedSales14dSameSKU",
-        "attributedConversions14d",
-        "attributedConversions14dSameSKU"
-      ]
-
-      metrics.push(
-        "attributedConversions1d",
-        "attributedConversions7d",
-        "attributedConversions14d",
-        "attributedConversions30d",
-        "attributedConversions1dSameSKU",
-        "attributedConversions7dSameSKU",
-        "attributedConversions30dSameSKU",
-        "attributedUnitsOrdered1d",
-        "attributedUnitsOrdered7d",
-        "attributedUnitsOrdered30d",
-        "attributedSales1d",
-        "attributedSales7d",
-        "attributedSales30d",
-        "attributedSales1dSameSKU",
-        "attributedSales7dSameSKU",
-        "attributedSales30dSameSKU"
-      ) if campaign_type == SPONSORED_PRODUCTS
-
-      metrics.push(
-        "adGroupName",
-        "adGroupId"
-      ) if record_type == AD_GROUPS
-
-      metrics.push(
-        "campaignStatus",
-        "campaignBudget"
-      ) if record_type == CAMPAIGNS
-
-      metrics.push(
-        "campaignBudgetType"
-      ) if record_type == CAMPAIGNS && campaign_type = SPONSORED_BRANDS
-
-      metrics.push(
-        "adGroupName",
-        "adGroupId",
-        "currency",
-        "asin",
-        "sku"
-      ) if record_type == PRODUCT_ADS
-
-      metrics.push(
-        "keywordId",
-        "keywordText",
-        "matchType"
-      ) if record_type == KEYWORDS
-
-      return metrics.join(",")
+      if campaign_type == SPONSORED_BRANDS
+        return [
+          "campaignName",
+          "campaignId",
+          "campaignStatus",
+          "campaignBudget",
+          "campaignBudgetType",
+          "impressions",
+          "clicks",
+          "cost",
+          "attributedSales14d",
+          "attributedSales14dSameSKU",
+          "attributedConversions14d",
+          "attributedConversions14dSameSKU"
+        ].join(",") if record_type == CAMPAIGNS
+        return [
+          "adGroupId",
+          "adGroupName",
+          "campaignName",
+          "campaignId",
+          "campaignStatus",
+          "campaignBudget",
+          "campaignBudgetType",
+          "impressions",
+          "clicks",
+          "cost",
+          "attributedSales14d",
+          "attributedSales14dSameSKU",
+          "attributedConversions14d",
+          "attributedConversions14dSameSKU"
+        ].join(",") if record_type == AD_GROUPS
+        return [
+          "keywordId",
+          "keywordStatus",
+          "keywordBid",
+          "keywordText",
+          "matchType",
+          "adGroupId",
+          "adGroupName",
+          "campaignName",
+          "campaignId",
+          "campaignStatus",
+          "campaignBudget",
+          "campaignBudgetType",
+          "impressions",
+          "clicks",
+          "cost",
+          "attributedSales14d",
+          "attributedSales14dSameSKU",
+          "attributedConversions14d",
+          "attributedConversions14dSameSKU"
+        ].join(",") if record_type == KEYWORDS
+      elsif campaign_type == SPONSORED_PRODUCTS
+        return [
+          "bidPlus",
+          "campaignName",
+          "campaignId",
+          "campaignStatus",
+          "campaignBudget",
+          "impressions",
+          "clicks",
+          "cost",
+          "attributedConversions1d",
+          "attributedConversions7d",
+          "attributedConversions14d",
+          "attributedConversions30d",
+          "attributedConversions1dSameSKU",
+          "attributedConversions7dSameSKU",
+          "attributedConversions14dSameSKU",
+          "attributedConversions30dSameSKU",
+          "attributedUnitsOrdered1d",
+          "attributedUnitsOrdered7d",
+          "attributedUnitsOrdered14d",
+          "attributedUnitsOrdered30d",
+          "attributedSales1d",
+          "attributedSales7d",
+          "attributedSales14d",
+          "attributedSales30d",
+          "attributedSales1dSameSKU",
+          "attributedSales7dSameSKU",
+          "attributedSales14dSameSKU",
+          "attributedSales30dSameSKU"
+        ].join(",") if record_type == CAMPAIGNS
+        return [
+          "campaignName",
+          "campaignId",
+          "adGroupName",
+          "adGroupId",
+          "impressions",
+          "clicks",
+          "cost",
+          "attributedConversions1d",
+          "attributedConversions7d",
+          "attributedConversions14d",
+          "attributedConversions30d",
+          "attributedConversions1dSameSKU",
+          "attributedConversions7dSameSKU",
+          "attributedConversions14dSameSKU",
+          "attributedConversions30dSameSKU",
+          "attributedUnitsOrdered1d",
+          "attributedUnitsOrdered7d",
+          "attributedUnitsOrdered14d",
+          "attributedUnitsOrdered30d",
+          "attributedSales1d",
+          "attributedSales7d",
+          "attributedSales14d",
+          "attributedSales30d",
+          "attributedSales1dSameSKU",
+          "attributedSales7dSameSKU",
+          "attributedSales14dSameSKU",
+          "attributedSales30dSameSKU"
+        ].join(",") if record_type == AD_GROUPS
+        return [
+          "campaignName",
+          "campaignId",
+          "keywordId",
+          "keywordText",
+          "matchType",
+          "impressions",
+          "clicks",
+          "cost",
+          "attributedConversions1d",
+          "attributedConversions7d",
+          "attributedConversions14d",
+          "attributedConversions30d",
+          "attributedConversions1dSameSKU",
+          "attributedConversions7dSameSKU",
+          "attributedConversions14dSameSKU",
+          "attributedConversions30dSameSKU",
+          "attributedUnitsOrdered1d",
+          "attributedUnitsOrdered7d",
+          "attributedUnitsOrdered14d",
+          "attributedUnitsOrdered30d",
+          "attributedSales1d",
+          "attributedSales7d",
+          "attributedSales14d",
+          "attributedSales30d",
+          "attributedSales1dSameSKU",
+          "attributedSales7dSameSKU",
+          "attributedSales14dSameSKU",
+          "attributedSales30dSameSKU"
+        ].join(",") if record_type == KEYWORDS
+        return [
+          "campaignName",
+          "campaignId",
+          "adGroupName",
+          "adGroupId",
+          "impressions",
+          "clicks",
+          "cost",
+          "currency",
+          "asin",
+          "sku",
+          "attributedConversions1d",
+          "attributedConversions7d",
+          "attributedConversions14d",
+          "attributedConversions30d",
+          "attributedConversions1dSameSKU",
+          "attributedConversions7dSameSKU",
+          "attributedConversions14dSameSKU",
+          "attributedConversions30dSameSKU",
+          "attributedUnitsOrdered1d",
+          "attributedUnitsOrdered7d",
+          "attributedUnitsOrdered14d",
+          "attributedUnitsOrdered30d",
+          "attributedSales1d",
+          "attributedSales7d",
+          "attributedSales14d",
+          "attributedSales30d",
+          "attributedSales1dSameSKU",
+          "attributedSales7dSameSKU",
+          "attributedSales14dSameSKU",
+          "attributedSales30dSameSKU"
+        ].join(",") if record_type == PRODUCT_ADS
+      end
     end
   end
 end
