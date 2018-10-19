@@ -1,11 +1,11 @@
 module Blurb
   class Campaign < BaseResource
     def self.retrieve(campaign_id, campaign_type)
-      get_request("/v2/#{campaignType}/campaigns/#{campaign_id}")
+      get_request("/v2/#{campaign_type}/campaigns/#{campaign_id}")
     end
 
     def self.retrieve_extended(campaign_id)
-      get_request("/v2/#{campaignType}/campaigns/extended/#{campaign_id}")
+      get_request("/v2/#{campaign_type}/campaigns/extended/#{campaign_id}")
     end
 
     def self.list(campaign_type, params = {}, opts = {})
