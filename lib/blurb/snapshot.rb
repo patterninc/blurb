@@ -11,14 +11,14 @@ module Blurb
       # required argument checks
       raise ArgumentError.new("params hash must contain a recordType") unless params["recordType"]
 
-      post_request("/v1/#{params["recordType"]}/snapshot", {
+      post_request("/v2/#{params["recordType"]}/snapshot", {
         "campaignType" => "sponsoredProducts",
         "stateFilter" => params["stateFilter"]
       })
     end
 
     def self.status(snapshot_id, opts = {})
-      get_request("/v1/snapshots/#{snapshot_id}")
+      get_request("/v2/snapshots/#{snapshot_id}")
     end
 
     def self.download(location, opts = {})
