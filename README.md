@@ -158,9 +158,8 @@ Blurb::Campaign.retrieve(campaign_id, campaign_type)
 Create a campaign
 
 ```ruby
-Blurb::Campaign.create({
+Blurb::Campaign.create(campaign_type, {
   "name" => "test",
-  "campaignType" => "sponsoredProducts",
   "state" => "enabled",
   "dailyBudget" => 10,
   "startDate" => (Time.now).strftime('%Y%m%d'),
