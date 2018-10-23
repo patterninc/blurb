@@ -7,8 +7,9 @@ module Blurb
           method: :get,
           url: "#{Blurb.active_api_url}#{api_path}",
           headers: {
-            :Authorization => "Bearer #{access_token['access_token']}",
-            "Content-Type" => "application/json"
+            "Authorization" => "Bearer #{access_token['access_token']}",
+            "Content-Type" => "application/json",
+            "Amazon-Advertising-API-ClientId" => Blurb.client_id
           }
         }
 
