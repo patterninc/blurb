@@ -4,7 +4,7 @@ module Blurb
       get_request("/v2/#{campaign_type}/campaigns/#{campaign_id}")
     end
 
-    def self.retrieve_extended(campaign_id)
+    def self.retrieve_extended(campaign_id, campaign_type)
       get_request("/v2/#{campaign_type}/campaigns/extended/#{campaign_id}")
     end
 
