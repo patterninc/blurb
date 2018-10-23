@@ -3,5 +3,3 @@ language: ruby
 rvm:
   - 2.3.5
 before_install: gem install bundler -v 1.14.6
-env:
-  - WHATEVER=ricardo

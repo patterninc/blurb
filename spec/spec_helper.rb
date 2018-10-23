@@ -19,6 +19,7 @@ RSpec.shared_context "shared setup", :shared_context => :metadata do
     puts "profile_id: #{ENV["CLIENT_ID"]} - class: #{ENV["CLIENT_ID"].class.name}"
     puts "profile_id: #{ENV["CLIENT_SECRET"]} - class: #{ENV["CLIENT_SECRET"].class.name}"
     puts "profile_id: #{ENV["REFRESH_TOKEN"]} - class: #{ENV["REFRESH_TOKEN"].class.name}"
+    puts "profile_id: #{ENV["TEST"]} - class: #{ENV["TEST"].class.name}"
     Blurb.test_env = true
     Blurb.profile_id = ENV["PROFILE_ID"]
     Blurb.client_id = ENV["CLIENT_ID"]
