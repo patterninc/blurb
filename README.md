@@ -5,6 +5,8 @@
 Blurb is an API wrapper (written in Ruby and packaged as a Gem) for the Amazon Advertising API. The Amazon Ad API lets you tie in programmatically to
 Amazon's Advertising Service. More info can be found at [Amazon Advertising](https://services.amazon.com/advertising/overview.htm?ld=NSGoogleAS)
 
+Version 0.2.0 has been updated to use v2.0 of the Amazon Advertising API.  
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -25,12 +27,12 @@ Or install it yourself as:
 
 Getting setup to make calls to the Amazon Advertising API can unfortunately be a tedious process.
 You will need to apply for and have a valid Amazon Advertising Account. You can find that info
-here: [Amazon Advertising](https://services.amazon.com/advertising/overview.htm?ld=NSGoogleAS)
+here: [Amazon Advertising](https://advertising.amazon.com/)
 
 You may also want to get a copy of the advertising docs and getting started guides which can be found here:
 
-1. [Amazon Advertising API Getting Started Guide.pdf](https://advertising.amazon.com/downloads/Amazon_Advertising_API_Getting_Started_Guide.pdf)
-2. [Amazon Advertising API Reference.pdf](https://advertising.amazon.com/downloads/Amazon_Advertising_API_Reference.pdf)
+1. [Amazon Advertising API Getting Started Guide](https://advertising.amazon.com/API/docs/v2/guides/get_started?ref_=a20m_us_api_dc1)
+2. [Amazon Advertising API Reference](https://advertising.amazon.com/API/docs/v2/reference/profiles?ref_=a20m_us_api_dc2)
 
 Once you have an account you will be assigned a "client_id" and a "client_secret".
 
@@ -128,6 +130,8 @@ Blurb.test_env = true
 All API calls have been setup as closely as possible to REST Resource calls.
 All you need to do is find the appropriate resource object and make a method call on it and Blurb will do the rest.
 
+In calls that require 'campaign_type' as a parameter, you must pass in either 'sp' for sponsored products or 'hsa' for sponsored brands (formerly known as headline search ads).  
+
 NOTE: Not all API endpoints are currently supported by Blurb.  Over time we will get more
 endpoints added. In the mean time you are always welcome to submit a pull request.
 
@@ -142,13 +146,13 @@ Blurb::Profile.list()
 List campaigns
 
 ```ruby
-Blurb::Campaign.list()
+Blurb::Campaign.list(campaign_type)
 ```
 
 Get a campaign
 
 ```ruby
-Blurb::Campaign.retrieve(campaign_id)
+Blurb::Campaign.retrieve(campaign_id, campaign_type)
 ```
 
 Create a campaign
@@ -164,16 +168,20 @@ Blurb::Campaign.create({
 })
 ```
 
+Note: Sponsored Brands cannot be created through the Amazon Advertising API and must be added through the user interface.  The create call only works for Sponsored Products.
+
 ### Reports
 Request a report
 
 ```ruby
 payload_response = Blurb::Report.create({
+  "campaignType" => Blurb::Report::SPONSORED_PRODUCTS,
   "recordType" => Blurb::Report::KEYWORDS,
   "reportDate" => (Time.now - 2592000).strftime('%Y%m%d'),
   "metrics" => "impressions,clicks"
 })
 ```
+If no metrics are included in the request, blurb will request all available metrics available for the given campaign type and report type.
 
 Report record types are
 
@@ -182,6 +190,13 @@ Blurb::Report::KEYWORDS
 Blurb::Report::CAMPAIGNS
 Blurb::Report::AD_GROUPS
 Blurb::Report::PRODUCT_ADS
+```
+
+Campaign types are
+
+```ruby
+Blurb::Report::SPONSORED_PRODUCTS
+Blurb::Report::SPONSORED_BRANDS
 ```
 
 Check report status
