@@ -13,7 +13,6 @@ module Blurb
 
       # If no metrics are passed in, use the default metrics
       metrics = params["metrics"] || get_default_metrics(params["recordType"],params["campaignType"])
-      puts "\nMetrics: #{metrics}"
 
       api_params = {
         "reportDate" => params["reportDate"],
