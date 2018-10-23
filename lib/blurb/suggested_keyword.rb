@@ -4,21 +4,21 @@ module Blurb
       # required argument checks
       raise ArgumentError.new("params hash must contain an adGroupId") unless params["adGroupId"]
 
-      get_request("/v1/adGroups/#{params["adGroupId"]}/suggested/keywords?#{setup_url_params(params)}")
+      get_request("/v2/adGroups/#{params["adGroupId"]}/suggested/keywords?#{setup_url_params(params)}")
     end
 
     def self.ad_group_extended_suggestions(params = {}, opts = {})
       # required argument checks
       raise ArgumentError.new("params hash must contain an adGroupId") unless params["adGroupId"]
 
-      get_request("/v1/adGroups/#{params["adGroupId"]}/suggested/keywords/extended?#{setup_url_params(params)}")
+      get_request("/v2/adGroups/#{params["adGroupId"]}/suggested/keywords/extended?#{setup_url_params(params)}")
     end
 
     def self.asin_suggestions(params = {}, opts = {})
       # required argument checks
       raise ArgumentError.new("params hash must contain an asinValue") unless params["asinValue"]
 
-      get_request("/v1/asins/#{params["asinValue"]}/suggested/keywords?#{setup_url_params(params)}")
+      get_request("/v2/asins/#{params["asinValue"]}/suggested/keywords?#{setup_url_params(params)}")
     end
 
     def self.bulk_asin_suggestions(params = {}, opts = {})
@@ -27,8 +27,8 @@ module Blurb
 
       maxNumSuggestions = 100
       maxNumSuggestions = params["maxNumSuggestions"] if params["maxNumSuggestions"]
-      
-      post_request("/v1/asins/suggested/keywords", {
+
+      post_request("/v2/asins/suggested/keywords", {
         "asins" => params["asins"],
         "maxNumSuggestions" => maxNumSuggestions
       })

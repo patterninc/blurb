@@ -5,7 +5,7 @@ RSpec.describe Blurb::Campaign do
 
   describe "campaign crud operations" do
     it "creates, lists and finds campaigns" do
-      campaigns = Blurb::Campaign.create({
+      campaigns = Blurb::Campaign.create("sp", {
         "name" => "test",
         "campaignType" => "sponsoredProducts",
         "state" => "enabled",
@@ -13,10 +13,9 @@ RSpec.describe Blurb::Campaign do
         "startDate" => (Time.now).strftime('%Y%m%d'),
         "targetingType" => "abc"
       })
-
       expect(campaigns).not_to be nil
-      payload_response = Blurb::Campaign.retrieve(campaigns.first["campaignId"])
-      payload_response = Blurb::Campaign.list()
+      payload_response = Blurb::Campaign.retrieve(campaigns.first["campaignId"], "sp")
+      payload_response = Blurb::Campaign.list("sp")
     end
   end
 
