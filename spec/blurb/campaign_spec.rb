@@ -15,8 +15,8 @@ RSpec.describe Blurb::Campaign do
       })
 
       expect(campaigns).not_to be nil
-      payload_response = Blurb::Campaign.retrieve(campaigns.first["campaignId"])
-      payload_response = Blurb::Campaign.list()
+      payload_response = Blurb::Campaign.retrieve(campaigns.first["campaignId"], "sp")
+      payload_response = Blurb::Campaign.list("sp")
     end
   end
 
