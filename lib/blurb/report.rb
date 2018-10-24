@@ -4,6 +4,7 @@ module Blurb
     AD_GROUPS = "adGroups"
     KEYWORDS = "keywords"
     PRODUCT_ADS = "productAds"
+    ASINS = "asins"
     SPONSORED_PRODUCTS = "sp"
     SPONSORED_BRANDS = "hsa"
 
@@ -24,6 +25,10 @@ module Blurb
       post_request("/v2/#{params["campaignType"]}/#{params["recordType"]}/report", api_params)
     end
 
+    def self.create_asin_report
+      post_request("/v2/#{params["campaignType"]}/#{params["recordType"]}/report", api_para
+    end
+
     def self.status(report_id, opts = {})
       get_request("/v2/reports/#{report_id}")
     end
@@ -36,6 +41,29 @@ module Blurb
     private
 
     def self.get_default_metrics(record_type, campaign_type)
+      if record_type == ASINS
+        return [
+          "campaignName",
+          "campaignId",
+          "adGroupName",
+          "adGroupId",
+          "keywordId",
+          "keywordText",
+          "asin",
+          "otherAsin",
+          "sku",
+          "currency",
+          "matchType",
+          "attributedUnitsOrdered1dOtherSKU",
+          "attributedUnitsOrdered7dOtherSKU",
+          "attributedUnitsOrdered14dOtherSKU",
+          "attributedUnitsOrdered30dOtherSKU",
+          "attributedSales1dOtherSKU",
+          "attributedSales7dOtherSKU",
+          "attributedSales14dOtherSKU",
+          "attributedSales30dOtherSKU"
+        ].join(",")
+      end
       if campaign_type == SPONSORED_BRANDS
         return [
           "campaignName",
