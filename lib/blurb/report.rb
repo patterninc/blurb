@@ -22,6 +22,7 @@ module Blurb
 
       api_params["segment"] = params["segment"] if params["segment"]
 
+      post_request("/v2/report", api_params) if params["recordType"] == ASINS
       post_request("/v2/#{params["campaignType"]}/#{params["recordType"]}/report", api_params)
     end
 
