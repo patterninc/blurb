@@ -48,7 +48,7 @@ module Blurb
 
       request_config = {
           method: :post,
-          url: "#{Blurb::API_URL}#{api_path}",
+          url: "#{Blurb.active_api_url}#{api_path}",
           payload: payload.to_json,
           headers: {
             "Authorization" => "Bearer #{access_token['access_token']}",

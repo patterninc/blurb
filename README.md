@@ -150,12 +150,22 @@ List campaigns
 ```ruby
 Blurb::Campaign.list(campaign_type)
 ```
+or
+```ruby
+Blurb::Campaign.list_extended(campaign_type)
+```
+Note that the extended call returns the complete set of campaign fields (including serving status and other read-only fields), but is less efficient.
 
 Get a campaign
 
 ```ruby
 Blurb::Campaign.retrieve(campaign_id, campaign_type)
 ```
+or
+```ruby
+Blurb::Campaign.retrieve_extended(campaign_id, campaign_type)
+```
+Note that the extended call returns the complete set of campaign fields (including serving status and other read-only fields), but is less efficient.
 
 Create a campaign
 
