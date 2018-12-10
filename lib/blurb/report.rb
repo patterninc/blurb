@@ -56,14 +56,14 @@ module Blurb
           "sku",
           "currency",
           "matchType",
-          "attributedUnitsOrdered1d",
-          "attributedUnitsOrdered7d",
-          "attributedUnitsOrdered14d",
-          "attributedUnitsOrdered30d",
-          "attributedSales1d",
-          "attributedSales7d",
-          "attributedSales14d",
-          "attributedSales30d"
+          "attributedUnitsOrdered1dOtherSKU",
+          "attributedUnitsOrdered7dOtherSKU",
+          "attributedUnitsOrdered14dOtherSKU",
+          "attributedUnitsOrdered30dOtherSKU",
+          "attributedSales1dOtherSKU",
+          "attributedSales7dOtherSKU",
+          "attributedSales14dOtherSKU",
+          "attributedSales30dOtherSKU"
         ].join(",")
       elsif campaign_type == SPONSORED_BRANDS
         return [
