@@ -58,8 +58,6 @@ module Blurb
           }
         }
 
-        puts request_config
-
       return make_request(request_config)
     end
 

@@ -24,6 +24,8 @@ module Blurb
 
       if params["recordType"] == ASINS
         request_url = "/v2/#{ASINS}/report"
+        api_params["campaignType"] = 'sponsoredProducts' if params["campaignType"] == SPONSORED_PRODUCTS
+        raise ArgumentError.new("ASIN report is not supported for Sponsored Brands" if params["campaignType"] == SPONSORED_BRANDS
       else
         request_url = "/v2/#{params["campaignType"]}/#{params["recordType"]}/report"
       end
@@ -42,30 +44,8 @@ module Blurb
 
     private
 
-    def self.get_default_metrics(record_type, campaign_type=nil)
-      if record_type == ASINS
-        return [
-          "campaignName",
-          "campaignId",
-          "adGroupId",
-          "adGroupName",
-          "keywordId",
-          "keywordText",
-          "asin",
-          "otherAsin",
-          "sku",
-          "currency",
-          "matchType",
-          "attributedUnitsOrdered1dOtherSKU",
-          "attributedUnitsOrdered7dOtherSKU",
-          "attributedUnitsOrdered14dOtherSKU",
-          "attributedUnitsOrdered30dOtherSKU",
-          "attributedSales1dOtherSKU",
-          "attributedSales7dOtherSKU",
-          "attributedSales14dOtherSKU",
-          "attributedSales30dOtherSKU"
-        ].join(",")
-      elsif campaign_type == SPONSORED_BRANDS
+    def self.get_default_metrics(record_type, campaign_type)
+      if campaign_type == SPONSORED_BRANDS
         return [
           "campaignName",
           "campaignId",
@@ -118,6 +98,27 @@ module Blurb
           "attributedConversions14dSameSKU"
         ].join(",") if record_type == KEYWORDS
       elsif campaign_type == SPONSORED_PRODUCTS
+        return [
+          "campaignName",
+          "campaignId",
+          "adGroupId",
+          "adGroupName",
+          "keywordId",
+          "keywordText",
+          "asin",
+          "otherAsin",
+          "sku",
+          "currency",
+          "matchType",
+          "attributedUnitsOrdered1dOtherSKU",
+          "attributedUnitsOrdered7dOtherSKU",
+          "attributedUnitsOrdered14dOtherSKU",
+          "attributedUnitsOrdered30dOtherSKU",
+          "attributedSales1dOtherSKU",
+          "attributedSales7dOtherSKU",
+          "attributedSales14dOtherSKU",
+          "attributedSales30dOtherSKU"
+        ].join(",") if record_type == ASINS
         return [
           "bidPlus",
           "campaignName",
