@@ -25,7 +25,7 @@ module Blurb
       if params["recordType"] == ASINS
         request_url = "/v2/#{ASINS}/report"
         api_params["campaignType"] = 'sponsoredProducts' if params["campaignType"] == SPONSORED_PRODUCTS
-        raise ArgumentError.new("ASIN report is not supported for Sponsored Brands" if params["campaignType"] == SPONSORED_BRANDS
+        raise ArgumentError.new("ASIN report is not supported for Sponsored Brands") if params["campaignType"] == SPONSORED_BRANDS
       else
         request_url = "/v2/#{params["campaignType"]}/#{params["recordType"]}/report"
       end
