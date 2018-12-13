@@ -58,6 +58,7 @@ module Blurb
           }
         }
 
+      puts "Request Config: #{request_config}"
       return make_request(request_config)
     end
 
