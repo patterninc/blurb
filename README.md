@@ -201,6 +201,7 @@ Blurb::Report::KEYWORDS
 Blurb::Report::CAMPAIGNS
 Blurb::Report::AD_GROUPS
 Blurb::Report::PRODUCT_ADS
+Blurb::Report::ASINS
 ```
 
 Campaign types are
