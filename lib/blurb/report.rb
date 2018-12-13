@@ -29,7 +29,7 @@ module Blurb
       else
         request_url = "/v2/#{params["campaignType"]}/#{params["recordType"]}/report"
       end
-      puts "Request URL: #{request_url}"
+      
       post_request(request_url, api_params)
     end
 
