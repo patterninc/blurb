@@ -6,7 +6,7 @@ RSpec.describe Blurb::Campaign do
   describe "campaign crud operations" do
     it "creates and retrieve a campaign" do
       campaign = Blurb::Campaign.create("sp", {
-        "name" => "test",
+        "name" => "test1",
         "campaignType" => "sponsoredProducts",
         "state" => "enabled",
         "dailyBudget" => 10,
