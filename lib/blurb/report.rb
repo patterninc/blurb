@@ -4,6 +4,7 @@ module Blurb
     AD_GROUPS = "adGroups"
     KEYWORDS = "keywords"
     PRODUCT_ADS = "productAds"
+    ASINS = "asins"
     SPONSORED_PRODUCTS = "sp"
     SPONSORED_BRANDS = "hsa"
 
@@ -21,7 +22,15 @@ module Blurb
 
       api_params["segment"] = params["segment"] if params["segment"]
 
-      post_request("/v2/#{params["campaignType"]}/#{params["recordType"]}/report", api_params)
+      if params["recordType"] == ASINS
+        request_url = "/v2/#{ASINS}/report"
+        api_params["campaignType"] = 'sponsoredProducts' if params["campaignType"] == SPONSORED_PRODUCTS
+        raise ArgumentError.new("ASIN report is not supported for Sponsored Brands") if params["campaignType"] == SPONSORED_BRANDS
+      else
+        request_url = "/v2/#{params["campaignType"]}/#{params["recordType"]}/report"
+      end
+      
+      post_request(request_url, api_params)
     end
 
     def self.status(report_id, opts = {})
@@ -89,6 +98,24 @@ module Blurb
           "attributedConversions14dSameSKU"
         ].join(",") if record_type == KEYWORDS
       elsif campaign_type == SPONSORED_PRODUCTS
+        return [
+          "campaignName",
+          "campaignId",
+          "adGroupId",
+          "adGroupName",
+          "asin",
+          "otherAsin",
+          "sku",
+          "currency",
+          "attributedUnitsOrdered1dOtherSKU",
+          "attributedUnitsOrdered7dOtherSKU",
+          "attributedUnitsOrdered14dOtherSKU",
+          "attributedUnitsOrdered30dOtherSKU",
+          "attributedSales1dOtherSKU",
+          "attributedSales7dOtherSKU",
+          "attributedSales14dOtherSKU",
+          "attributedSales30dOtherSKU"
+        ].join(",") if record_type == ASINS
         return [
           "bidPlus",
           "campaignName",

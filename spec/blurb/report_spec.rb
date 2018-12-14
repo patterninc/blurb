@@ -62,6 +62,17 @@ RSpec.describe Blurb::Report do
         expect(payload_response).not_to be nil
       end
     end
+
+    context "given an asins recordType" do
+      it "returns an asins report" do
+        payload_response = Blurb::Report.create({
+          "recordType" => Blurb::Report::ASINS,
+          "reportDate" => (Time.now - 2592000).strftime('%Y%m%d'),
+        })
+
+        expect(payload_response).not_to be nil
+      end
+    end
   end
 
 end
