@@ -203,7 +203,6 @@ Blurb::Report::AD_GROUPS
 Blurb::Report::PRODUCT_ADS
 Blurb::Report::ASINS
 Blurb::Report::TARGETS
-Blurb::Report::PORTFOLIOS
 ```
 
 Campaign types are
@@ -231,6 +230,7 @@ Request a snapshot
 ```ruby
 payload_response = Blurb::Snapshot.create({
   "recordType" => Blurb::Snapshot::KEYWORDS,
+  "campaignType" => Blurb::Snapshot::SPONSORED_PRODUCTS,
   "stateFilter" => "enabled,paused,archived"
 })
 ```
@@ -244,6 +244,14 @@ Blurb::Snapshot::AD_GROUPS
 Blurb::Snapshot::PRODUCT_ADS
 Blurb::Snapshot::NEGATIVE_KEYWORDS
 Blurb::Snapshot::CAMPAIGN_NEGATIVE_KEYWORDS
+Blurb::Snapshot::TARGETS
+```
+
+Campaign types are
+
+```ruby
+Blurb::Report::SPONSORED_PRODUCTS
+Blurb::Report::SPONSORED_BRANDS
 ```
 
 Check snapshot status

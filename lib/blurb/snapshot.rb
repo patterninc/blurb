@@ -6,14 +6,19 @@ module Blurb
     NEGATIVE_KEYWORDS = "negativeKeywords"
     CAMPAIGN_NEGATIVE_KEYWORDS = "campaignNegativeKeywords"
     PRODUCT_ADS = "productAds"
+    TARGETS = "targets"
+    SPONSORED_PRODUCTS = "sp"
+    SPONSORED_BRANDS = "hsa"
 
     def self.create(params = {}, opts = {})
       # required argument checks
       raise ArgumentError.new("params hash must contain a recordType") unless params["recordType"]
 
-      post_request("/v2/#{params["recordType"]}/snapshot", {
-        "campaignType" => "sponsoredProducts",
-        "stateFilter" => params["stateFilter"]
+      # Default State Filter if no params passed in
+      stateFilter = params["stateFilter"] || "enabled,paused"
+
+      post_request("/v2/#{params["campaignType"]}/#{params["recordType"]}/snapshot", {
+        "stateFilter" => stateFilter
       })
     end
 

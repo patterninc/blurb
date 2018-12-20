@@ -6,7 +6,6 @@ module Blurb
     PRODUCT_ADS = "productAds"
     ASINS = "asins"
     TARGETS = "targets"
-    PORTFOLIOS = "portfolios"
     SPONSORED_PRODUCTS = "sp"
     SPONSORED_BRANDS = "hsa"
 
