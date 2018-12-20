@@ -5,6 +5,8 @@ module Blurb
     KEYWORDS = "keywords"
     PRODUCT_ADS = "productAds"
     ASINS = "asins"
+    TARGETS = "targets"
+    PORTFOLIOS = "portfolios"
     SPONSORED_PRODUCTS = "sp"
     SPONSORED_BRANDS = "hsa"
 
@@ -29,7 +31,7 @@ module Blurb
       else
         request_url = "/v2/#{params["campaignType"]}/#{params["recordType"]}/report"
       end
-      
+
       post_request(request_url, api_params)
     end
 
@@ -237,6 +239,69 @@ module Blurb
           "attributedSales14dSameSKU",
           "attributedSales30dSameSKU"
         ].join(",") if record_type == PRODUCT_ADS
+        return [
+          "campaignName",
+          "campaignId",
+          "targetId",
+          "targetingExpression",
+          "targetingText",
+          "targetingType",
+          "impressions",
+          "clicks",
+          "cost",
+          "attributedConversions1d",
+          "attributedConversions7d",
+          "attributedConversions14d",
+          "attributedConversions30d",
+          "attributedConversions1dSameSKU",
+          "attributedConversions7dSameSKU",
+          "attributedConversions14dSameSKU",
+          "attributedConversions30dSameSKU",
+          "attributedUnitsOrdered1d",
+          "attributedUnitsOrdered7d",
+          "attributedUnitsOrdered14d",
+          "attributedUnitsOrdered30d",
+          "attributedSales1d",
+          "attributedSales7d",
+          "attributedSales14d",
+          "attributedSales30d",
+          "attributedSales1dSameSKU",
+          "attributedSales7dSameSKU",
+          "attributedSales14dSameSKU",
+          "attributedSales30dSameSKU"
+        ].join(",") if record_type == TARGETS
+        return [
+          "campaignName",
+          "campaignId",
+          "adGroupName",
+          "adGroupId",
+          "impressions",
+          "clicks",
+          "cost",
+          "currency",
+          "asin",
+          "sku",
+          "attributedConversions1d",
+          "attributedConversions7d",
+          "attributedConversions14d",
+          "attributedConversions30d",
+          "attributedConversions1dSameSKU",
+          "attributedConversions7dSameSKU",
+          "attributedConversions14dSameSKU",
+          "attributedConversions30dSameSKU",
+          "attributedUnitsOrdered1d",
+          "attributedUnitsOrdered7d",
+          "attributedUnitsOrdered14d",
+          "attributedUnitsOrdered30d",
+          "attributedSales1d",
+          "attributedSales7d",
+          "attributedSales14d",
+          "attributedSales30d",
+          "attributedSales1dSameSKU",
+          "attributedSales7dSameSKU",
+          "attributedSales14dSameSKU",
+          "attributedSales30dSameSKU"
+        ].join(",") if record_type == PORTFOLIOS
       end
     end
   end
