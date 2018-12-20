@@ -4,75 +4,126 @@ RSpec.describe Blurb::Report do
   include_context "shared setup"
 
   describe "#create" do
-    context "given a keywords recordType" do
-      Blurb.test_env = false
+    context "given a sponsoredProducts campaignType" do
+      context "given a keywords recordType" do
+        Blurb.test_env = false
 
-      it "returns a keywords report" do
-        payload_response = Blurb::Report.create({
-          "recordType" => Blurb::Report::KEYWORDS,
-          "reportDate" => (Time.now - 2592000).strftime('%Y%m%d'),
-          "metrics" => "impressions,clicks",
-          "segment" => "query"
-        })
+        it "returns a keywords report" do
+          payload_response = Blurb::Report.create({
+            "recordType" => Blurb::Report::KEYWORDS,
+            "campaignType" => Blurb::Report::SPONSORED_PRODUCTS,
+            "reportDate" => (Time.now - 2592000).strftime('%Y%m%d'),
+            "segment" => "query"
+          })
+          expect(payload_response["status"]).to eq("IN_PROGRESS")
 
-        expect(payload_response).not_to be nil
+          status = Blurb::Report.status(payload_response["reportId"])
 
-        status = Blurb::Report.status(payload_response["reportId"])
+          if status && status["location"]
+            report = Blurb::Report.download(status["location"])
+            expect(report.code).to eq(200)
+          end
+        end
+      end
 
-        if status && status["location"]
-          report = Blurb::Report.download(status["location"])
-          expect(report).not_to be nil
+      context "given a campaigns recordType" do
+        it "returns a campaigns report" do
+          payload_response = Blurb::Report.create({
+            "recordType" => Blurb::Report::CAMPAIGNS,
+            "campaignType" => Blurb::Report::SPONSORED_PRODUCTS,
+            "reportDate" => (Time.now - 2592000).strftime('%Y%m%d'),
+            "metrics" => "impressions,clicks"
+          })
+
+          expect(payload_response["status"]).to eq("IN_PROGRESS")
+        end
+      end
+
+      context "given a adGroups recordType" do
+        it "returns a adGroups report" do
+          payload_response = Blurb::Report.create({
+            "recordType" => Blurb::Report::AD_GROUPS,
+            "campaignType" => Blurb::Report::SPONSORED_PRODUCTS,
+            "reportDate" => (Time.now - 2592000).strftime('%Y%m%d'),
+          })
+
+          expect(payload_response["status"]).to eq("IN_PROGRESS")
+        end
+      end
+
+      context "given a productAds recordType" do
+        it "returns a productAds report" do
+          payload_response = Blurb::Report.create({
+            "recordType" => Blurb::Report::PRODUCT_ADS,
+            "campaignType" => Blurb::Report::SPONSORED_PRODUCTS,
+            "reportDate" => (Time.now - 2592000).strftime('%Y%m%d'),
+          })
+
+          expect(payload_response["status"]).to eq("IN_PROGRESS")
+        end
+      end
+
+      context "given an asins recordType" do
+        it "returns an asins report" do
+          payload_response = Blurb::Report.create({
+            "campaignType" => Blurb::Report::SPONSORED_PRODUCTS,
+            "recordType" => Blurb::Report::ASINS,
+            "reportDate" => (Time.now - 2592000).strftime('%Y%m%d'),
+          })
+
+          expect(payload_response["status"]).to eq("IN_PROGRESS")
+        end
+      end
+
+      context "given a targets recordType" do
+        it "returns a target report" do
+          payload_response = Blurb::Report.create({
+            "campaignType" => Blurb::Report::SPONSORED_PRODUCTS,
+            "recordType" => Blurb::Report::TARGETS,
+            "reportDate" => (Time.now - 2592000).strftime('%Y%m%d'),
+          })
+
+          expect(payload_response["status"]).to eq("IN_PROGRESS")
         end
       end
     end
+    context "given a sponsoredBrands campaignType" do
+      context "given a keywords recordType" do
+        Blurb.test_env = false
 
-    context "given a campaigns recordType" do
-      it "returns a campaigns report" do
-        payload_response = Blurb::Report.create({
-          "recordType" => Blurb::Report::CAMPAIGNS,
-          "reportDate" => (Time.now - 2592000).strftime('%Y%m%d'),
-          "metrics" => "impressions,clicks"
-        })
-
-        expect(payload_response).not_to be nil
+        it "returns a keywords report" do
+          payload_response = Blurb::Report.create({
+            "recordType" => Blurb::Report::KEYWORDS,
+            "campaignType" => Blurb::Report::SPONSORED_BRANDS,
+            "reportDate" => (Time.now - 2592000).strftime('%Y%m%d'),
+            "segment" => "query"
+          })
+          expect(payload_response["status"]).to eq("IN_PROGRESS")
+        end
       end
-    end
 
-    context "given a adGroups recordType" do
-      it "returns a adGroups report" do
-        payload_response = Blurb::Report.create({
-          "recordType" => Blurb::Report::AD_GROUPS,
-          "reportDate" => (Time.now - 2592000).strftime('%Y%m%d'),
-          "metrics" => "impressions,clicks"
-        })
-
-        expect(payload_response).not_to be nil
+      context "given a campaigns recordType" do
+        it "returns a campaigns report" do
+          payload_response = Blurb::Report.create({
+            "recordType" => Blurb::Report::CAMPAIGNS,
+            "campaignType" => Blurb::Report::SPONSORED_BRANDS,
+            "reportDate" => (Time.now - 2592000).strftime('%Y%m%d'),
+            "metrics" => "impressions,clicks"
+          })
+          expect(payload_response["status"]).to eq("IN_PROGRESS")
+        end
       end
-    end
 
-    context "given a productAds recordType" do
-      it "returns a productAds report" do
-        payload_response = Blurb::Report.create({
-          "recordType" => Blurb::Report::PRODUCT_ADS,
-          "reportDate" => (Time.now - 2592000).strftime('%Y%m%d'),
-          "metrics" => "impressions,clicks",
-          "segment" => "query"
-        })
-
-        expect(payload_response).not_to be nil
-      end
-    end
-
-    context "given an asins recordType" do
-      it "returns an asins report" do
-        payload_response = Blurb::Report.create({
-          "recordType" => Blurb::Report::ASINS,
-          "reportDate" => (Time.now - 2592000).strftime('%Y%m%d'),
-        })
-
-        expect(payload_response).not_to be nil
+      context "given a adGroups recordType" do
+        it "returns a adGroups report" do
+          payload_response = Blurb::Report.create({
+            "recordType" => Blurb::Report::AD_GROUPS,
+            "campaignType" => Blurb::Report::SPONSORED_BRANDS,
+            "reportDate" => (Time.now - 2592000).strftime('%Y%m%d'),
+          })
+          expect(payload_response["status"]).to eq("IN_PROGRESS")
+        end
       end
     end
   end
-
 end
