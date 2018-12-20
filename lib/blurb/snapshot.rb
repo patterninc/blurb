@@ -15,10 +15,13 @@ module Blurb
       raise ArgumentError.new("params hash must contain a recordType") unless params["recordType"]
 
       # Default State Filter if no params passed in
-      stateFilter = params["stateFilter"] || "enabled,paused"
+      state_filter = params["stateFilter"] || "enabled,paused"
 
-      post_request("/v2/#{params["campaignType"]}/#{params["recordType"]}/snapshot", {
-        "stateFilter" => stateFilter
+      # Default campaign type so version 2.3 is backward compatible with version 2.2
+      campaign_type = params["campaignType"] || SPONSORED_PRODUCTS
+
+      post_request("/v2/#{campaign_type}/#{params["recordType"]}/snapshot", {
+        "stateFilter" => state_filter
       })
     end
 
