@@ -31,10 +31,9 @@ module Blurb
       post_request("/v2/#{campaign_type}/campaigns", [params])
     end
 
-    # Deprecated in v2
-    # def self.create_bulk(campaign_array, opts = {})
-    #   post_request("/v1/campaigns", campaign_array)
-    # end
+    def self.delete(campaign_id)
+      delete_request("/v2/campaigns/#{campaign_id}")
+    end
 
     private
 

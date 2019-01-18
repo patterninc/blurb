@@ -4,7 +4,7 @@ RSpec.describe Blurb::Campaign do
   include_context "shared setup"
 
   describe "campaign crud operations" do
-    it "creates and retrieve a campaign" do
+    it "creates and retrieves and deletes a campaign" do
       campaign = Blurb::Campaign.create("sp", {
         "name" => "My Test Campaign",
         "campaignType" => "sponsoredProducts",
@@ -14,6 +14,9 @@ RSpec.describe Blurb::Campaign do
         "targetingType" => "abc"
       })
       expect(campaign.first["code"]).to eq "SUCCESS"
+
+      delete = Blurb::Campaign.delete(campaign.first["campaignId"])
+      expect(delete["code"]).to eq "SUCCESS"
     end
 
     it "retrieves a list of campaigns" do

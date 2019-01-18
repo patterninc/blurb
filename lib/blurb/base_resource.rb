@@ -61,6 +61,25 @@ module Blurb
       return make_request(request_config)
     end
 
+    def self.delete_request(api_path)
+      access_token = Blurb::Token.retrieve()
+
+      headers_hash = {
+        "Authorization" => "Bearer #{access_token['access_token']}",
+        "Content-Type" => "application/json",
+        "Amazon-Advertising-API-Scope" => Blurb.profile_id,
+        "Amazon-Advertising-API-ClientId" => Blurb.client_id
+      }
+
+      request_config = {
+          method: :delete,
+          url: "#{Blurb.active_api_url}#{api_path}",
+          headers: headers_hash,
+        }
+
+      return make_request(request_config)
+    end
+
     private
 
     def self.make_request(request_config)

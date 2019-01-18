@@ -4,11 +4,11 @@ RSpec.describe Blurb::Report do
   include_context "shared setup"
 
   describe "#create" do
+    Blurb.test_env = false
     context "given a sponsoredProducts campaignType" do
       context "given a keywords recordType" do
-        Blurb.test_env = false
-
         it "returns a keywords report" do
+          sleep(3)
           payload_response = Blurb::Report.create({
             "recordType" => Blurb::Report::KEYWORDS,
             "campaignType" => Blurb::Report::SPONSORED_PRODUCTS,
@@ -28,6 +28,7 @@ RSpec.describe Blurb::Report do
 
       context "given a campaigns recordType" do
         it "returns a campaigns report" do
+          sleep(3)
           payload_response = Blurb::Report.create({
             "recordType" => Blurb::Report::CAMPAIGNS,
             "campaignType" => Blurb::Report::SPONSORED_PRODUCTS,
@@ -41,6 +42,7 @@ RSpec.describe Blurb::Report do
 
       context "given a adGroups recordType" do
         it "returns a adGroups report" do
+          sleep(3)
           payload_response = Blurb::Report.create({
             "recordType" => Blurb::Report::AD_GROUPS,
             "campaignType" => Blurb::Report::SPONSORED_PRODUCTS,
@@ -53,6 +55,7 @@ RSpec.describe Blurb::Report do
 
       context "given a productAds recordType" do
         it "returns a productAds report" do
+          sleep(3)
           payload_response = Blurb::Report.create({
             "recordType" => Blurb::Report::PRODUCT_ADS,
             "campaignType" => Blurb::Report::SPONSORED_PRODUCTS,
@@ -65,6 +68,7 @@ RSpec.describe Blurb::Report do
 
       context "given an asins recordType" do
         it "returns an asins report" do
+          sleep(3)
           payload_response = Blurb::Report.create({
             "campaignType" => Blurb::Report::SPONSORED_PRODUCTS,
             "recordType" => Blurb::Report::ASINS,
@@ -77,6 +81,7 @@ RSpec.describe Blurb::Report do
 
       context "given a targets recordType" do
         it "returns a target report" do
+          sleep(3)
           payload_response = Blurb::Report.create({
             "campaignType" => Blurb::Report::SPONSORED_PRODUCTS,
             "recordType" => Blurb::Report::TARGETS,
@@ -89,9 +94,8 @@ RSpec.describe Blurb::Report do
     end
     context "given a sponsoredBrands campaignType" do
       context "given a keywords recordType" do
-        Blurb.test_env = false
-
         it "returns a keywords report" do
+          sleep(3)
           payload_response = Blurb::Report.create({
             "recordType" => Blurb::Report::KEYWORDS,
             "campaignType" => Blurb::Report::SPONSORED_BRANDS,
@@ -104,6 +108,7 @@ RSpec.describe Blurb::Report do
 
       context "given a campaigns recordType" do
         it "returns a campaigns report" do
+          sleep(3)
           payload_response = Blurb::Report.create({
             "recordType" => Blurb::Report::CAMPAIGNS,
             "campaignType" => Blurb::Report::SPONSORED_BRANDS,
@@ -116,6 +121,7 @@ RSpec.describe Blurb::Report do
 
       context "given a adGroups recordType" do
         it "returns a adGroups report" do
+          sleep(3)
           payload_response = Blurb::Report.create({
             "recordType" => Blurb::Report::AD_GROUPS,
             "campaignType" => Blurb::Report::SPONSORED_BRANDS,
