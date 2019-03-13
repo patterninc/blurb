@@ -4,12 +4,13 @@ RSpec.describe Blurb::Report do
   include_context "shared setup"
 
   describe "#create" do
-    Blurb.test_env = false
+    @report_instance = Blurb::Report.new()
+    @report_instance.test_env = false
     context "given a sponsoredProducts campaignType" do
       context "given a keywords recordType" do
         it "returns a keywords report" do
           sleep(3)
-          payload_response = Blurb::Report.create({
+          payload_response = @report_instance.create({
             "recordType" => Blurb::Report::KEYWORDS,
             "campaignType" => Blurb::Report::SPONSORED_PRODUCTS,
             "reportDate" => (Time.now - 2592000).strftime('%Y%m%d'),
@@ -17,10 +18,10 @@ RSpec.describe Blurb::Report do
           })
           expect(payload_response["status"]).to eq("IN_PROGRESS")
 
-          status = Blurb::Report.status(payload_response["reportId"])
+          status = @report_instance.status(payload_response["reportId"])
 
           if status && status["location"]
-            report = Blurb::Report.download(status["location"])
+            report = @report_instance.download(status["location"])
             expect(report.code).to eq(200)
           end
         end
@@ -29,7 +30,7 @@ RSpec.describe Blurb::Report do
       context "given a campaigns recordType" do
         it "returns a campaigns report" do
           sleep(3)
-          payload_response = Blurb::Report.create({
+          payload_response = @report_instance.create({
             "recordType" => Blurb::Report::CAMPAIGNS,
             "campaignType" => Blurb::Report::SPONSORED_PRODUCTS,
             "reportDate" => (Time.now - 2592000).strftime('%Y%m%d'),
@@ -43,7 +44,7 @@ RSpec.describe Blurb::Report do
       context "given a adGroups recordType" do
         it "returns a adGroups report" do
           sleep(3)
-          payload_response = Blurb::Report.create({
+          payload_response = @report_instance.create({
             "recordType" => Blurb::Report::AD_GROUPS,
             "campaignType" => Blurb::Report::SPONSORED_PRODUCTS,
             "reportDate" => (Time.now - 2592000).strftime('%Y%m%d'),
@@ -56,7 +57,7 @@ RSpec.describe Blurb::Report do
       context "given a productAds recordType" do
         it "returns a productAds report" do
           sleep(3)
-          payload_response = Blurb::Report.create({
+          payload_response = @report_instance.create({
             "recordType" => Blurb::Report::PRODUCT_ADS,
             "campaignType" => Blurb::Report::SPONSORED_PRODUCTS,
             "reportDate" => (Time.now - 2592000).strftime('%Y%m%d'),
@@ -69,7 +70,7 @@ RSpec.describe Blurb::Report do
       context "given an asins recordType" do
         it "returns an asins report" do
           sleep(3)
-          payload_response = Blurb::Report.create({
+          payload_response = @report_instance.create({
             "campaignType" => Blurb::Report::SPONSORED_PRODUCTS,
             "recordType" => Blurb::Report::ASINS,
             "reportDate" => (Time.now - 2592000).strftime('%Y%m%d'),
@@ -82,7 +83,7 @@ RSpec.describe Blurb::Report do
       context "given a targets recordType" do
         it "returns a target report" do
           sleep(3)
-          payload_response = Blurb::Report.create({
+          payload_response = @report_instance.create({
             "campaignType" => Blurb::Report::SPONSORED_PRODUCTS,
             "recordType" => Blurb::Report::TARGETS,
             "reportDate" => (Time.now - 2592000).strftime('%Y%m%d'),
@@ -96,7 +97,7 @@ RSpec.describe Blurb::Report do
       context "given a keywords recordType" do
         it "returns a keywords report" do
           sleep(3)
-          payload_response = Blurb::Report.create({
+          payload_response = @report_instance.create({
             "recordType" => Blurb::Report::KEYWORDS,
             "campaignType" => Blurb::Report::SPONSORED_BRANDS,
             "reportDate" => (Time.now - 2592000).strftime('%Y%m%d'),
@@ -109,7 +110,7 @@ RSpec.describe Blurb::Report do
       context "given a campaigns recordType" do
         it "returns a campaigns report" do
           sleep(3)
-          payload_response = Blurb::Report.create({
+          payload_response = @report_instance.create({
             "recordType" => Blurb::Report::CAMPAIGNS,
             "campaignType" => Blurb::Report::SPONSORED_BRANDS,
             "reportDate" => (Time.now - 2592000).strftime('%Y%m%d'),
@@ -122,7 +123,7 @@ RSpec.describe Blurb::Report do
       context "given a adGroups recordType" do
         it "returns a adGroups report" do
           sleep(3)
-          payload_response = Blurb::Report.create({
+          payload_response = @report_instance.create({
             "recordType" => Blurb::Report::AD_GROUPS,
             "campaignType" => Blurb::Report::SPONSORED_BRANDS,
             "reportDate" => (Time.now - 2592000).strftime('%Y%m%d'),

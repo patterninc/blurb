@@ -8,7 +8,7 @@ RSpec.describe Blurb::Snapshot do
       context "given a keywords recordType" do
         it "returns a keywords snapshot" do
           sleep(3)
-          payload_response = Blurb::Snapshot.create({
+          payload_response = @snapshot_instance.create({
             "recordType" => Blurb::Snapshot::KEYWORDS,
             "campaignType" => Blurb::Report::SPONSORED_PRODUCTS,
             "stateFilter" => "enabled,paused,archived"
@@ -16,10 +16,10 @@ RSpec.describe Blurb::Snapshot do
 
           expect(payload_response["status"]).to eq("IN_PROGRESS")
 
-          status = Blurb::Snapshot.status(payload_response["snapshotId"])
+          status = @snapshot_instance.status(payload_response["snapshotId"])
 
           if status && status["location"]
-            report = Blurb::Snapshot.download(status["location"])
+            report = @snapshot_instance.download(status["location"])
             expect(report).not_to be nil
           end
         end
@@ -28,7 +28,7 @@ RSpec.describe Blurb::Snapshot do
       context "given a campaign recordType" do
         it "returns a campaign snapshot" do
           sleep(3)
-          payload_response = Blurb::Snapshot.create({
+          payload_response = @snapshot_instance.create({
             "recordType" => Blurb::Snapshot::CAMPAIGNS,
             "campaignType" => Blurb::Report::SPONSORED_PRODUCTS,
             "stateFilter" => "enabled,paused,archived"
@@ -41,7 +41,7 @@ RSpec.describe Blurb::Snapshot do
       context "given a ad_group recordType" do
         it "returns a ad_group snapshot" do
           sleep(3)
-          payload_response = Blurb::Snapshot.create({
+          payload_response = @snapshot_instance.create({
             "recordType" => Blurb::Snapshot::AD_GROUPS,
             "campaignType" => Blurb::Report::SPONSORED_PRODUCTS,
             "stateFilter" => "enabled,paused,archived"
@@ -54,7 +54,7 @@ RSpec.describe Blurb::Snapshot do
       context "given a product_ad recordType" do
         it "returns a product_ad snapshot" do
           sleep(3)
-          payload_response = Blurb::Snapshot.create({
+          payload_response = @snapshot_instance.create({
             "recordType" => Blurb::Snapshot::PRODUCT_ADS,
             "campaignType" => Blurb::Report::SPONSORED_PRODUCTS,
             "stateFilter" => "enabled,paused,archived"
@@ -67,7 +67,7 @@ RSpec.describe Blurb::Snapshot do
       context "given a negativeKeywords recordType" do
         it "returns a negativeKeywords snapshot" do
           sleep(3)
-          payload_response = Blurb::Snapshot.create({
+          payload_response = @snapshot_instance.create({
             "recordType" => Blurb::Snapshot::NEGATIVE_KEYWORDS,
             "campaignType" => Blurb::Report::SPONSORED_PRODUCTS,
             "stateFilter" => "enabled,paused,archived"
@@ -80,7 +80,7 @@ RSpec.describe Blurb::Snapshot do
       context "given a campaignNegativeKeywords recordType" do
         it "returns a campaignNegativeKeywords snapshot" do
           sleep(3)
-          payload_response = Blurb::Snapshot.create({
+          payload_response = @snapshot_instance.create({
             "recordType" => Blurb::Snapshot::CAMPAIGN_NEGATIVE_KEYWORDS,
             "campaignType" => Blurb::Report::SPONSORED_PRODUCTS,
             "stateFilter" => "enabled,paused,archived"
@@ -93,7 +93,7 @@ RSpec.describe Blurb::Snapshot do
       context "given a targets recordType" do
         it "returns a targets snapshot" do
           sleep(3)
-          payload_response = Blurb::Snapshot.create({
+          payload_response = @snapshot_instance.create({
             "recordType" => Blurb::Snapshot::TARGETS,
             "campaignType" => Blurb::Report::SPONSORED_PRODUCTS,
             "stateFilter" => "enabled,paused,archived"
@@ -110,7 +110,7 @@ RSpec.describe Blurb::Snapshot do
     #   context "given a keywords recordType" do
     #     it "returns a keywords snapshot" do
     #       sleep(3)
-    #       payload_response = Blurb::Snapshot.create({
+    #       payload_response = @snapshot_instance.create({
     #         "recordType" => Blurb::Snapshot::KEYWORDS,
     #         "campaignType" => Blurb::Report::SPONSORED_BRANDS,
     #         "stateFilter" => "enabled,paused,archived"
@@ -122,7 +122,7 @@ RSpec.describe Blurb::Snapshot do
     #   context "given a campaign recordType" do
     #     it "returns a campaign snapshot" do
     #       sleep(3)
-    #       payload_response = Blurb::Snapshot.create({
+    #       payload_response = @snapshot_instance.create({
     #         "recordType" => Blurb::Snapshot::CAMPAIGNS,
     #         "campaignType" => Blurb::Report::SPONSORED_BRANDS,
     #         "stateFilter" => "enabled,paused,archived"

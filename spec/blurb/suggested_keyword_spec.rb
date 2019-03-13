@@ -6,8 +6,8 @@ RSpec.describe Blurb::SuggestedKeyword do
   describe "#asin_suggestions" do
     context "given an asin" do
       it "returns suggestions" do
-        Blurb.test_env = false
-        payload_response = Blurb::SuggestedKeyword.asin_suggestions({
+        @suggested_keyword_instance.test_env = false
+        payload_response = @suggested_keyword_instance.asin_suggestions({
           "asinValue" => "B0006HUJJO"
         })
 
@@ -20,7 +20,7 @@ RSpec.describe Blurb::SuggestedKeyword do
     context "given a list of asins" do
       it "returns suggestions" do
         Blurb.test_env = false
-        payload_response = Blurb::SuggestedKeyword.bulk_asin_suggestions({
+        payload_response = @suggested_keyword_instance.bulk_asin_suggestions({
           "asins" => ["B0006HUJJO","B0042SWOHI"]
         })
 
@@ -33,7 +33,7 @@ RSpec.describe Blurb::SuggestedKeyword do
     context "given an adGroupId" do
       it "returns suggestions" do
         Blurb.test_env = false
-        payload_response = Blurb::SuggestedKeyword.ad_group_suggestions({
+        payload_response = @suggested_keyword_instance.ad_group_suggestions({
           "adGroupId" => "A03102093TZ1MBBGK086X"
         })
 
