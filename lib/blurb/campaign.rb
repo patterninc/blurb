@@ -3,25 +3,25 @@ module Blurb
     SPONSORED_PRODUCTS = "sp"
     SPONSORED_BRANDS = "hsa"
 
-    def self.retrieve(campaign_id, campaign_type)
+    def retrieve(campaign_id, campaign_type)
       get_request("/v2/#{campaign_type}/campaigns/#{campaign_id}")
     end
 
-    def self.retrieve_extended(campaign_id, campaign_type)
+    def retrieve_extended(campaign_id, campaign_type)
       raise ArgumentError.new("Extended campaigns interface is only supported for Sponsored Products") unless campaign_type == SPONSORED_PRODUCTS
       get_request("/v2/#{campaign_type}/campaigns/extended/#{campaign_id}")
     end
 
-    def self.list(campaign_type, params = {}, opts = {})
+    def list(campaign_type, params = {}, opts = {})
       get_request("/v2/#{campaign_type}/campaigns?#{setup_url_params(params)}")
     end
 
-    def self.list_extended(campaign_type, params = {}, opts = {})
+    def list_extended(campaign_type, params = {}, opts = {})
       raise ArgumentError.new("Extended campaigns interface is only supported for Sponsored Products") unless campaign_type == SPONSORED_PRODUCTS
       get_request("/v2/#{campaign_type}/campaigns/extended?#{setup_url_params(params)}")
     end
 
-    def self.create(campaign_type, params = {}, opts = {})
+    def create(campaign_type, params = {}, opts = {})
       # required argument checks
       if !params["name"] && !params["targetingType"] && !params["state"] && !params["dailyBudget"] && !params["startDate"]
         raise ArgumentError.new("params hash must contain name, targetingType, state, dailyBudget and startDate")
@@ -31,13 +31,13 @@ module Blurb
       post_request("/v2/#{campaign_type}/campaigns", [params])
     end
 
-    def self.delete(campaign_id)
+    def delete(campaign_id)
       delete_request("/v2/campaigns/#{campaign_id}")
     end
 
     private
 
-    def self.setup_url_params(params)
+    def setup_url_params(params)
       url_params = ""
       url_params = "startIndex=#{params['startIndex']}" if params['startIndex']
 

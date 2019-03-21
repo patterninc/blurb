@@ -9,7 +9,7 @@ module Blurb
     SPONSORED_PRODUCTS = "sp"
     SPONSORED_BRANDS = "hsa"
 
-    def self.create(params = {}, opts = {})
+    def create(params = {}, opts = {})
       # required argument checks
       raise ArgumentError.new("params hash must contain a recordType") unless params["recordType"]
 
@@ -34,18 +34,16 @@ module Blurb
       post_request(request_url, api_params)
     end
 
-    def self.status(report_id, opts = {})
+    def status(report_id, opts = {})
       get_request("/v2/reports/#{report_id}")
     end
 
-    def self.download(location, opts = {})
+    def download(location, opts = {})
       opts.merge!({:full_path => true, :gzip => true, :no_token => true})
       get_request(location, opts)
     end
 
-    private
-
-    def self.get_default_metrics(record_type, campaign_type)
+    def get_default_metrics(record_type, campaign_type)
       if campaign_type == SPONSORED_BRANDS
         return [
           "campaignName",
@@ -118,7 +116,6 @@ module Blurb
           "attributedSales30dOtherSKU"
         ].join(",") if record_type == ASINS
         return [
-          "bidPlus",
           "campaignName",
           "campaignId",
           "campaignStatus",

@@ -19,6 +19,12 @@ RSpec.shared_context "shared setup", :shared_context => :metadata do
     Blurb.client_id = ENV["CLIENT_ID"]
     Blurb.client_secret = ENV["CLIENT_SECRET"]
     Blurb.refresh_token = ENV["REFRESH_TOKEN"]
+    @bid_recommendation_instance = Blurb::BidRecommendation.new()
+    @campaign_instance = Blurb::Campaign.new()
+    @profile_instance = Blurb::Profile.new()
+    @report_instance = Blurb::Report.new()
+    @snapshot_instance = Blurb::Snapshot.new()
+    @suggested_keyword_instance = Blurb::SuggestedKeyword.new()
   end
 end
 
