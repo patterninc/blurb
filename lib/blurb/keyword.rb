@@ -24,7 +24,15 @@ module Blurb
     def update(campaign_type, payload, opts = {})
       raise ArgumentError.new("Extended keywords interface is only supported for Sponsored Products") unless campaign_type == SPONSORED_PRODUCTS
       payload = [payload] unless payload.class == Array
-      put_request("/v2/#{campaign_type}/keywords", payload)
+
+      # The Amazon Advertising API only accepts bulk changes of up to 1000 keywords
+      results = []
+      payloads = payload.each_slice(1000).to_a
+      payloads.each do |p|
+        results << put_request("/v2/#{campaign_type}/keywords", p)
+      end
+
+      return results.flatten
     end
 
     def create(campaign_type, params = {}, opts = {})
