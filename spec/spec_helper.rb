@@ -25,6 +25,8 @@ RSpec.shared_context "shared setup", :shared_context => :metadata do
     @report_instance = Blurb::Report.new()
     @snapshot_instance = Blurb::Snapshot.new()
     @suggested_keyword_instance = Blurb::SuggestedKeyword.new()
+    @keyword_instance = Blurb::Keyword.new()
+    @ad_group_instance = Blurb::AdGroup.new() 
   end
 end
 
