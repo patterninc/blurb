@@ -7,6 +7,9 @@ module Blurb
     TEST_API_URL = "https://advertising-api-test.amazon.com"
     EU_API_URL = "https://advertising-api-eu.amazon.com"
 
+    SPONSORED_PRODUCTS = "sp"
+    SPONSORED_BRANDS = "hsa"
+
     def initialize(account=Blurb.default_account)
       @client_secret = account[:client_secret]
       @client_id = account[:client_id]

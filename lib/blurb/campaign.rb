@@ -1,7 +1,5 @@
 module Blurb
   class Campaign < BaseResource
-    SPONSORED_PRODUCTS = "sp"
-    SPONSORED_BRANDS = "hsa"
 
     def retrieve(campaign_id, campaign_type)
       get_request("/v2/#{campaign_type}/campaigns/#{campaign_id}")

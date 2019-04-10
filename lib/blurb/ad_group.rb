@@ -1,7 +1,5 @@
 module Blurb
   class AdGroup < BaseResource
-    SPONSORED_PRODUCTS = "sp"
-    SPONSORED_BRANDS = "hsa"
 
     def retrieve(keyword_id, campaign_type)
       raise ArgumentError.new("adGroups interface is only supported for Sponsored Products") unless campaign_type == SPONSORED_PRODUCTS

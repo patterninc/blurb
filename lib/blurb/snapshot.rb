@@ -7,8 +7,6 @@ module Blurb
     CAMPAIGN_NEGATIVE_KEYWORDS = "campaignNegativeKeywords"
     PRODUCT_ADS = "productAds"
     TARGETS = "targets"
-    SPONSORED_PRODUCTS = "sp"
-    SPONSORED_BRANDS = "hsa"
 
     def create(params = {}, opts = {})
       # required argument checks
