@@ -130,7 +130,26 @@ Blurb.test_env = true
 ## Usage
 
 All API calls have been setup as closely as possible to REST Resource calls.
-All you need to do is find the appropriate resource object and make a method call on it and Blurb will do the rest.
+All you need to do is instantiate a resource object and make a method call on it and Blurb will do the rest.
+
+For example, to use the keywords resource object:
+
+```ruby
+blurb_instance = Blurb::Keyword.new()
+```
+
+Optionally, you may pass in a set of account credentials to override the default API keys and tokens
+
+```ruby
+authorization_hash =  {
+  client_id: 'my_client_id',
+  profile_id: 'my_profile_id',
+  client_secret: 'client_secret',
+  refresh_token: 'refresh_token'
+}
+
+blurb_instance = Blurb::Keyword.new(authorization_hash)
+```
 
 In calls that require 'campaign_type' as a parameter, you must pass in either 'sp' for sponsored products or 'hsa' for sponsored brands (formerly known as headline search ads).  
 
@@ -145,32 +164,37 @@ Blurb::Profile.list()
 ```
 
 ### Campaigns
+
+```ruby
+campaign_instance = Blurb::Campaign.new
+```
+
 List campaigns
 
 ```ruby
-Blurb::Campaign.list(campaign_type)
+campaign_instance.list(campaign_type)
 ```
 or
 ```ruby
-Blurb::Campaign.list_extended(campaign_type)
+campaign_instance.list_extended(campaign_type)
 ```
 Note that the extended call returns the complete set of campaign fields (including serving status and other read-only fields), but is less efficient.
 
 Get a campaign
 
 ```ruby
-Blurb::Campaign.retrieve(campaign_id, campaign_type)
+campaign_instance.retrieve(campaign_id, campaign_type)
 ```
 or
 ```ruby
-Blurb::Campaign.retrieve_extended(campaign_id, campaign_type)
+campaign_instance.retrieve_extended(campaign_id, campaign_type)
 ```
 Note that the extended call returns the complete set of campaign fields (including serving status and other read-only fields), but is less efficient.
 
 Create a campaign
 
 ```ruby
-Blurb::Campaign.create(campaign_type, {
+campaign_instance.create(campaign_type, {
   "name" => "test",
   "state" => "enabled",
   "dailyBudget" => 10,
@@ -181,11 +205,70 @@ Blurb::Campaign.create(campaign_type, {
 
 Note: Sponsored Brands cannot be created through the Amazon Advertising API and must be added through the user interface.  The create call only works for Sponsored Products.
 
+### Keywords
+
+```ruby
+keyword_instance = Blurb::Keyword.new
+```
+
+List keywords
+
+```ruby
+keyword_instance.list(campaign_type)
+```
+or
+```ruby
+keyword_instance.list_extended(campaign_type)
+```
+
+Get a keyword
+
+```ruby
+keyword_instance.retrieve(campaign_id, campaign_type)
+```
+or
+```ruby
+keyword_instance.retrieve_extended(campaign_id, campaign_type)
+```
+
+Create a keyword
+
+```ruby
+keyword_instance.create(campaign_type, {
+  "campaignId" => "1234",
+  "adGroupId" => "5678",
+  "keywordText" => 'keyword',
+  "matchType" => 'broad',
+  "state" => "enabled"
+  "bid" => 0.1
+})
+```
+
+Bulk update keywords
+
+```ruby
+updates = [
+  {
+    "keywordId" => "1234",
+    "bid" => 0.1
+  },
+  {
+    "keywordId" => "2345",
+    "bid" => 0.3
+  }
+]
+keyword_instance.update(campaign_type, updates)
+```
+
 ### Reports
+```ruby
+report_instance = Blurb::Report.new
+```
+
 Request a report
 
 ```ruby
-payload_response = Blurb::Report.create({
+payload_response = report_instance.create({
   "campaignType" => Blurb::Report::SPONSORED_PRODUCTS,
   "recordType" => Blurb::Report::KEYWORDS,
   "reportDate" => (Time.now - 2592000).strftime('%Y%m%d'),
@@ -215,20 +298,24 @@ Blurb::Report::SPONSORED_BRANDS
 Check report status
 
 ```ruby
-Blurb::Report.status(report_id)
+report_instance.status(report_id)
 ```
 
 Download report file content
 
 ```ruby
-Blurb::Report.download(report_location_url)
+report_instance.download(report_location_url)
 ```
 
 ### Snapshots
+```ruby
+snapshot_instance = Blurb::Snapshot.new
+```
+
 Request a snapshot
 
 ```ruby
-payload_response = Blurb::Snapshot.create({
+payload_response = snapshot_instance.create({
   "recordType" => Blurb::Snapshot::KEYWORDS,
   "campaignType" => Blurb::Snapshot::SPONSORED_PRODUCTS,
   "stateFilter" => "enabled,paused,archived"
@@ -257,20 +344,24 @@ Blurb::Report::SPONSORED_BRANDS
 Check snapshot status
 
 ```ruby
-Blurb::Snapshot.status(snapshot_id)
+snapshot_instance.status(snapshot_id)
 ```
 
 Download snapshot file content
 
 ```ruby
-Blurb::Snapshot.download(snapshot_location_url)
+snapshot_instance.download(snapshot_location_url)
 ```
 
 ### Suggested Keywords
+```ruby
+suggested_keyword_instance = Blurb::SuggestedKeyword.new
+```
+
 Suggestions by ASIN
 
 ```ruby
-Blurb::SuggestedKeyword.asin_suggestions({
+suggested_keyword_instance.asin_suggestions({
   "asinValue" => "B0006HUJJO"
 })
 ```
@@ -278,7 +369,7 @@ Blurb::SuggestedKeyword.asin_suggestions({
 Suggestions for a list of ASIN's
 
 ```ruby
-Blurb::SuggestedKeyword.bulk_asin_suggestions({
+suggested_keyword_instance.bulk_asin_suggestions({
   "asins" => ["B0006HUJJO","B0042SWOHI"]
 })
 ```
