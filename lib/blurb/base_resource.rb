@@ -163,5 +163,10 @@ module Blurb
 
       return headers_hash
     end
+
+    def setup_url_params(params, whitelist)
+      whitelisted_params = params & whitelist
+      return URI.encode_www_form(whitelisted_params)
+    end
   end
 end
