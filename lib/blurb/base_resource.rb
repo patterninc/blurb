@@ -165,7 +165,7 @@ module Blurb
     end
 
     def setup_url_params(params, whitelist)
-      whitelisted_params = params & whitelist
+      whitelisted_params = params.select { |k,v| whitelist.include?(k) }
       return URI.encode_www_form(whitelisted_params)
     end
   end
