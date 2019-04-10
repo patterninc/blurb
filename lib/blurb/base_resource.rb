@@ -7,6 +7,9 @@ module Blurb
     TEST_API_URL = "https://advertising-api-test.amazon.com"
     EU_API_URL = "https://advertising-api-eu.amazon.com"
 
+    SPONSORED_PRODUCTS = "sp"
+    SPONSORED_BRANDS = "hsa"
+
     def initialize(account=Blurb.default_account)
       @client_secret = account[:client_secret]
       @client_id = account[:client_id]
@@ -83,25 +86,13 @@ module Blurb
     end
 
     def get_request(api_path, opts = {})
-      access_token = retrieve_token()
-
       url = "#{active_api_url}#{api_path}"
       url = api_path if opts[:full_path]
-
-      headers_hash = {
-        "Authorization" => "Bearer #{access_token['access_token']}",
-        "Content-Type" => "application/json",
-        "Amazon-Advertising-API-Scope" => @profile_id,
-        "Amazon-Advertising-API-ClientId" => @client_id
-      }
-
-      headers_hash["Content-Encoding"] = "gzip" if opts[:gzip]
-      # headers_hash.delete("Authorization") if opts[:no_token]
 
       request_config = {
           method: :get,
           url: url,
-          headers: headers_hash,
+          headers: headers_hash(opts),
           max_redirects: 0
         }
 
@@ -109,33 +100,28 @@ module Blurb
     end
 
     def post_request(api_path, payload)
-      access_token = retrieve_token()
-
       request_config = {
           method: :post,
           url: "#{active_api_url}#{api_path}",
           payload: payload.to_json,
-          headers: {
-            "Authorization" => "Bearer #{access_token['access_token']}",
-            "Content-Type" => "application/json",
-            "Amazon-Advertising-API-Scope" => @profile_id.to_i,
-            "Amazon-Advertising-API-ClientId" => @client_id
-          }
+          headers: headers_hash
+        }
+
+      return make_request(request_config)
+    end
+
+    def put_request(api_path, payload)
+      request_config = {
+          method: :put,
+          url: "#{active_api_url}#{api_path}",
+          payload: payload.to_json,
+          headers: headers_hash
         }
 
       return make_request(request_config)
     end
 
     def delete_request(api_path)
-      access_token = retrieve_token()
-
-      headers_hash = {
-        "Authorization" => "Bearer #{access_token['access_token']}",
-        "Content-Type" => "application/json",
-        "Amazon-Advertising-API-Scope" => @profile_id,
-        "Amazon-Advertising-API-ClientId" => @client_id
-      }
-
       request_config = {
           method: :delete,
           url: "#{active_api_url}#{api_path}",
@@ -161,6 +147,26 @@ module Blurb
 
       response = JSON.parse(resp) if resp
       return response
+    end
+
+    def headers_hash(opts = {})
+      access_token = retrieve_token()
+
+      headers_hash = {
+        "Authorization" => "Bearer #{access_token['access_token']}",
+        "Content-Type" => "application/json",
+        "Amazon-Advertising-API-Scope" => @profile_id,
+        "Amazon-Advertising-API-ClientId" => @client_id
+      }
+
+      headers_hash["Content-Encoding"] = "gzip" if opts[:gzip]
+
+      return headers_hash
+    end
+
+    def setup_url_params(params, whitelist)
+      whitelisted_params = params.select { |k,v| whitelist.include?(k) }
+      return URI.encode_www_form(whitelisted_params)
     end
   end
 end

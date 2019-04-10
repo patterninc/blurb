@@ -1,7 +1,7 @@
 module Blurb
   class Campaign < BaseResource
-    SPONSORED_PRODUCTS = "sp"
-    SPONSORED_BRANDS = "hsa"
+
+    URL_PARAMS = ['count', 'stateFilter', 'startIndex', 'name', 'campaignIdFilter']
 
     def retrieve(campaign_id, campaign_type)
       get_request("/v2/#{campaign_type}/campaigns/#{campaign_id}")
@@ -13,12 +13,12 @@ module Blurb
     end
 
     def list(campaign_type, params = {}, opts = {})
-      get_request("/v2/#{campaign_type}/campaigns?#{setup_url_params(params)}")
+      get_request("/v2/#{campaign_type}/campaigns?#{setup_url_params(params, URL_PARAMS)}")
     end
 
     def list_extended(campaign_type, params = {}, opts = {})
       raise ArgumentError.new("Extended campaigns interface is only supported for Sponsored Products") unless campaign_type == SPONSORED_PRODUCTS
-      get_request("/v2/#{campaign_type}/campaigns/extended?#{setup_url_params(params)}")
+      get_request("/v2/#{campaign_type}/campaigns/extended?#{setup_url_params(params, URL_PARAMS)}")
     end
 
     def create(campaign_type, params = {}, opts = {})
@@ -33,35 +33,6 @@ module Blurb
 
     def delete(campaign_id)
       delete_request("/v2/campaigns/#{campaign_id}")
-    end
-
-    private
-
-    def setup_url_params(params)
-      url_params = ""
-      url_params = "startIndex=#{params['startIndex']}" if params['startIndex']
-
-      if params['count']
-        url_params += "&" if url_params.size > 0
-        url_params += "count=#{params['count']}"
-      end
-
-      if params['stateFilter']
-        url_params += "&" if url_params.size > 0
-        url_params += "stateFilter=#{params['stateFilter']}"
-      end
-
-      if params['name']
-        url_params += "&" if url_params.size > 0
-        url_params += "name=#{params['name']}"
-      end
-
-      if params['campaignIdFilter']
-        url_params += "&" if url_params.size > 0
-        url_params += "campaignIdFilter=#{params['campaignIdFilter']}"
-      end
-
-      return url_params
     end
   end
 end

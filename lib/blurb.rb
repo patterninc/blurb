@@ -10,6 +10,8 @@ require "blurb/profile"
 require "blurb/report"
 require "blurb/snapshot"
 require "blurb/suggested_keyword"
+require "blurb/keyword"
+require "blurb/ad_group"
 
 module Blurb
 

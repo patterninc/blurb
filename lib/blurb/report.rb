@@ -6,8 +6,6 @@ module Blurb
     PRODUCT_ADS = "productAds"
     ASINS = "asins"
     TARGETS = "targets"
-    SPONSORED_PRODUCTS = "sp"
-    SPONSORED_BRANDS = "hsa"
 
     def create(params = {}, opts = {})
       # required argument checks
