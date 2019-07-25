@@ -6,8 +6,8 @@ require 'blurb/version'
 Gem::Specification.new do |spec|
   spec.name          = "blurb"
   spec.version       = Blurb::VERSION
-  spec.authors       = ["dlbunker"]
-  spec.email         = ["dan@iserve.com"]
+  spec.authors       = ["dlbunker", "eamigo13"]
+  spec.email         = ["evan@pattern.com"]
 
   spec.summary       = %q{Ruby gem for the Amazon Advertising API}
   spec.description   = %q{Amazon released a new Advertising API in 2017. This gem will integrate and allow you to make API calls to Amazon.}
