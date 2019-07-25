@@ -100,7 +100,6 @@ RSpec.describe Blurb::Report do
             "recordType" => Blurb::Report::KEYWORDS,
             "campaignType" => Blurb::Report::SPONSORED_BRANDS,
             "reportDate" => (Time.now - 2592000).strftime('%Y%m%d'),
-            "segment" => "query"
           })
           expect(payload_response["status"]).to eq("IN_PROGRESS")
         end
