@@ -1,5 +1,6 @@
 require "bundler/setup"
 require "blurb"
+require 'dotenv/load'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -14,11 +15,11 @@ end
 
 RSpec.shared_context "shared setup", :shared_context => :metadata do
   before do
-    Blurb.test_env = true
     Blurb.profile_id = ENV["PROFILE_ID"]
     Blurb.client_id = ENV["CLIENT_ID"]
     Blurb.client_secret = ENV["CLIENT_SECRET"]
     Blurb.refresh_token = ENV["REFRESH_TOKEN"]
+    Blurb.region = "TEST"
     @bid_recommendation_instance = Blurb::BidRecommendation.new()
     @campaign_instance = Blurb::Campaign.new()
     @profile_instance = Blurb::Profile.new()
@@ -26,7 +27,7 @@ RSpec.shared_context "shared setup", :shared_context => :metadata do
     @snapshot_instance = Blurb::Snapshot.new()
     @suggested_keyword_instance = Blurb::SuggestedKeyword.new()
     @keyword_instance = Blurb::Keyword.new()
-    @ad_group_instance = Blurb::AdGroup.new() 
+    @ad_group_instance = Blurb::AdGroup.new()
   end
 end
 
