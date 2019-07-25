@@ -2,11 +2,6 @@ module Blurb
   class BaseResource
     attr_accessor :client_secret, :client_id, :refresh_token, :profile_id, :test_env, :eu_env
 
-    TOKEN_URL = "https://api.amazon.com"
-    API_URL = "https://advertising-api.amazon.com"
-    TEST_API_URL = "https://advertising-api-test.amazon.com"
-    EU_API_URL = "https://advertising-api-eu.amazon.com"
-
     SPONSORED_PRODUCTS = "sp"
     SPONSORED_BRANDS = "hsa"
 
@@ -15,26 +10,27 @@ module Blurb
       @client_id = account[:client_id]
       @refresh_token = account[:refresh_token]
       @profile_id = account[:profile_id]
-      @test_env = Blurb.test_env
-      @eu_env = account[:eu_env]
+      @region = account[:region]
     end
 
     def active_api_url
-      if @test_env
-        return TEST_API_URL
+      case @region
+      when "TEST"
+        "https://advertising-api-test.amazon.com"
+      when "NA"
+        "https://advertising-api.amazon.com"
+      when "EU"
+        "https://advertising-api-eu.amazon.com"
+      when "FE"
+        "https://advertising-api-fe.amazon.com"
       end
-      if @eu_env
-        return EU_API_URL
-      end
-
-      return API_URL
     end
 
     def client
       return OAuth2::Client.new(
         "",
         "",
-        :site => TOKEN_URL
+        :site => "https://api.amazon.com"
       )
     end
 

@@ -21,12 +21,12 @@ module Blurb
       client_id: self.client_id,
       refresh_token: self.refresh_token,
       profile_id: self.profile_id,
-      eu_env: self.eu_env
+      region: self.region
     }
   end
 
   class << self
-    attr_accessor :client_secret, :client_id, :refresh_token, :profile_id, :test_env, :eu_env
+    attr_accessor :client_secret, :client_id, :refresh_token, :profile_id, :region
   end
 
 end
