@@ -106,7 +106,6 @@ RSpec.describe Blurb::Snapshot do
 
     # Sponsored Brands Snapshots still aren't working on the Amazon Advertising API.
     # context "given a sponsoredBrands campaignType" do
-    #   Blurb.test_env = false
     #   context "given a keywords recordType" do
     #     it "returns a keywords snapshot" do
     #       sleep(3)

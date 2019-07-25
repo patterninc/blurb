@@ -1,6 +1,6 @@
 module Blurb
   class BaseResource
-    attr_accessor :client_secret, :client_id, :refresh_token, :profile_id, :test_env, :eu_env
+    attr_accessor :client_secret, :client_id, :refresh_token, :profile_id, :region
 
     SPONSORED_PRODUCTS = "sp"
     SPONSORED_BRANDS = "hsa"

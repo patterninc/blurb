@@ -5,7 +5,6 @@ RSpec.describe Blurb::Report do
 
   describe "#create" do
     @report_instance = Blurb::Report.new()
-    @report_instance.test_env = false
     context "given a sponsoredProducts campaignType" do
       context "given a keywords recordType" do
         it "returns a keywords report" do
