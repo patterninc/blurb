@@ -35,6 +35,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "rspec_junit_formatter", "~> 0.3.0"
   spec.add_development_dependency "dotenv"
+  spec.add_development_dependency "byebug"
 
   spec.add_runtime_dependency "rest-client", "~> 2.0"
   spec.add_runtime_dependency "oauth2", "~> 1.4.0"

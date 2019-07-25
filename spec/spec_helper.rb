@@ -1,6 +1,7 @@
 require "bundler/setup"
 require "blurb"
 require 'dotenv/load'
+require 'byebug'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
