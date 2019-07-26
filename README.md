@@ -124,7 +124,7 @@ Now, you no longer need to pass in an authorization hash when initializing the r
 blurb_instance = Blurb::Keyword.new()
 ```
 
-###Valid Region Codes
+### Valid Region Codes
 
 Region Code | Region | Notes
 --- | --- | ---
