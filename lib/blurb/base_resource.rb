@@ -137,7 +137,7 @@ module Blurb
         if err.response.code == 307
           return RestClient.get(err.response.headers[:location])
         else
-          return err.response.body
+          return JSON.parse(err.response.body)
         end
       end
 
