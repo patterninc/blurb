@@ -12,6 +12,17 @@ require "blurb/snapshot"
 require "blurb/suggested_keyword"
 require "blurb/keyword"
 require "blurb/ad_group"
+require "blurb/account"
+require "blurb/client"
+
+# class Blurb
+#   def initialize(
+#     client_id:,
+#     client_secret:,
+#   )
+#
+#   end
+# end
 
 module Blurb
 

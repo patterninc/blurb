@@ -1,12 +1,23 @@
-module Blurb
-  class Profile < BaseResource
+require "blurb/account"
+require "blurb/requests"
 
-    def list()
-      profile_request("/v2/profiles")
+module Blurb
+  class Profile < Account
+    include Requests
+    attr_accessor :profile_id
+
+    def initialize(client_id:, client_secret:, refresh_token:, region:, profile_id:)
+      super(
+        client_id: client_id,
+        client_secret: client_secret,
+        refresh_token: refresh_token,
+        region: region
+      )
+      @profile_id = profile_id
     end
 
-    def retrieve(profile_id)
-      profile_request("/v2/profiles/#{profile_id}")
+    def retrieve_profile
+      super(@profile_id)
     end
   end
 end
