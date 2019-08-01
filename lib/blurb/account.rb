@@ -1,8 +1,9 @@
 require "blurb/client"
+require "blurb/profile"
 
 module Blurb
-  class Account < Client
-    attr_accessor :refresh_token, :api_url
+  class Account
+    attr_accessor :refresh_token, :api_url, :client, :profiles, :active_profile
 
     API_URLS = {
       "TEST" => "https://advertising-api-test.amazon.com",
@@ -11,12 +12,29 @@ module Blurb
       "FE" => "https://advertising-api-fe.amazon.com"
     }
 
-    def initialize(client_id:, client_secret:, refresh_token:, region:)
-      super(client_id: client_id, client_secret: client_secret)
+    def initialize(refresh_token:, region:, client: nil, **client_params)
       @refresh_token = refresh_token
       @api_url = API_URLS[region]
+      @client = client ? client : Client.new(client_params)
       @token_refreshed_at = Process.clock_gettime(Process::CLOCK_MONOTONIC) # current time
       @authorization_token = retrieve_token
+      initialize_profiles()
+    end
+
+    def initialize_profiles
+      @profiles = []
+      amazon_profiles = profile_list()
+      amazon_profiles.each do |p|
+        @profiles << Profile.new(
+          profile_id: p[:profile_id],
+          account: self
+        )
+      end
+      @active_profile = @profiles.first
+    end
+
+    def set_active_profile(profile_id)
+      byebug
     end
 
     def profile_list
@@ -27,20 +45,44 @@ module Blurb
       profile_request("/v2/profiles/#{profile_id}")
     end
 
-    private
-      def profile_request(api_path)
-        request_config = {
-            method: :get,
-            url: "#{@api_url}#{api_path}",
-            headers: {
-              "Authorization" => "Bearer #{retrieve_token()}",
-              "Content-Type" => "application/json",
-              "Amazon-Advertising-API-ClientId" => @client_id
+    def retrieve_token
+      current_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+      elapsed_time = current_time - @token_refreshed_at
+
+      # refresh the token if it's been over an hour
+      if @authorization_token.nil? || elapsed_time >= 3600 # 1 hour
+        response = authorization_client.request(:post, "/auth/o2/token",
+          {
+            body: {
+              grant_type: "refresh_token",
+              client_id: @client.client_id,
+              refresh_token: @refresh_token,
+              client_secret: @client.client_secret
             }
           }
+        )
 
-        resp = RestClient::Request.execute(request_config)
-        return JSON.parse(resp)
+        @authorization_token = JSON.parse(response.body)['access_token']
+        @token_refreshed_at = current_time
+      end
+
+      return @authorization_token
+    end
+
+    private
+
+      def profile_request(api_path)
+        request = Request.new(
+          url: "#{@api_url}#{api_path}",
+          request_type: :get,
+          headers: {
+            "Authorization" => "Bearer #{retrieve_token()}",
+            "Content-Type" => "application/json",
+            "Amazon-Advertising-API-ClientId" => @client.client_id
+          }
+        )
+
+        request.make_request
       end
 
       def authorization_client
@@ -49,30 +91,6 @@ module Blurb
           "",
           :site => "https://api.amazon.com"
         )
-      end
-
-      def retrieve_token
-        current_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
-        elapsed_time = current_time - @token_refreshed_at
-
-        # refresh the token if it's been over an hour
-        if @authorization_token.nil? || elapsed_time >= 3600 # 1 hour
-          response = authorization_client.request(:post, "/auth/o2/token",
-            {
-              body: {
-                grant_type: "refresh_token",
-                client_id: @client_id,
-                refresh_token: @refresh_token,
-                client_secret: @client_secret
-              }
-            }
-          )
-
-          @authorization_token = JSON.parse(response.body)['access_token']
-          @token_refreshed_at = current_time
-        end
-
-        return @authorization_token
       end
   end
 end

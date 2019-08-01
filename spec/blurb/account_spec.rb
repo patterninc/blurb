@@ -2,11 +2,14 @@ require "spec_helper"
 
 RSpec.describe Blurb::Account do
   let(:account) do
-    described_class.new(
+    client = Blurb::Client.new(
       client_id: ENV["CLIENT_ID"],
-      client_secret: ENV["CLIENT_SECRET"],
+      client_secret: ENV["CLIENT_SECRET"]
+    )
+    described_class.new(
       refresh_token: ENV["REFRESH_TOKEN"],
-      region: "TEST"
+      region: "TEST",
+      client: client
     )
   end
 
@@ -14,14 +17,14 @@ RSpec.describe Blurb::Account do
     it "correctly initializes refresh token" do
       expect(account.refresh_token).to eql(ENV["REFRESH_TOKEN"])
     end
-    it "correctly initializes client secret" do
-      expect(account.client_secret).to eql(ENV["CLIENT_SECRET"])
-    end
-    it "correctly initializes client id" do
-      expect(account.client_id).to eql(ENV["CLIENT_ID"])
-    end
     it "correctly initializes api_url" do
       expect(account.api_url).to eql(described_class::API_URLS["TEST"])
+    end
+    it "correctly initialize profiles" do
+      expect(account.profiles.length).to be > 0
+    end
+    it "correctly sets active profile to first profile" do
+      expect(account.active_profile).to eql(account.profiles.first)
     end
   end
 
