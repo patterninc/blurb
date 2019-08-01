@@ -1,10 +1,10 @@
-module Blurb
-  class Client
-    attr_accessor :client_id, :client_secret
+require "blurb/base_class"
 
-    def initialize(client_id:, client_secret:)
-      @client_id = client_id
-      @client_secret = client_secret
-    end
+class Client < BaseClass
+  attr_accessor :client_id, :client_secret
+
+  def initialize(client_id:, client_secret:)
+    @client_id = client_id
+    @client_secret = client_secret
   end
 end
