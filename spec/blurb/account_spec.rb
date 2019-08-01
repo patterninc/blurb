@@ -28,6 +28,21 @@ RSpec.describe Blurb::Account do
     end
   end
 
+  describe '#set_active_profile' do
+    it "correctly sets profile" do
+      profile = account.profiles.sample
+      account.set_active_profile(profile.profile_id)
+      expect(account.active_profile).to eql(profile)
+    end
+  end
+
+  describe '#get_profile' do
+    it "correctly sets profile" do
+      profile = account.profiles.sample
+      expect(account.get_profile(profile.profile_id)).to eql(profile)
+    end
+  end
+
   describe "#profile_list" do
     it "returns profiles" do
       profiles = account.profile_list()

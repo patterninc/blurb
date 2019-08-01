@@ -34,7 +34,11 @@ module Blurb
     end
 
     def set_active_profile(profile_id)
-      byebug
+      @active_profile = get_profile(profile_id)
+    end
+
+    def get_profile(profile_id)
+      @profiles.find{ |p| p.profile_id == profile_id }
     end
 
     def profile_list
