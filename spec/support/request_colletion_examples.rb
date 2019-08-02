@@ -2,12 +2,13 @@ module RequestCollectionExamples
   RSpec.shared_examples "request collection" do
     before(:all) do
       @ignored_examples = [] if @ignored_examples.nil?
-      response = @resource.create(**@create_hash)
-      @new_resource_id = response.first["#{@resource_name}_id".to_sym]
+      @response = @resource.create(**@create_hash)
+      @new_resource_id = @response.first["#{@resource_name}_id".to_sym]
     end
 
     describe '#create' do
       it "creates a resource" do
+        skip if @ignored_examples.include? :create
         expect(@new_resource_id).to be_truthy
       end
     end

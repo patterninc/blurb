@@ -10,15 +10,28 @@ class Profile < BaseClass
     @profile_id = profile_id
     @account = account
 
-    # @keywords = Keywords.new()
     @sp_campaigns = CampaignRequests.new(
       headers: headers_hash,
       base_url: @account.api_url,
+      resource: "campaigns",
       campaign_type: CAMPAIGN_TYPE_CODES[:sp]
     )
     @sb_campaigns = CampaignRequests.new(
       headers: headers_hash,
       base_url: @account.api_url,
+      resource: "campaigns",
+      campaign_type: CAMPAIGN_TYPE_CODES[:sb]
+    )
+    @sp_keywords = RequestCollectionWithCampaignType.new(
+      headers: headers_hash,
+      base_url: @account.api_url,
+      resource: "keywords",
+      campaign_type: CAMPAIGN_TYPE_CODES[:sp]
+    )
+    @sb_keywords = RequestCollectionWithCampaignType.new(
+      headers: headers_hash,
+      base_url: @account.api_url,
+      resource: "keywords",
       campaign_type: CAMPAIGN_TYPE_CODES[:sb]
     )
     @ad_groups = RequestCollection.new(
@@ -30,6 +43,11 @@ class Profile < BaseClass
   def campaigns(campaign_type)
     return @sp_campaigns if campaign_type == :sp
     return @sb_campaigns if campaign_type == :sb
+  end
+
+  def keywords(campaign_type)
+    return @sp_keywords if campaign_type == :sp
+    return @sb_keywords if campaign_type == :sb
   end
 
 

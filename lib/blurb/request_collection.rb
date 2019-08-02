@@ -3,7 +3,7 @@ require "blurb/base_class"
 
 class RequestCollection < BaseClass
 
-  def initialize(headers: {}, base_url: {})
+  def initialize(headers:, base_url:)
     @base_url = base_url
     @headers = headers
   end
