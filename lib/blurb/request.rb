@@ -44,7 +44,7 @@ class Request < BaseClass
 
   private
     def setup_url(url, url_params)
-      url += "?#{URI.encode_www_form(url_params.camelcase_keys)}}" if url_params
+      url += "?#{URI.encode_www_form(camelcase_keys(url_params))}" if url_params
       return url
     end
 

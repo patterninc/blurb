@@ -84,7 +84,7 @@ module RequestCollectionExamples
         expect(@response[:code]).to eql("SUCCESS")
       end
     end
-    
+
     after(:each) do |example|
       puts @response if example.exception
     end

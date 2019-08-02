@@ -4,7 +4,7 @@ require "blurb/campaign_requests"
 
 class Profile < BaseClass
 
-  attr_accessor :profile_id, :account, :keywords, :campaigns
+  attr_accessor :profile_id, :account, :ad_groups
 
   def initialize(profile_id:, account:)
     @profile_id = profile_id
@@ -13,13 +13,17 @@ class Profile < BaseClass
     # @keywords = Keywords.new()
     @sp_campaigns = CampaignRequests.new(
       headers: headers_hash,
-      base_url: account.api_url,
+      base_url: @account.api_url,
       campaign_type: CAMPAIGN_TYPE_CODES[:sp]
     )
     @sb_campaigns = CampaignRequests.new(
       headers: headers_hash,
-      base_url: account.api_url,
+      base_url: @account.api_url,
       campaign_type: CAMPAIGN_TYPE_CODES[:sb]
+    )
+    @ad_groups = RequestCollection.new(
+      headers: headers_hash,
+      base_url: "#{@account.api_url}/v2/sp/adGroups"
     )
   end
 
