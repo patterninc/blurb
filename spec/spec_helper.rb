@@ -18,4 +18,5 @@ RSpec.configure do |config|
 
   # Include support files
   config.include Headers
+  config.include RequestCollectionExamples
 end
