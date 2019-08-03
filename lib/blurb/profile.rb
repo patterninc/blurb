@@ -1,8 +1,9 @@
 require "blurb/account"
-require "blurb/keyword"
 require "blurb/campaign_requests"
 require "blurb/snapshot_requests"
 require "blurb/report_requests"
+require "blurb/request_collection"
+require "blurb/request_collection_with_campaign_type"
 
 class Profile < BaseClass
 
