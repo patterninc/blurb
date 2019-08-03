@@ -1,6 +1,7 @@
 require "blurb/account"
 require "blurb/keyword"
 require "blurb/campaign_requests"
+require "blurb/snapshot_requests"
 
 class Profile < BaseClass
 
@@ -34,6 +35,16 @@ class Profile < BaseClass
       resource: "keywords",
       campaign_type: CAMPAIGN_TYPE_CODES[:sb]
     )
+    @sp_snapshots = SnapshotRequests.new(
+      headers: headers_hash,
+      base_url: @account.api_url,
+      campaign_type: CAMPAIGN_TYPE_CODES[:sp]
+    )
+    @sb_snapshots = SnapshotRequests.new(
+      headers: headers_hash,
+      base_url: @account.api_url,
+      campaign_type: CAMPAIGN_TYPE_CODES[:sb]
+    )
     @ad_groups = RequestCollection.new(
       headers: headers_hash,
       base_url: "#{@account.api_url}/v2/sp/adGroups"
@@ -48,6 +59,11 @@ class Profile < BaseClass
   def keywords(campaign_type)
     return @sp_keywords if campaign_type == :sp
     return @sb_keywords if campaign_type == :sb
+  end
+
+  def snapshots(campaign_type)
+    return @sp_snapshots if campaign_type == :sp
+    return @sb_snapshots if campaign_type == :sb
   end
 
 

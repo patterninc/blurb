@@ -21,7 +21,7 @@ class Request < BaseClass
     when :get
       request_config[:max_redirects] = 0
     when :post, :put
-      request_config[:payload] = @payload
+      request_config[:payload] = @payload if @payload
     end
 
     return request_config
@@ -51,7 +51,7 @@ class Request < BaseClass
     def convert_payload(payload)
       return if payload.nil?
       payload = payload.map{|r| camelcase_keys(r)} if payload.class == Array
-      payload = payload.camelcase_keys(payload) if payload.class == Hash
+      payload = camelcase_keys(payload) if payload.class == Hash
       return payload.to_json
     end
 
