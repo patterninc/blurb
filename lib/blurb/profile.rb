@@ -2,6 +2,7 @@ require "blurb/account"
 require "blurb/keyword"
 require "blurb/campaign_requests"
 require "blurb/snapshot_requests"
+require "blurb/report_requests"
 
 class Profile < BaseClass
 
@@ -45,6 +46,16 @@ class Profile < BaseClass
       base_url: @account.api_url,
       campaign_type: CAMPAIGN_TYPE_CODES[:sb]
     )
+    @sp_reports = ReportRequests.new(
+      headers: headers_hash,
+      base_url: @account.api_url,
+      campaign_type: CAMPAIGN_TYPE_CODES[:sp]
+    )
+    @sb_reports = ReportRequests.new(
+      headers: headers_hash,
+      base_url: @account.api_url,
+      campaign_type: CAMPAIGN_TYPE_CODES[:sb]
+    )
     @ad_groups = RequestCollection.new(
       headers: headers_hash,
       base_url: "#{@account.api_url}/v2/sp/adGroups"
@@ -66,6 +77,10 @@ class Profile < BaseClass
     return @sb_snapshots if campaign_type == :sb
   end
 
+  def reports(campaign_type)
+    return @sp_reports if campaign_type == :sp
+    return @sb_reports if campaign_type == :sb
+  end
 
   def profile_details
     @account.retrieve_profile(@profile_id)

@@ -25,7 +25,7 @@ RSpec.describe Profile do
 
   context "sponsored brands" do
     let(:resource) {@account.active_profile.snapshots(:sb)}
-    let(:snapshot_types) {['campaigns', 'keywords']}
+    let(:snapshot_types) {[:campaigns, :keywords]}
 
     # sb snapshot generation fails in sandbox environment
     # include_examples "snapshots"
@@ -33,7 +33,7 @@ RSpec.describe Profile do
 
   context "sponsored products" do
     let(:resource) {@account.active_profile.snapshots(:sp)}
-    let(:snapshot_types) {['campaigns', 'adGroups', 'keywords', 'negativeKeywords', 'campaignNegativeKeywords', 'productAds', 'targets', 'negativeTargets']}
+    let(:snapshot_types) {[:campaigns, :ad_groups, :keywords, :negative_keywords, :campaign_negative_keywords, :product_ads, :targets, :negative_targets]}
 
     include_examples "snapshots"
   end
