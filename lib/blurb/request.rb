@@ -1,4 +1,5 @@
 require 'active_support/core_ext/string'
+require "rest-client"
 require "blurb/base_class"
 
 class Request < BaseClass

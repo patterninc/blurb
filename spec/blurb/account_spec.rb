@@ -1,8 +1,8 @@
 require "spec_helper"
 
-RSpec.describe Blurb::Account do
+RSpec.describe Account do
   let(:account) do
-    client = Blurb::Client.new(
+    client = Client.new(
       client_id: ENV["CLIENT_ID"],
       client_secret: ENV["CLIENT_SECRET"]
     )

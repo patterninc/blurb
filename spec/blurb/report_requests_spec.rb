@@ -1,6 +1,6 @@
 require "spec_helper"
 
-RSpec.describe Profile do
+RSpec.describe ReportRequests do
   before(:all) do
     @account = Account.new(
       refresh_token: ENV["REFRESH_TOKEN"],

@@ -1,28 +1,5 @@
-require "oauth2"
-require "rest-client"
-
-require "blurb/version"
-require "blurb/base_resource"
-
-require "blurb/bid_recommendation"
-require "blurb/campaign"
-require "blurb/profile"
-require "blurb/report"
-require "blurb/snapshot"
-require "blurb/suggested_keyword"
-require "blurb/keyword"
-require "blurb/ad_group"
 require "blurb/account"
 require "blurb/client"
-
-# class Blurb
-#   def initialize(
-#     client_id:,
-#     client_secret:,
-#   )
-#
-#   end
-# end
 
 module Blurb
 

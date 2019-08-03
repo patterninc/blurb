@@ -1,12 +1,12 @@
 require "spec_helper"
 
-RSpec.describe Blurb::Profile do
+RSpec.describe Profile do
   let(:profile) do
-    client = Blurb::Client.new(
+    client = Client.new(
       client_id: ENV["CLIENT_ID"],
       client_secret: ENV["CLIENT_SECRET"]
     )
-    account = Blurb::Account.new(
+    account = Account.new(
       refresh_token: ENV["REFRESH_TOKEN"],
       region: "TEST",
       client: client

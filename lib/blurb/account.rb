@@ -1,3 +1,4 @@
+require "oauth2"
 require "blurb/client"
 require "blurb/profile"
 
