@@ -1,11 +1,10 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'blurb/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "blurb"
-  spec.version       = Blurb::VERSION
+  spec.version       = "0.4.0"
   spec.authors       = ["dlbunker", "eamigo13"]
   spec.email         = ["evan@pattern.com"]
 

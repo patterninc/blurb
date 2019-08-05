@@ -1,4 +1,4 @@
-require 'blurb/request_collection_with_campaign_type'
+require 'request_collection_with_campaign_type'
 
 class ReportRequests < RequestCollectionWithCampaignType
   def initialize(campaign_type:, base_url:, headers:)

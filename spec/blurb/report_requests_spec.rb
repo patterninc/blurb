@@ -2,12 +2,7 @@ require "spec_helper"
 
 RSpec.describe ReportRequests do
   before(:all) do
-    @account = Account.new(
-      refresh_token: ENV["REFRESH_TOKEN"],
-      region: "TEST",
-      client_id: ENV["CLIENT_ID"],
-      client_secret: ENV["CLIENT_SECRET"]
-    )
+    @blurb = Blurb.new()
     @report_type = ""
   end
 
@@ -24,14 +19,14 @@ RSpec.describe ReportRequests do
   end
 
   context "sponsored brands" do
-    let(:resource) {@account.active_profile.reports(:sb)}
+    let(:resource) {@blurb.active_profile.reports(:sb)}
     let(:report_types) {[:campaigns, :ad_groups, :keywords]}
 
     include_examples "reports"
   end
 
   context "sponsored products" do
-    let(:resource) {@account.active_profile.reports(:sp)}
+    let(:resource) {@blurb.active_profile.reports(:sp)}
     let(:report_types) {[:campaigns, :ad_groups, :keywords, :product_ads, :targets]}
 
     include_examples "reports"

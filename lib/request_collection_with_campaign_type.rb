@@ -1,4 +1,4 @@
-require 'blurb/request_collection'
+require 'request_collection'
 
 class RequestCollectionWithCampaignType < RequestCollection
 

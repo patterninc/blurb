@@ -2,12 +2,7 @@ require "spec_helper"
 
 RSpec.describe SnapshotRequests do
   before(:all) do
-    @account = Account.new(
-      refresh_token: ENV["REFRESH_TOKEN"],
-      region: "TEST",
-      client_id: ENV["CLIENT_ID"],
-      client_secret: ENV["CLIENT_SECRET"]
-    )
+    @blurb = Blurb.new()
     @snap = ""
   end
 
@@ -24,7 +19,7 @@ RSpec.describe SnapshotRequests do
   end
 
   context "sponsored brands" do
-    let(:resource) {@account.active_profile.snapshots(:sb)}
+    let(:resource) {@blurb.active_profile.snapshots(:sb)}
     let(:snapshot_types) {[:campaigns, :keywords]}
 
     # sb snapshot generation fails in sandbox environment
@@ -32,7 +27,7 @@ RSpec.describe SnapshotRequests do
   end
 
   context "sponsored products" do
-    let(:resource) {@account.active_profile.snapshots(:sp)}
+    let(:resource) {@blurb.active_profile.snapshots(:sp)}
     let(:snapshot_types) {[:campaigns, :ad_groups, :keywords, :negative_keywords, :campaign_negative_keywords, :product_ads, :targets, :negative_targets]}
 
     include_examples "snapshots"

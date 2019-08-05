@@ -1,4 +1,4 @@
-require "blurb/base_class"
+require "base_class"
 
 class Client < BaseClass
   attr_accessor :client_id, :client_secret

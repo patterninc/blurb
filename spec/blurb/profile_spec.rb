@@ -1,25 +1,11 @@
 require "spec_helper"
 
 RSpec.describe Profile do
-  let(:profile) do
-    client = Client.new(
-      client_id: ENV["CLIENT_ID"],
-      client_secret: ENV["CLIENT_SECRET"]
-    )
-    account = Account.new(
-      refresh_token: ENV["REFRESH_TOKEN"],
-      region: "TEST",
-      client: client
-    )
-    described_class.new(
-      profile_id: ENV["PROFILE_ID"],
-      account: account
-    )
-  end
+  let(:profile) { Blurb.new().active_profile }
 
   describe "#initialize" do
     it "correctly initializes profile id" do
-      expect(profile.profile_id).to eql(ENV["PROFILE_ID"])
+      expect(profile.profile_id).to eql(ENV["BLURB_PROFILE_ID"])
     end
   end
 

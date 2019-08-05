@@ -1,5 +1,5 @@
-require 'blurb/request'
-require "blurb/base_class"
+require 'request'
+require "base_class"
 
 class RequestCollection < BaseClass
 
@@ -89,6 +89,7 @@ class RequestCollection < BaseClass
       results = []
       payloads = execute_request_params[:payload].each_slice(api_limit).to_a
       payloads.each do |p|
+        execute_request_params[:payload] = p
         results << execute_request(execute_request_params)
       end
       results.flatten

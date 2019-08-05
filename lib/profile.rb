@@ -1,9 +1,9 @@
-require "blurb/account"
-require "blurb/campaign_requests"
-require "blurb/snapshot_requests"
-require "blurb/report_requests"
-require "blurb/request_collection"
-require "blurb/request_collection_with_campaign_type"
+require "account"
+require "campaign_requests"
+require "snapshot_requests"
+require "report_requests"
+require "request_collection"
+require "request_collection_with_campaign_type"
 
 class Profile < BaseClass
 

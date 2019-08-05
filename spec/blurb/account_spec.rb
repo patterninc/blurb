@@ -1,21 +1,11 @@
 require "spec_helper"
 
 RSpec.describe Account do
-  let(:account) do
-    client = Client.new(
-      client_id: ENV["CLIENT_ID"],
-      client_secret: ENV["CLIENT_SECRET"]
-    )
-    described_class.new(
-      refresh_token: ENV["REFRESH_TOKEN"],
-      region: "TEST",
-      client: client
-    )
-  end
+  let(:account) { Blurb.new().account }
 
   describe "#initialize" do
     it "correctly initializes refresh token" do
-      expect(account.refresh_token).to eql(ENV["REFRESH_TOKEN"])
+      expect(account.refresh_token).to eql(ENV["BLURB_REFRESH_TOKEN"])
     end
     it "correctly initializes api_url" do
       expect(account.api_url).to eql(described_class::API_URLS["TEST"])

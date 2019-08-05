@@ -1,6 +1,6 @@
 require "oauth2"
-require "blurb/client"
-require "blurb/profile"
+require "client"
+require "profile"
 
 class Account < BaseClass
   attr_accessor :refresh_token, :api_url, :client, :profiles, :active_profile
@@ -12,23 +12,30 @@ class Account < BaseClass
     "FE" => "https://advertising-api-fe.amazon.com"
   }
 
-  def initialize(refresh_token:, region:, client: nil, **client_params)
+  def initialize(refresh_token:, region:, client:, profile_id: nil)
     @refresh_token = refresh_token
     @api_url = API_URLS[region]
-    @client = client ? client : Client.new(client_params)
+    @client = client
     @token_refreshed_at = Process.clock_gettime(Process::CLOCK_MONOTONIC) # current time
     @authorization_token = retrieve_token
-    initialize_profiles()
+    initialize_profiles(profile_id)
   end
 
-  def initialize_profiles
+  def initialize_profiles(profile_id=nil)
     @profiles = []
-    amazon_profiles = profile_list()
-    amazon_profiles.each do |p|
+    if profile_id
       @profiles << Profile.new(
-        profile_id: p[:profile_id],
+        profile_id: profile_id,
         account: self
       )
+    else
+      amazon_profiles = profile_list()
+      amazon_profiles.each do |p|
+        @profiles << Profile.new(
+          profile_id: p[:profile_id],
+          account: self
+        )
+      end
     end
     @active_profile = @profiles.first
   end
