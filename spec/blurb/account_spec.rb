@@ -1,6 +1,6 @@
 require "spec_helper"
 
-RSpec.describe Account do
+RSpec.describe Blurb::Account do
   let(:account) { Blurb.new().account }
 
   describe "#initialize" do

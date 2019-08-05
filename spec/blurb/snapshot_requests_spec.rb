@@ -1,6 +1,6 @@
 require "spec_helper"
 
-RSpec.describe SnapshotRequests do
+RSpec.describe Blurb::SnapshotRequests do
   before(:all) do
     @blurb = Blurb.new()
     @snap = ""

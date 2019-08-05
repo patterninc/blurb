@@ -1,6 +1,6 @@
 require "spec_helper"
 
-RSpec.describe Profile do
+RSpec.describe Blurb::Profile do
   let(:profile) { Blurb.new().active_profile }
 
   describe "#initialize" do

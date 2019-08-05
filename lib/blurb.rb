@@ -1,5 +1,5 @@
-require "account"
-require "client"
+require "blurb/account"
+require "blurb/client"
 
 class Blurb
   attr_accessor :client, :account
@@ -14,6 +14,10 @@ class Blurb
   )
     @client = Client.new(client_id: client_id, client_secret: client_secret)
     @account = Account.new(refresh_token: refresh_token, region: region, client: @client, profile_id: profile_id)
+  end
+
+  def profiles
+    @account.profiles
   end
 
   def active_profile

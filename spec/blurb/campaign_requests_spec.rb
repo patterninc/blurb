@@ -1,6 +1,6 @@
 require "spec_helper"
 
-RSpec.describe CampaignRequests do
+RSpec.describe Blurb::CampaignRequests do
   before(:all) do
     blurb = Blurb.new()
     @resource = blurb.active_profile.campaigns(:sp)

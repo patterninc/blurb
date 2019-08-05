@@ -1,6 +1,6 @@
 require "spec_helper"
 
-RSpec.describe ReportRequests do
+RSpec.describe Blurb::ReportRequests do
   before(:all) do
     @blurb = Blurb.new()
     @report_type = ""
