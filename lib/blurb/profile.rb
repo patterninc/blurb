@@ -8,7 +8,7 @@ require "blurb/request_collection_with_campaign_type"
 class Blurb
   class Profile < BaseClass
 
-    attr_accessor :profile_id, :account, :ad_groups
+    attr_accessor :profile_id, :account, :ad_groups, :product_ads
 
     def initialize(profile_id:, account:)
       @profile_id = profile_id
@@ -61,6 +61,10 @@ class Blurb
       @ad_groups = RequestCollection.new(
         headers: headers_hash,
         base_url: "#{@account.api_url}/v2/sp/adGroups"
+      )
+      @product_ads = RequestCollection.new(
+        headers: headers_hash,
+        base_url: "#{account.api_url}/v2/sp/productAds"
       )
     end
 
