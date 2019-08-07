@@ -40,7 +40,7 @@ RSpec.describe Blurb::Account do
     end
   end
 
-  describe '#retrive_profile' do
+  describe '#retrieve_profile' do
     it "retrieves profile" do
       profiles = account.profile_list()
 
