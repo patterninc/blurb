@@ -22,5 +22,15 @@ class Blurb
         request_type: :get,
       )
     end
+
+    def download(snapshot_id)
+      download_url = retrieve(snapshot_id)[:location]
+      headers = @headers.dup["Content-Encoding"] = "gzip"
+      Request.new(
+        url: download_url,
+        request_type: :get,
+        headers: @headers
+      ).make_request
+    end
   end
-end 
+end
