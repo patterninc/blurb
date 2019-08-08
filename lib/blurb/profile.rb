@@ -70,22 +70,22 @@ class Blurb
 
     def campaigns(campaign_type)
       return @sp_campaigns if campaign_type == :sp
-      return @sb_campaigns if campaign_type == :sb
+      return @sb_campaigns if campaign_type == :sb || campaign_type == :hsa
     end
 
     def keywords(campaign_type)
       return @sp_keywords if campaign_type == :sp
-      return @sb_keywords if campaign_type == :sb
+      return @sb_keywords if campaign_type == :sb || campaign_type == :hsa
     end
 
     def snapshots(campaign_type)
       return @sp_snapshots if campaign_type == :sp
-      return @sb_snapshots if campaign_type == :sb
+      return @sb_snapshots if campaign_type == :sb || campaign_type == :hsa
     end
 
     def reports(campaign_type)
       return @sp_reports if campaign_type == :sp
-      return @sb_reports if campaign_type == :sb
+      return @sb_reports if campaign_type == :sb || campaign_type == :hsa
     end
 
     def profile_details

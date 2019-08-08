@@ -15,7 +15,7 @@ class Blurb
       segment: nil
     )
       # create payload
-      metrics = get_default_metrics(record_type) if metrics.nil?
+      metrics = get_default_metrics(record_type.underscore.to_sym) if metrics.nil?
       payload = {
         metrics: metrics.map{ |m| m.to_s.camelize(:lower) }.join(","),
         report_date: report_date
