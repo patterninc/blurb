@@ -8,7 +8,13 @@ require "blurb/request_collection_with_campaign_type"
 class Blurb
   class Profile < BaseClass
 
-    attr_accessor :profile_id, :account, :ad_groups, :product_ads
+    attr_accessor(
+      :account,
+      :ad_groups,
+      :campaign_negative_keywords,
+      :product_ads,
+      :profile_id,
+    )
 
     def initialize(profile_id:, account:)
       @profile_id = profile_id
@@ -66,6 +72,22 @@ class Blurb
         headers: headers_hash,
         base_url: "#{account.api_url}/v2/sp/productAds"
       )
+      @sp_negative_keywords = RequestCollectionWithCampaignType.new(
+        headers: headers_hash,
+        base_url: @account.api_url,
+        resource: 'negativeKeywords',
+        campaign_type: CAMPAIGN_TYPE_CODES[:sp]
+      )
+      @sb_negative_keywords = RequestCollectionWithCampaignType.new(
+        headers: headers_hash,
+        base_url: @account.api_url,
+        resource: 'negativeKeywords',
+        campaign_type: CAMPAIGN_TYPE_CODES[:sb]
+      )
+      @campaign_negative_keywords = RequestCollection.new(
+        headers: headers_hash,
+        base_url: "#{@account.api_url}/v2/sp/campaignNegativeKeywords"
+      )
     end
 
     def campaigns(campaign_type)
@@ -76,6 +98,11 @@ class Blurb
     def keywords(campaign_type)
       return @sp_keywords if campaign_type == :sp
       return @sb_keywords if campaign_type == :sb || campaign_type == :hsa
+    end
+
+    def negative_keywords(campaign_type)
+      return @sp_negative_keywords if campaign_type == :sp
+      return @sb_negative_keywords if campaign_type == :sb || campaign_type == :hsa
     end
 
     def snapshots(campaign_type)
