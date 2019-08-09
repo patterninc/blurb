@@ -4,6 +4,7 @@ require "blurb/snapshot_requests"
 require "blurb/report_requests"
 require "blurb/request_collection"
 require "blurb/request_collection_with_campaign_type"
+require "blurb/suggested_keyword_requests"
 
 class Blurb
   class Profile < BaseClass
@@ -12,8 +13,10 @@ class Blurb
       :account,
       :ad_groups,
       :campaign_negative_keywords,
+      :portfolios,
       :product_ads,
       :profile_id,
+      :suggested_keywords,
     )
 
     def initialize(profile_id:, account:)
@@ -87,6 +90,14 @@ class Blurb
       @campaign_negative_keywords = RequestCollection.new(
         headers: headers_hash,
         base_url: "#{@account.api_url}/v2/sp/campaignNegativeKeywords"
+      )
+      @portfolios = RequestCollection.new(
+        headers: headers_hash,
+        base_url: "#{@account.api_url}/v2/portfolios"
+      )
+      @suggested_keywords = SuggestedKeywordRequests.new(
+        headers: headers_hash,
+        base_url: "#{@account.api_url}/v2/sp"
       )
     end
 
