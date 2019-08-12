@@ -1,13 +1,12 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'blurb/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "blurb"
-  spec.version       = Blurb::VERSION
-  spec.authors       = ["dlbunker"]
-  spec.email         = ["dan@iserve.com"]
+  spec.version       = "0.4.0"
+  spec.authors       = ["dlbunker", "eamigo13"]
+  spec.email         = ["evan@pattern.com"]
 
   spec.summary       = %q{Ruby gem for the Amazon Advertising API}
   spec.description   = %q{Amazon released a new Advertising API in 2017. This gem will integrate and allow you to make API calls to Amazon.}
@@ -30,12 +29,16 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_development_dependency "bundler", "~> 1.14"
+  spec.add_development_dependency "bundler", "~> 2.0"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "rspec_junit_formatter", "~> 0.3.0"
+  spec.add_development_dependency "dotenv"
+  spec.add_development_dependency "byebug"
+  spec.add_development_dependency "faker", "~> 2.1.0"
 
   spec.add_runtime_dependency "rest-client", "~> 2.0"
   spec.add_runtime_dependency "oauth2", "~> 1.4.0"
+  spec.add_runtime_dependency "activesupport"
 
 end

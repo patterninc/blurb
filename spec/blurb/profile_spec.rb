@@ -1,17 +1,17 @@
 require "spec_helper"
 
 RSpec.describe Blurb::Profile do
-  include_context "shared setup"
+  let(:profile) { Blurb.new().active_profile }
 
-  describe "#list" do
-    it "returns profiles" do
-      profiles = @profile_instance.list()
-      expect(profiles).not_to be nil
-
-      profiles.each do | p |
-        expect(@profile_instance.retrieve(p["profileId"])).not_to be nil
-      end
+  describe "#initialize" do
+    it "correctly initializes profile id" do
+      expect(profile.profile_id).to eql(ENV["BLURB_PROFILE_ID"])
     end
   end
 
+  describe '#profile_details' do
+    it "retrieves profile" do
+      expect(profile.profile_details()[:profile_id].to_i).to eql(profile.profile_id.to_i)
+    end
+  end
 end

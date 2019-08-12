@@ -83,49 +83,55 @@ You can find your profiles by making the following Blurb call.
 
 This will return a JSON payload of profile information for your account.  You can then select the profile ID you want to use.
 
-## Blurb Values Setup
-Before using the Blurb API wrapper you need to set your API values. Simply do that by initializing the Blurb values to your API values.
-If you are using Rails, see below.
 
-```ruby
-Blurb.profile_id = "<YOUR_PROFILE_ID>"
-Blurb.client_id = "<YOUR_CLIENT_ID>"
-Blurb.client_secret = "<YOUR_CLIENT_SECRET>"
-Blurb.refresh_token = "<YOUR_REFRESH_TOKEN>"
-```
+
+
 
 ## Rails Integration
 
-You can setup the Amazon API keys and tokens in an initializer script.
-Create a file called config/initializers/blurb.rb and setup the following values
+When creating a new resource object, you may pass in a hash containing your api keys and tokens.  Utilizing this approach allows you to dynamically toggle accounts and or regions with you application.
 
 ```ruby
-Blurb.profile_id = "<YOUR_PROFILE_ID>"
-Blurb.client_id = "<YOUR_CLIENT_ID>"
-Blurb.client_secret = "<YOUR_CLIENT_SECRET>"
-Blurb.refresh_token = "<YOUR_REFRESH_TOKEN>"
+authorization_hash =  {
+  client_id: 'my_client_id',
+  profile_id: 'my_profile_id',
+  client_secret: 'client_secret',
+  refresh_token: 'refresh_token',
+  region: 'my_region'
+}
+
+blurb_instance = Blurb::Keyword.new(authorization_hash)
 ```
 
-If you don't want to store your API values in your code which gets checked into a public repo, you can utilize ENV variables
+
+
+
+
+If you only plan on using Blurb for one api account and region you can setup the Amazon API keys and tokens in an initializer script.
+Create a file called config/initializers/blurb.rb and setup the following values
 
 ```ruby
 Blurb.profile_id = ENV["YOUR_PROFILE_ID_VAR"]
 Blurb.client_id = ENV["YOUR_CLIENT_ID_VAR"]
 Blurb.client_secret = ENV["YOUR_CLIENT_SECRET_VAR"]
 Blurb.refresh_token = ENV["YOUR_REFRESH_TOKEN_VAR"]
+Blurb.region = ENV["YOUR_REGION_VAR"]
 ```
 
-You could also store API values in a persistence store and initialize from there too.
-
-## API Environments
-
-By default Blurb will run API calls to the Amazon Advertising API production environment.
-If you are under development and want to test out the API to see what it can do, you can set
-the following Blurb property to use the API test environment.
+Now, you no longer need to pass in an authorization hash when initializing the resource object.
 
 ```ruby
-Blurb.test_env = true
+blurb_instance = Blurb::Keyword.new()
 ```
+
+### Valid Region Codes
+
+Region Code | Region | Notes
+--- | --- | ---
+TEST | Sandbox Environment | All marketplaces
+NA | North America | Covers US and CA marketplaces
+EU | Europe | Covers UK, FR, IT, ES, and DE marketplaces
+FE | Far East | Cover JP and AU marketplaces
 
 ## Usage
 
@@ -136,19 +142,6 @@ For example, to use the keywords resource object:
 
 ```ruby
 blurb_instance = Blurb::Keyword.new()
-```
-
-Optionally, you may pass in a set of account credentials to override the default API keys and tokens
-
-```ruby
-authorization_hash =  {
-  client_id: 'my_client_id',
-  profile_id: 'my_profile_id',
-  client_secret: 'client_secret',
-  refresh_token: 'refresh_token'
-}
-
-blurb_instance = Blurb::Keyword.new(authorization_hash)
 ```
 
 In calls that require 'campaign_type' as a parameter, you must pass in either 'sp' for sponsored products or 'hsa' for sponsored brands (formerly known as headline search ads).  
@@ -379,6 +372,15 @@ suggested_keyword_instance.bulk_asin_suggestions({
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
 To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+
+In order to run the rspec test suite, you will need the following variables in a .env file:
+
+```
+PROFILE_ID
+CLIENT_ID
+CLIENT_SECRET
+REFRESH_TOKEN
+```
 
 ## Contributing
 

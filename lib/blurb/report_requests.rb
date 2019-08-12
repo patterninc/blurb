@@ -1,48 +1,52 @@
-module Blurb
-  class Report < BaseResource
-    CAMPAIGNS = "campaigns"
-    AD_GROUPS = "adGroups"
-    KEYWORDS = "keywords"
-    PRODUCT_ADS = "productAds"
-    ASINS = "asins"
-    TARGETS = "targets"
+require 'blurb/request_collection_with_campaign_type'
 
-    def create(params = {}, opts = {})
-      # required argument checks
-      raise ArgumentError.new("params hash must contain a recordType") unless params["recordType"]
+class Blurb
+  class ReportRequests < RequestCollectionWithCampaignType
+    def initialize(campaign_type:, base_url:, headers:)
+      @campaign_type = campaign_type
+      @base_url = "#{base_url}/v2/#{@campaign_type}"
+      @headers = headers
+    end
 
-      # If no metrics are passed in, use the default metrics
-      metrics = params["metrics"] || get_default_metrics(params["recordType"],params["campaignType"])
-
-      api_params = {
-        "reportDate" => params["reportDate"],
-        "metrics" => metrics
+    def create(
+      record_type:,
+      report_date: Date.today,
+      metrics: nil,
+      segment: nil
+    )
+      # create payload
+      metrics = get_default_metrics(record_type.to_s.underscore.to_sym) if metrics.nil?
+      payload = {
+        metrics: metrics.map{ |m| m.to_s.camelize(:lower) }.join(","),
+        report_date: report_date
       }
+      payload[:segment] = segment if segment
 
-      api_params["segment"] = params["segment"] if params["segment"]
-
-      if params["recordType"] == ASINS
-        request_url = "/v2/#{ASINS}/report"
-        api_params["campaignType"] = 'sponsoredProducts' if params["campaignType"] == SPONSORED_PRODUCTS
-        raise ArgumentError.new("ASIN report is not supported for Sponsored Brands") if params["campaignType"] == SPONSORED_BRANDS
-      else
-        request_url = "/v2/#{params["campaignType"]}/#{params["recordType"]}/report"
-      end
-
-      post_request(request_url, api_params)
+      execute_request(
+        api_path: "/#{record_type.to_s.camelize(:lower)}/report",
+        request_type: :post,
+        payload: payload
+      )
     end
 
-    def status(report_id, opts = {})
-      get_request("/v2/reports/#{report_id}")
+    def retrieve(report_id)
+      execute_request(
+        api_path: "/reports/#{report_id}",
+        request_type: :get,
+      )
     end
 
-    def download(location, opts = {})
-      opts.merge!({:full_path => true, :gzip => true, :no_token => true})
-      get_request(location, opts)
+    def download(report_id)
+      execute_request(
+        api_path: "/reports/#{report_id}/download",
+        request_type: :get,
+      )
     end
 
-    def get_default_metrics(record_type, campaign_type)
-      if campaign_type == SPONSORED_BRANDS
+    private
+
+    def get_default_metrics(record_type)
+      if @campaign_type == CAMPAIGN_TYPE_CODES[:sb]
         return [
           "campaignId",
           "impressions",
@@ -52,7 +56,7 @@ module Blurb
           "attributedSales14dSameSKU",
           "attributedConversions14d",
           "attributedConversions14dSameSKU"
-        ].join(",") if record_type == CAMPAIGNS
+        ] if record_type == :campaigns
         return [
           "adGroupId",
           "campaignId",
@@ -63,7 +67,7 @@ module Blurb
           "attributedSales14dSameSKU",
           "attributedConversions14d",
           "attributedConversions14dSameSKU"
-        ].join(",") if record_type == AD_GROUPS
+        ] if record_type == :ad_groups
         return [
           "keywordId",
           "adGroupId",
@@ -74,27 +78,9 @@ module Blurb
           "attributedSales14d",
           "attributedSales14dSameSKU",
           "attributedConversions14d",
-          "attributedConversions14dSameSKU" 
-        ].join(",") if record_type == KEYWORDS
-      elsif campaign_type == SPONSORED_PRODUCTS
-        return [
-          "campaignName",
-          "campaignId",
-          "adGroupId",
-          "adGroupName",
-          "asin",
-          "otherAsin",
-          "sku",
-          "currency",
-          "attributedUnitsOrdered1dOtherSKU",
-          "attributedUnitsOrdered7dOtherSKU",
-          "attributedUnitsOrdered14dOtherSKU",
-          "attributedUnitsOrdered30dOtherSKU",
-          "attributedSales1dOtherSKU",
-          "attributedSales7dOtherSKU",
-          "attributedSales14dOtherSKU",
-          "attributedSales30dOtherSKU"
-        ].join(",") if record_type == ASINS
+          "attributedConversions14dSameSKU"
+        ] if record_type == :keywords
+      elsif @campaign_type == CAMPAIGN_TYPE_CODES[:sp]
         return [
           "campaignName",
           "campaignId",
@@ -123,7 +109,7 @@ module Blurb
           "attributedSales7dSameSKU",
           "attributedSales14dSameSKU",
           "attributedSales30dSameSKU"
-        ].join(",") if record_type == CAMPAIGNS
+        ] if record_type == :campaigns
         return [
           "campaignName",
           "campaignId",
@@ -152,7 +138,7 @@ module Blurb
           "attributedSales7dSameSKU",
           "attributedSales14dSameSKU",
           "attributedSales30dSameSKU"
-        ].join(",") if record_type == AD_GROUPS
+        ] if record_type == :ad_groups
         return [
           "campaignName",
           "campaignId",
@@ -182,7 +168,7 @@ module Blurb
           "attributedSales7dSameSKU",
           "attributedSales14dSameSKU",
           "attributedSales30dSameSKU"
-        ].join(",") if record_type == KEYWORDS
+        ] if record_type == :keywords
         return [
           "campaignName",
           "campaignId",
@@ -214,7 +200,7 @@ module Blurb
           "attributedSales7dSameSKU",
           "attributedSales14dSameSKU",
           "attributedSales30dSameSKU"
-        ].join(",") if record_type == PRODUCT_ADS
+        ] if record_type == :product_ads
         return [
           "campaignName",
           "campaignId",
@@ -245,7 +231,7 @@ module Blurb
           "attributedSales7dSameSKU",
           "attributedSales14dSameSKU",
           "attributedSales30dSameSKU"
-        ].join(",") if record_type == TARGETS
+        ] if record_type == :targets
         return [
           "campaignName",
           "campaignId",
@@ -277,7 +263,7 @@ module Blurb
           "attributedSales7dSameSKU",
           "attributedSales14dSameSKU",
           "attributedSales30dSameSKU"
-        ].join(",") if record_type == PORTFOLIOS
+        ] if record_type == :portfolios
       end
     end
   end
