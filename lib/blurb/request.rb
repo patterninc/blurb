@@ -61,13 +61,14 @@ class Blurb
         resp = JSON.parse(resp)
         resp = resp.map{|r| underscore_keys(r)} if resp.class == Array
         resp = underscore_keys(resp) if resp.class == Hash
+        #TODO convert to symbols recursively
         return resp
       end
 
       def camelcase_keys(hash)
-        map = hash.map do |k,v|
-          v = v.strftime('%Y%m%d') if v.class == Date
-          [k.to_s.camelize(:lower), v]
+        map = hash.map do |key,value|
+          value = value.strftime('%Y%m%d') if value.class == Date || value.class == Time
+          [key.to_s.camelize(:lower), value]
         end
         map.to_h
       end

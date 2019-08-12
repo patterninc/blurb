@@ -21,21 +21,26 @@ class Blurb
       )
     end
 
-    def asin_retrieve(asin_value)
+    def asin_retrieve(asin_value, max_num_suggestions=100)
+      url_params = {max_num_suggestions: max_num_suggestions}
       execute_request(
         api_path: "/asins/#{asin_value}/suggested/keywords",
-        request_type: :get
+        request_type: :get,
+        url_params: url_params
       )
     end
 
-    # TODO: Implement later
-    # def asin_list(asin_list)
-    #   execute_request(
-    #     api_path: '/asins/suggested/keywords',
-    #     request_type: :post,
-    #     payload: asin_list
-    #   )
-    # end
+    def asin_list(asin_list, max_num_suggestions=100)
+      url_params = {max_num_suggestions: max_num_suggestions}
+      execute_request(
+        api_path: '/asins/suggested/keywords',
+        request_type: :post,
+        payload: {
+          asins: asin_list,
+          max_num_suggestions: max_num_suggestions
+        }
+      )
+    end
 
     private
 
