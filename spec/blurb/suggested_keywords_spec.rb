@@ -12,7 +12,7 @@ RSpec.describe Blurb::SuggestedKeywordRequests do
     it "requests suggested keywords for specified ad group" do
       @response = @resource.ad_group_retrieve(@ad_group_id)
       expect(@response[:suggested_keywords]).to be_truthy
-      expect(@response[:suggested_keywords].length).to be > 0
+      expect(@response[:suggested_keywords].class).to eql(Array)
     end
   end
 
@@ -20,7 +20,7 @@ RSpec.describe Blurb::SuggestedKeywordRequests do
     it "requests extended suggested keywords for specified ad group" do
       @response = @resource.ad_group_retrieve_extended(@ad_group_id)
       expect(@response).to be_truthy
-      expect(@response.length).to be > 0
+      expect(@response.class).to eql(Array)
     end
   end
 
