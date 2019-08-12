@@ -18,4 +18,7 @@ RSpec.configure do |config|
 
   # Include support files
   config.include RequestCollectionExamples
+
+  # Sleep half a second between tests to avoid amazon advertising api throttling
+  config.before(:each) { sleep(0.5) }
 end
