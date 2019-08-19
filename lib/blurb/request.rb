@@ -67,7 +67,7 @@ class Blurb
 
       def camelcase_keys(hash)
         map = hash.map do |key,value|
-          value = value.strftime('%Y%m%d') if value.class == Date || value.class == Time
+          value = value.strftime('%Y%m%d') if [Date, Time, ActiveSupport::TimeWithZone].include?(value.class)
           [key.to_s.camelize(:lower), value]
         end
         map.to_h
