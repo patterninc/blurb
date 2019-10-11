@@ -17,6 +17,7 @@ class Blurb
       :product_ads,
       :profile_id,
       :suggested_keywords,
+      :targets
     )
 
     def initialize(profile_id:, account:)
@@ -90,6 +91,10 @@ class Blurb
       @campaign_negative_keywords = RequestCollection.new(
         headers: headers_hash,
         base_url: "#{@account.api_url}/v2/sp/campaignNegativeKeywords"
+      )
+      @targets = RequestCollection.new(
+        headers: headers_hash,
+        base_url: "#{@account.api_url}/v2/sp/targets"
       )
       @portfolios = RequestCollection.new(
         headers: headers_hash,
