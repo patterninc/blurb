@@ -1,6 +1,9 @@
 require 'active_support/core_ext/string'
 require "rest-client"
 require "blurb/base_class"
+require "blurb/errors/request_throttled"
+require "blurb/errors/invalid_report_request"
+require "blurb/errors/failed_request"
 
 class Blurb
   class Request < BaseClass
@@ -32,13 +35,18 @@ class Blurb
     def make_request
       begin
         resp = RestClient::Request.execute(request_config())
-      rescue RestClient::ExceptionWithResponse => err
-        # If this happens, then we are downloading a report from the api, so we can simply download the location
-        if err.response.code == 307
-          return RestClient.get(err.response.headers[:location])
+      rescue RestClient::TooManyRequests => err
+        raise RequestThrottled.new(JSON.parse(err.response.body))
+      rescue RestClient::TemporaryRedirect => err
+        RestClient.get(err.response.headers[:location])  # If this happens, then we are downloading a report from the api, so we can simply download the location
+      rescue RestClient::NotAcceptable => err
+        if @url.include?("report")
+          raise InvalidReportRequest.new(JSON.parse(err.response.body))
         else
-          return JSON.parse(err.response.body)
+          raise err
         end
+      rescue RestClient::ExceptionWithResponse => err
+        raise FailedRequest.new(JSON.parse(err.response.body))
       end
       resp = convert_response(resp)
       return resp
