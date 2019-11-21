@@ -82,10 +82,7 @@ class Blurb
         ] if record_type == :keywords
       elsif @campaign_type == CAMPAIGN_TYPE_CODES[:sp]
         return [
-          "campaignName",
           "campaignId",
-          "campaignStatus",
-          "campaignBudget",
           "impressions",
           "clicks",
           "cost",
@@ -111,9 +108,7 @@ class Blurb
           "attributedSales30dSameSKU"
         ] if record_type == :campaigns
         return [
-          "campaignName",
           "campaignId",
-          "adGroupName",
           "adGroupId",
           "impressions",
           "clicks",
@@ -140,11 +135,8 @@ class Blurb
           "attributedSales30dSameSKU"
         ] if record_type == :ad_groups
         return [
-          "campaignName",
           "campaignId",
           "keywordId",
-          "keywordText",
-          "matchType",
           "impressions",
           "clicks",
           "cost",
@@ -170,16 +162,11 @@ class Blurb
           "attributedSales30dSameSKU"
         ] if record_type == :keywords
         return [
-          "campaignName",
           "campaignId",
-          "adGroupName",
           "adGroupId",
           "impressions",
           "clicks",
           "cost",
-          "currency",
-          "asin",
-          "sku",
           "attributedConversions1d",
           "attributedConversions7d",
           "attributedConversions14d",
@@ -202,12 +189,8 @@ class Blurb
           "attributedSales30dSameSKU"
         ] if record_type == :product_ads
         return [
-          "campaignName",
           "campaignId",
           "targetId",
-          "targetingExpression",
-          "targetingText",
-          "targetingType",
           "impressions",
           "clicks",
           "cost",
@@ -233,16 +216,11 @@ class Blurb
           "attributedSales30dSameSKU"
         ] if record_type == :targets
         return [
-          "campaignName",
           "campaignId",
-          "adGroupName",
           "adGroupId",
           "impressions",
           "clicks",
           "cost",
-          "currency",
-          "asin",
-          "sku",
           "attributedConversions1d",
           "attributedConversions7d",
           "attributedConversions14d",
