@@ -39,7 +39,7 @@ class Blurb
     end
 
     def create(**create_params)
-      create_bulk([create_params])
+      create_bulk([create_params]).first
     end
 
     def create_bulk(create_array)
@@ -51,7 +51,7 @@ class Blurb
     end
 
     def update(**update_params)
-      update_bulk([update_params])
+      update_bulk([update_params]).first
     end
 
     def update_bulk(update_array)
