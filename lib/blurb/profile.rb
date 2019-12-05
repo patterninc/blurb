@@ -131,6 +131,22 @@ class Blurb
       return @sb_reports if campaign_type == :sb || campaign_type == :hsa
     end
 
+    def request(api_path: "",request_type: :get, payload: nil, url_params: nil, headers: headers_hash)
+      @base_url = @account.api_url
+
+      url = "#{@base_url}#{api_path}"
+
+      request = Request.new(
+        url: url,
+        url_params: url_params,
+        request_type: request_type,
+        payload: payload,
+        headers: headers
+      )
+
+      request.make_request
+    end
+
     def profile_details
       @account.retrieve_profile(@profile_id)
     end

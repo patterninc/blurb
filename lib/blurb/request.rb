@@ -60,29 +60,45 @@ class Blurb
 
       def convert_payload(payload)
         return if payload.nil?
-        payload = payload.map{|r| camelcase_keys(r)} if payload.class == Array
-        payload = camelcase_keys(payload) if payload.class == Hash
+        payload = camelcase_keys(payload)
         return payload.to_json
       end
 
       def convert_response(resp)
         resp = JSON.parse(resp)
-        resp = resp.map{|r| underscore_keys(r)} if resp.class == Array
-        resp = underscore_keys(resp) if resp.class == Hash
-        #TODO convert to symbols recursively
+        resp = underscore_keys(resp)
         return resp
       end
 
-      def camelcase_keys(hash)
-        map = hash.map do |key,value|
-          value = value.strftime('%Y%m%d') if [Date, Time, ActiveSupport::TimeWithZone].include?(value.class)
-          [key.to_s.camelize(:lower), value]
-        end
-        map.to_h
+      def camelcase_keys(value)
+        case value
+          when Array
+            value.map { |v| camelcase_keys(v) }
+          when Hash
+            Hash[value.map { |k, v| [camelcase_key(k), camelcase_keys(v)] }]
+          else
+            value = value.strftime('%Y%m%d') if [Date, Time, ActiveSupport::TimeWithZone].include?(value.class)
+            value
+         end
       end
 
-      def underscore_keys(hash)
-        hash.map{|k,v| [k.underscore.to_sym, v]}.to_h
+      def camelcase_key(k)
+        k.to_s.camelize(:lower)
+      end
+
+      def underscore_keys(value)
+        case value
+          when Array
+            value.map { |v| underscore_keys(v) }
+          when Hash
+            Hash[value.map { |k, v| [underscore_key(k), underscore_keys(v)] }]
+          else
+            value
+         end
+      end
+
+      def underscore_key(k)
+        k.to_s.underscore.to_sym
       end
 
   end
