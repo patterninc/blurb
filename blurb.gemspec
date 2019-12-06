@@ -4,8 +4,8 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = "blurb"
-  spec.version       = "0.4.6"
-  spec.authors       = ["dlbunker", "eamigo13"]
+  spec.version       = "0.4.7"
+  spec.authors       = ["dlbunker", "eamigo13", "smithworx"]
   spec.email         = ["evan@pattern.com"]
 
   spec.summary       = %q{Ruby gem for the Amazon Advertising API}
