@@ -3,7 +3,7 @@ module RequestCollectionExamples
     before(:all) do
       @ignored_examples = [] if @ignored_examples.nil?
       @response = @resource.create(**@create_hash)
-      @new_resource_id = @response.first["#{@resource_name}_id".to_sym]
+      @new_resource_id = @response["#{@resource_name}_id".to_sym]
     end
 
     describe '#create' do
@@ -58,8 +58,7 @@ module RequestCollectionExamples
           "#{@resource_name}_id".to_sym => @new_resource_id,
           **@update_hash
         )
-        expect(@response.length).to eql(1)
-        expect(@response.first[:code]).to eql("SUCCESS")
+        expect(@response[:code]).to eql("SUCCESS")
       end
     end
 

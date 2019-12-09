@@ -15,7 +15,7 @@ RSpec.describe 'Portfolio Requests' do
       },
     }
     @update_hash = {
-      name: Faker::Lorem.word,
+      name: Faker::Lorem.word.concat(rand(1..100).to_i.to_s),
       state: 'enabled',
       budget: {
         amount: rand(0..1000).to_f,

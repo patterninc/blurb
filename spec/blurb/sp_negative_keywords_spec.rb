@@ -7,7 +7,7 @@ RSpec.describe "Ad Group Negative Keyword Requests" do
     @resource_name = 'keyword'
     @create_hash = {
       keyword_text: Faker::Lorem.word,
-      state: ["enabled", "archived"].sample,
+      state: ["enabled"].sample, # archived (excluded since it cannot be updated)
       match_type: ["negativeExact", "negativePhrase"].sample,
       campaign_id: blurb.active_profile.campaigns(:sp).list(state_filter: 'enabled').first[:campaign_id],
       ad_group_id: blurb.active_profile.product_ads.list(state_filter: 'enabled').first[:ad_group_id],
