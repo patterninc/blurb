@@ -4,9 +4,10 @@ require "blurb/base_class"
 class Blurb
   class RequestCollection < BaseClass
 
-    def initialize(headers:, base_url:)
+    def initialize(headers:, base_url:, bulk_api_limit: 100)
       @base_url = base_url
       @headers = headers
+      @api_limit = bulk_api_limit
     end
 
     def list(url_params=nil)
@@ -46,7 +47,6 @@ class Blurb
       execute_bulk_request(
         request_type: :post,
         payload: create_array,
-        api_limit: 100
       )
     end
 
@@ -58,7 +58,6 @@ class Blurb
       execute_bulk_request(
         request_type: :put,
         payload: update_array,
-        api_limit: 100
       )
     end
 
@@ -86,9 +85,9 @@ class Blurb
       end
 
       # Split up bulk requests to match the api limit
-      def execute_bulk_request(api_limit:, **execute_request_params)
+      def execute_bulk_request(**execute_request_params)
         results = []
-        payloads = execute_request_params[:payload].each_slice(api_limit).to_a
+        payloads = execute_request_params[:payload].each_slice(@api_limit).to_a
         payloads.each do |p|
           execute_request_params[:payload] = p
           results << execute_request(execute_request_params)

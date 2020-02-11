@@ -27,13 +27,15 @@ class Blurb
         headers: headers_hash,
         base_url: @account.api_url,
         resource: "campaigns",
-        campaign_type: CAMPAIGN_TYPE_CODES[:sp]
+        campaign_type: CAMPAIGN_TYPE_CODES[:sp],
+        bulk_api_limit: 10
       )
       @sb_campaigns = RequestCollectionWithCampaignType.new(
         headers: headers_hash,
         base_url: @account.api_url,
         resource: "campaigns",
-        campaign_type: CAMPAIGN_TYPE_CODES[:sb]
+        campaign_type: CAMPAIGN_TYPE_CODES[:sb],
+        bulk_api_limit: 10
       )
       @sp_keywords = RequestCollectionWithCampaignType.new(
         headers: headers_hash,
