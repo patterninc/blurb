@@ -1,4 +1,5 @@
 require "blurb/account"
+require "blurb/campaign_requests"
 require "blurb/snapshot_requests"
 require "blurb/report_requests"
 require "blurb/request_collection"
@@ -23,13 +24,13 @@ class Blurb
       @profile_id = profile_id
       @account = account
 
-      @sp_campaigns = RequestCollectionWithCampaignType.new(
+      @sp_campaigns = CampaignRequests.new(
         headers: headers_hash,
         base_url: @account.api_url,
         resource: "campaigns",
         campaign_type: CAMPAIGN_TYPE_CODES[:sp]
       )
-      @sb_campaigns = RequestCollectionWithCampaignType.new(
+      @sb_campaigns = CampaignRequests.new(
         headers: headers_hash,
         base_url: @account.api_url,
         resource: "campaigns",
