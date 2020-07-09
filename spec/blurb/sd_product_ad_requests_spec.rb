@@ -6,7 +6,7 @@ RSpec.describe "SD Product Ad Requests" do
     @resource = blurb.active_profile.sd_product_ads
     @resource_name = 'ad'
     @create_hash = {
-      sku: Faker::Lorem.word,
+      sku: 'BX80644E52680V3',
       state: ["enabled", "paused", "archived"].sample,
       campaign_id: blurb.active_profile.campaigns(:sd).list(state_filter: 'enabled').first[:campaign_id],
       ad_group_id: blurb.active_profile.sd_product_ads.list(state_filter: 'enabled').first[:ad_group_id],
