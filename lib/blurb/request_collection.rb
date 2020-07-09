@@ -72,6 +72,7 @@ class Blurb
 
       def execute_request(api_path: "", request_type:, payload: nil, url_params: nil)
         url = "#{@base_url}#{api_path}"
+        url.sub!('/sd/', '/') if request_type == :get && @campaign_type.to_s.to_sym == :sd && url_params.nil?
 
         request = Request.new(
           url: url,

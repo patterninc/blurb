@@ -12,9 +12,11 @@ class Blurb
     attr_accessor(
       :account,
       :ad_groups,
+      :sd_ad_groups,
       :campaign_negative_keywords,
       :portfolios,
       :product_ads,
+      :sd_product_ads,
       :profile_id,
       :suggested_keywords,
       :targets
@@ -35,6 +37,13 @@ class Blurb
         base_url: @account.api_url,
         resource: "campaigns",
         campaign_type: CAMPAIGN_TYPE_CODES[:sb],
+        bulk_api_limit: 10
+      )
+      @sd_campaigns = CampaignRequests.new(
+        headers: headers_hash,
+        base_url: @account.api_url,
+        resource: "campaigns",
+        campaign_type: CAMPAIGN_TYPE_CODES[:sd],
         bulk_api_limit: 10
       )
       @sp_keywords = RequestCollectionWithCampaignType.new(
@@ -64,6 +73,11 @@ class Blurb
         base_url: @account.api_url,
         campaign_type: CAMPAIGN_TYPE_CODES[:sp]
       )
+      @sd_reports = ReportRequests.new(
+        headers: headers_hash,
+        base_url: @account.api_url,
+        campaign_type: CAMPAIGN_TYPE_CODES[:sd]
+      )
       @sb_reports = ReportRequests.new(
         headers: headers_hash,
         base_url: @account.api_url,
@@ -73,9 +87,17 @@ class Blurb
         headers: headers_hash,
         base_url: "#{@account.api_url}/v2/sp/adGroups"
       )
+      @sd_ad_groups = RequestCollection.new(
+        headers: headers_hash,
+        base_url: "#{@account.api_url}/sd/adGroups"
+      )
       @product_ads = RequestCollection.new(
         headers: headers_hash,
         base_url: "#{account.api_url}/v2/sp/productAds"
+      )
+      @sd_product_ads = RequestCollection.new(
+        headers: headers_hash,
+        base_url: "#{account.api_url}/sd/productAds"
       )
       @sp_negative_keywords = RequestCollectionWithCampaignType.new(
         headers: headers_hash,
@@ -110,6 +132,7 @@ class Blurb
     def campaigns(campaign_type)
       return @sp_campaigns if campaign_type == :sp
       return @sb_campaigns if campaign_type == :sb || campaign_type == :hsa
+      return @sd_campaigns if campaign_type == :sd
     end
 
     def keywords(campaign_type)
@@ -130,6 +153,7 @@ class Blurb
     def reports(campaign_type)
       return @sp_reports if campaign_type == :sp
       return @sb_reports if campaign_type == :sb || campaign_type == :hsa
+      return @sd_reports if campaign_type == :sd
     end
 
     def request(api_path: "",request_type: :get, payload: nil, url_params: nil, headers: headers_hash)

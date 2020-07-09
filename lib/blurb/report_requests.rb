@@ -2,6 +2,8 @@ require 'blurb/request_collection_with_campaign_type'
 
 class Blurb
   class ReportRequests < RequestCollectionWithCampaignType
+    SD_TACTIC = 'T00020'.freeze
+
     def initialize(campaign_type:, base_url:, headers:)
       @campaign_type = campaign_type
       @base_url = "#{base_url}/v2/#{@campaign_type}"
@@ -21,6 +23,7 @@ class Blurb
         report_date: report_date
       }
       payload[:segment] = segment if segment
+      payload[:tactic] = SD_TACTIC if @campaign_type.to_sym == :sd
 
       execute_request(
         api_path: "/#{record_type.to_s.camelize(:lower)}/report",
@@ -242,6 +245,118 @@ class Blurb
           "attributedSales14dSameSKU",
           "attributedSales30dSameSKU"
         ] if record_type == :portfolios
+      elsif @campaign_type == CAMPAIGN_TYPE_CODES[:sd]
+        return [
+          "campaignId",
+          "impressions",
+          "clicks",
+          "cost",
+          "currency",
+          "attributedConversions1d",
+          "attributedConversions7d",
+          "attributedConversions14d",
+          "attributedConversions30d",
+          "attributedConversions1dSameSKU",
+          "attributedConversions7dSameSKU",
+          "attributedConversions14dSameSKU",
+          "attributedConversions30dSameSKU",
+          "attributedUnitsOrdered1d",
+          "attributedUnitsOrdered7d",
+          "attributedUnitsOrdered14d",
+          "attributedUnitsOrdered30d",
+          "attributedSales1d",
+          "attributedSales7d",
+          "attributedSales14d",
+          "attributedSales30d",
+          "attributedSales1dSameSKU",
+          "attributedSales7dSameSKU",
+          "attributedSales14dSameSKU",
+          "attributedSales30dSameSKU"
+        ] if record_type == :campaigns
+        return [
+          "campaignId",
+          "adGroupId",
+          "impressions",
+          "clicks",
+          "cost",
+          "currency",
+          "attributedConversions1d",
+          "attributedConversions7d",
+          "attributedConversions14d",
+          "attributedConversions30d",
+          "attributedConversions1dSameSKU",
+          "attributedConversions7dSameSKU",
+          "attributedConversions14dSameSKU",
+          "attributedConversions30dSameSKU",
+          "attributedUnitsOrdered1d",
+          "attributedUnitsOrdered7d",
+          "attributedUnitsOrdered14d",
+          "attributedUnitsOrdered30d",
+          "attributedSales1d",
+          "attributedSales7d",
+          "attributedSales14d",
+          "attributedSales30d",
+          "attributedSales1dSameSKU",
+          "attributedSales7dSameSKU",
+          "attributedSales14dSameSKU",
+          "attributedSales30dSameSKU"
+        ] if record_type == :ad_groups
+        return [
+          "campaignId",
+          "adGroupId",
+          "impressions",
+          "clicks",
+          "cost",
+          "currency",
+          "attributedConversions1d",
+          "attributedConversions7d",
+          "attributedConversions14d",
+          "attributedConversions30d",
+          "attributedConversions1dSameSKU",
+          "attributedConversions7dSameSKU",
+          "attributedConversions14dSameSKU",
+          "attributedConversions30dSameSKU",
+          "attributedUnitsOrdered1d",
+          "attributedUnitsOrdered7d",
+          "attributedUnitsOrdered14d",
+          "attributedUnitsOrdered30d",
+          "attributedSales1d",
+          "attributedSales7d",
+          "attributedSales14d",
+          "attributedSales30d",
+          "attributedSales1dSameSKU",
+          "attributedSales7dSameSKU",
+          "attributedSales14dSameSKU",
+          "attributedSales30dSameSKU"
+        ] if record_type == :product_ads
+        return [
+          "campaignId",
+          "targetId",
+          "impressions",
+          "clicks",
+          "cost",
+          "currency",
+          "attributedConversions1d",
+          "attributedConversions7d",
+          "attributedConversions14d",
+          "attributedConversions30d",
+          "attributedConversions1dSameSKU",
+          "attributedConversions7dSameSKU",
+          "attributedConversions14dSameSKU",
+          "attributedConversions30dSameSKU",
+          "attributedUnitsOrdered1d",
+          "attributedUnitsOrdered7d",
+          "attributedUnitsOrdered14d",
+          "attributedUnitsOrdered30d",
+          "attributedSales1d",
+          "attributedSales7d",
+          "attributedSales14d",
+          "attributedSales30d",
+          "attributedSales1dSameSKU",
+          "attributedSales7dSameSKU",
+          "attributedSales14dSameSKU",
+          "attributedSales30dSameSKU"
+        ] if record_type == :targets
       end
     end
   end
