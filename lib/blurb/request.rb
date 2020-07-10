@@ -60,7 +60,8 @@ class Blurb
 
       def convert_payload(payload)
         return if payload.nil?
-        # payload = camelcase_keys(payload)
+
+        payload = camelcase_keys(payload) unless payload.has_key?(:fromDate)
         return payload.to_json
       end
 
