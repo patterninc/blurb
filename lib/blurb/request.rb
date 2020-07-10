@@ -60,7 +60,7 @@ class Blurb
 
       def convert_payload(payload)
         return if payload.nil?
-        payload = camelcase_keys(payload)
+        # payload = camelcase_keys(payload)
         return payload.to_json
       end
 
