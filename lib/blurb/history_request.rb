@@ -5,6 +5,8 @@ class Blurb
     FROM_DATE = (DateTime.now - 30).strftime('%Q')
     TO_DATE = DateTime.now.strftime('%Q')
     COUNT = 100.freeze
+    FILTERS = []
+    PARENT_CAMPAIGN_ID = nil
 
     def initialize(base_url:, headers:)
       @base_url = base_url
@@ -15,8 +17,8 @@ class Blurb
       from_date: FROM_DATE,
       to_date: TO_DATE,
       campaign_ids:,
-      filters:,
-      parent_campaign_id:,
+      filters: FILTERS,
+      parent_campaign_id: PARENT_CAMPAIGN_ID,
       count: COUNT
     )
 
