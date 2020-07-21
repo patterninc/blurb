@@ -4,7 +4,8 @@ class Blurb
   class HistoryRequest < RequestCollection
     FROM_DATE = (DateTime.now - 30).strftime('%Q')
     TO_DATE = DateTime.now.strftime('%Q')
-    COUNT = 100.freeze
+    MAX_COUNT = 200.freeze
+    MIN_COUNT = 50.freeze
     FILTERS = []
     PARENT_CAMPAIGN_ID = nil
 
@@ -19,13 +20,16 @@ class Blurb
       campaign_ids:,
       filters: FILTERS,
       parent_campaign_id: PARENT_CAMPAIGN_ID,
-      count: COUNT
+      count: MAX_COUNT
     )
+
+      count = MIN_COUNT if count < MIN_COUNT
+      count = MAX_COUNT if count > MAX_COUNT
 
       payload = {
         sort: {
           key: 'DATE',
-          direction: 'DESC'
+          direction: 'ASC'
         },
         fromDate: from_date.to_i,
         toDate: to_date.to_i,
