@@ -32,6 +32,13 @@ RSpec.describe Blurb::ReportRequests do
     include_examples "reports"
   end
 
+  context "sponsored displays" do
+    let(:resource) {@blurb.active_profile.reports(:sd)}
+    let(:report_types) {[:campaigns, :ad_groups, :product_ads, :targets]}
+
+    include_examples "reports"
+  end
+
   after(:each) do |example|
     if example.exception
       puts "report_type: #{@report_type}"

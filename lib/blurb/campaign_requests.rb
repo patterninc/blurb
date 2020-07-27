@@ -17,6 +17,7 @@ class Blurb
       def map_campaign_payload(payload)
         campaign_type_string = "sponsoredProducts" if @campaign_type == CAMPAIGN_TYPE_CODES[:sp]
         campaign_type_string = "sponsoredBrands" if @campaign_type == CAMPAIGN_TYPE_CODES[:sb]
+        campaign_type_string = "sponsoredDisplays" if @campaign_type == CAMPAIGN_TYPE_CODES[:sd]
         payload.each{ |p| p[:campaign_type] = campaign_type_string }
       end
   end

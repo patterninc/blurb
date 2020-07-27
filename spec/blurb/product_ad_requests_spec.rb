@@ -1,6 +1,6 @@
 require "spec_helper"
 
-RSpec.describe "Product Ad Requests" do
+RSpec.describe "SP Product Ad Requests" do
   before(:all) do
     blurb = Blurb.new()
     @resource = blurb.active_profile.product_ads
@@ -18,3 +18,4 @@ RSpec.describe "Product Ad Requests" do
 
   include_examples "request collection"
 end
+
