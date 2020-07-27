@@ -5,6 +5,7 @@ require "blurb/report_requests"
 require "blurb/request_collection"
 require "blurb/request_collection_with_campaign_type"
 require "blurb/suggested_keyword_requests"
+require "blurb/history_request"
 
 class Blurb
   class Profile < BaseClass
@@ -19,7 +20,8 @@ class Blurb
       :sd_product_ads,
       :profile_id,
       :suggested_keywords,
-      :targets
+      :targets,
+      :history
     )
 
     def initialize(profile_id:, account:)
@@ -126,6 +128,10 @@ class Blurb
       @suggested_keywords = SuggestedKeywordRequests.new(
         headers: headers_hash,
         base_url: "#{@account.api_url}/v2/sp"
+      )
+      @history = HistoryRequest.new(
+        headers: headers_hash,
+        base_url: @account.api_url
       )
     end
 
