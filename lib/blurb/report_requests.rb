@@ -17,7 +17,7 @@ class Blurb
       segment: nil
     )
       # create payload
-      metrics = get_default_metrics(record_type.to_s.underscore.to_sym) if metrics.nil?
+      metrics = get_default_metrics(record_type.to_s.underscore.to_sym, segment) if metrics.nil?
       payload = {
         metrics: metrics.map{ |m| m.to_s.camelize(:lower) }.join(","),
         report_date: report_date
@@ -48,7 +48,7 @@ class Blurb
 
     private
 
-    def get_default_metrics(record_type)
+    def get_default_metrics(record_type, segment = nil)
       if @campaign_type == CAMPAIGN_TYPE_CODES[:sb]
         return [
           "campaignId",
@@ -82,7 +82,16 @@ class Blurb
           "attributedSales14dSameSKU",
           "attributedConversions14d",
           "attributedConversions14dSameSKU"
-        ] if record_type == :keywords
+        ] if record_type == :keywords && segment.nil?
+        return [
+          "adGroupId",
+          "campaignId",
+          "impressions",
+          "clicks",
+          "cost",
+          "attributedSales14d",
+          "attributedConversions14d",
+        ] if record_type == :keywords && segment.present?
       elsif @campaign_type == CAMPAIGN_TYPE_CODES[:sp]
         return [
           "campaignId",
