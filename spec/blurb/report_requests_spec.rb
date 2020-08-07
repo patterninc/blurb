@@ -46,4 +46,15 @@ RSpec.describe Blurb::ReportRequests do
       puts "retrieve_response: #{@retrieve_response}"
     end
   end
+
+  describe "search term keyword reports" do
+    let(:resource) {@blurb.active_profile.reports(:sb)}
+    it "requests and retrieves search term keyword reports" do
+      @report_type = :keywords
+      @response = resource.create(record_type: @report_type, segment: 'query')
+      expect(@response[:status]).to eq("IN_PROGRESS")
+      @retrieve_response = resource.retrieve(@response[:report_id])
+      expect(@retrieve_response[:report_id]).to be_truthy
+    end
+  end
 end
