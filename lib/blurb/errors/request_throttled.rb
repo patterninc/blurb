@@ -1,3 +1,4 @@
+require "blurb/errors/base_exception"
 class Blurb
-  class RequestThrottled < BaseException; end
+  class RequestThrottled < StandardError; end
 end 

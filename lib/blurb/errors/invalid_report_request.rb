@@ -1,3 +1,4 @@
+require "blurb/errors/base_exception"
 class Blurb
-  class InvalidReportRequest < BaseException; end
+  class InvalidReportRequest < StandardError; end
 end
