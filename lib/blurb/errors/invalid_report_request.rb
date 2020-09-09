@@ -1,3 +1,3 @@
 class Blurb
-  class InvalidReportRequest < StandardError; end
+  class InvalidReportRequest < BaseException; end
 end

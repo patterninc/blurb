@@ -1,3 +1,3 @@
 class Blurb
-  class RequestThrottled < StandardError; end
+  class RequestThrottled < BaseException; end
 end 

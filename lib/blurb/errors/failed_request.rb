@@ -1,3 +1,3 @@
 class Blurb
-  class FailedRequest < StandardError; end
+  class FailedRequest < BaseException; end
 end
