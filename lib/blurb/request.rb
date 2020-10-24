@@ -35,7 +35,6 @@ class Blurb
     def make_request
       begin
         resp = RestClient::Request.execute(request_config())
-        byebug
       rescue RestClient::TooManyRequests => err
         raise RequestThrottled.new(JSON.parse(err.response.body))
       rescue RestClient::TemporaryRedirect => err
