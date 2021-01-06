@@ -28,13 +28,17 @@ class Blurb
       when :post, :put
         request_config[:payload] = @payload if @payload
       end
-
+      log("request type", @request_type)
+      log("request url", @url)
+      log("headers", @headers)
+      log("payload", @payload) if @payload
       return request_config
     end
 
     def make_request
       begin
         resp = RestClient::Request.execute(request_config())
+        log("response", resp)
       rescue RestClient::TooManyRequests => err
         raise RequestThrottled.new(JSON.parse(err.response.body))
       rescue RestClient::TemporaryRedirect => err
@@ -100,6 +104,15 @@ class Blurb
 
       def underscore_key(k)
         k.to_s.underscore.to_sym
+      end
+
+      def log(header, message)
+        if ENV["BLURB_LOGGING"]
+          puts "\n"
+          puts header.upcase
+          puts message
+          puts "\n"
+        end
       end
 
   end
