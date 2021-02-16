@@ -98,17 +98,11 @@ class Blurb
       end
 
       def authorization_client
-        ssl_options = {}
-        ssl_options[:version] = :TLSv1
-
-        ssl = {}
-        ssl[:ssl] = ssl_options
-
         OAuth2::Client.new(
           '',
           '',
           site: 'https://api.amazon.com',
-          ssl: ssl
+          ssl: { version: :TLSv1 }
         )
       end
   end
