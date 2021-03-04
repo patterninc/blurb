@@ -50,7 +50,11 @@ class Blurb
           raise err
         end
       rescue RestClient::ExceptionWithResponse => err
-        raise FailedRequest.new(JSON.parse(err.response.body))
+        if err.response.present?
+          raise FailedRequest.new(JSON.parse(err.response.body))
+        else 
+          raise err
+        end
       end
       resp = convert_response(resp)
       return resp
