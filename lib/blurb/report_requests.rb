@@ -14,16 +14,20 @@ class Blurb
       record_type:,
       report_date: Date.today,
       metrics: nil,
-      segment: nil
+      segment: nil,
+      creative_type: nil,
+      tactic: nil
     )
       # create payload
       metrics = get_default_metrics(record_type.to_s.underscore.to_sym, segment) if metrics.nil?
+
       payload = {
-        metrics: metrics.map{ |m| m.to_s.camelize(:lower) }.join(","),
+        metrics: metrics.map { |m| m.to_s.camelize(:lower) }.join(","),
         report_date: report_date
       }
       payload[:segment] = segment if segment
-      payload[:tactic] = SD_TACTIC if @campaign_type.to_sym == :sd
+      payload[:creativeType] = creative_type if creative_type
+      payload[:tactic] = tactic if tactic
 
       execute_request(
         api_path: "/#{record_type.to_s.camelize(:lower)}/report",
