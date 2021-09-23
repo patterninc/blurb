@@ -12,7 +12,7 @@ class Blurb
 
     def create(
       record_type:,
-      report_date: Date.today,
+      report_date:,
       metrics: nil,
       segment: nil
     )
