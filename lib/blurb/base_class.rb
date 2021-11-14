@@ -2,7 +2,7 @@ class Blurb
   class BaseClass
     CAMPAIGN_TYPE_CODES = {
       sp: 'sp',
-      sb: 'hsa',
+      sb: 'sb',
       sd: 'sd'
     }.freeze
   end
