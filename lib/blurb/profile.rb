@@ -65,6 +65,11 @@ class Blurb
         base_url: @account.api_url,
         campaign_type: CAMPAIGN_TYPE_CODES[:sp]
       )
+      @sd_snapshots = SnapshotRequests.new(
+        headers: headers_hash,
+        base_url: @account.api_url,
+        campaign_type: CAMPAIGN_TYPE_CODES[:sd]
+      )
       @sb_snapshots = SnapshotRequests.new(
         headers: headers_hash,
         base_url: @account.api_url,
@@ -154,6 +159,7 @@ class Blurb
     def snapshots(campaign_type)
       return @sp_snapshots if campaign_type == :sp
       return @sb_snapshots if campaign_type == :sb || campaign_type == :hsa
+      return @sd_snapshots if campaign_type == :sd
     end
 
     def reports(campaign_type)
