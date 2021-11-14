@@ -88,7 +88,7 @@ class Blurb
       @sb_reports = ReportRequests.new(
         headers: headers_hash,
         base_url: @account.api_url,
-        campaign_type: CAMPAIGN_TYPE_CODES[:sb]
+        campaign_type: :hsa
       )
       @ad_groups = RequestCollection.new(
         headers: headers_hash,
