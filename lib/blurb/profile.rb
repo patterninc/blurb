@@ -73,7 +73,7 @@ class Blurb
       @sb_snapshots = SnapshotRequests.new(
         headers: headers_hash,
         base_url: @account.api_url,
-        campaign_type: CAMPAIGN_TYPE_CODES[:sb]
+        campaign_type: :hsa
       )
       @sp_reports = ReportRequests.new(
         headers: headers_hash,
