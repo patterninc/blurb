@@ -40,19 +40,19 @@ class Blurb
         resp = RestClient::Request.execute(request_config())
         log("response", resp)
       rescue RestClient::TooManyRequests => err
-        raise RequestThrottled.new(JSON.parse(err.response.body))
+        raise RequestThrottled.new(err.response)
       rescue RestClient::TemporaryRedirect => err
         return RestClient.get(err.response.headers[:location])  # If this happens, then we are downloading a report from the api, so we can simply download the location
       rescue RestClient::NotAcceptable => err
         if @url.include?("report")
-          raise InvalidReportRequest.new(JSON.parse(err.response.body))
+          raise InvalidReportRequest.new(err.response)
         else
           raise err
         end
       rescue RestClient::ExceptionWithResponse => err
         if err.response.present?
-          raise FailedRequest.new(JSON.parse(err.response.body))
-        else 
+          raise FailedRequest.new(err.response)
+        else
           raise err
         end
       end
