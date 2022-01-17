@@ -39,6 +39,6 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency "rest-client", "~> 2.0"
   spec.add_runtime_dependency "oauth2", "~> 1.4.0"
-  spec.add_runtime_dependency "activesupport"
+  spec.add_runtime_dependency "activesupport", "< 7.0.0"
 
 end
