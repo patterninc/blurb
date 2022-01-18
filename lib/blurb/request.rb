@@ -43,7 +43,7 @@ class Blurb
         raise RequestThrottled.new(err.response)
       rescue RestClient::TemporaryRedirect => err
         return RestClient.get(err.response.headers[:location])  # If this happens, then we are downloading a report from the api, so we can simply download the location
-      rescue RestClient::NotAcceptable => err
+      rescue RestClient::NotAcceptable, RestClient::BadRequest => err
         if @url.include?("report")
           raise InvalidReportRequest.new(err.response)
         else
