@@ -29,6 +29,10 @@ class Blurb
       payload[:creativeType] = creative_type if creative_type
       payload[:tactic] = tactic if tactic
 
+      if record_type == :asins && @campaign_type == CAMPAIGN_TYPE_CODES[:sp]
+        payload[:campaignType] = 'sponsoredProducts'
+      end
+
       execute_request(
         api_path: "/#{record_type.to_s.camelize(:lower)}/report",
         request_type: :post,
@@ -258,6 +262,25 @@ class Blurb
           "attributedSales14dSameSKU",
           "attributedSales30dSameSKU"
         ] if record_type == :portfolios
+        return [
+          "campaignName",
+          "campaignId",
+          "keywordId",
+          "keywordText",
+          "asin",
+          "otherAsin",
+          "sku",
+          "currency",
+          "matchType",
+          "attributedUnitsOrdered1dOtherSKU",
+          "attributedUnitsOrdered7dOtherSKU",
+          "attributedUnitsOrdered14dOtherSKU",
+          "attributedUnitsOrdered30dOtherSKU",
+          "attributedSales1dOtherSKU",
+          "attributedSales7dOtherSKU",
+          "attributedSales14dOtherSKU",
+          "attributedSales30dOtherSKU"
+        ] if record_type == :asins
       elsif @campaign_type == CAMPAIGN_TYPE_CODES[:sd]
         return [
           "campaignId",
@@ -370,6 +393,22 @@ class Blurb
           "attributedSales14dSameSKU",
           "attributedSales30dSameSKU"
         ] if record_type == :targets
+        return [
+          "campaignName",
+          "campaignId",
+          "asin",
+          "otherAsin",
+          "sku",
+          "currency",
+          "attributedUnitsOrdered1dOtherSKU",
+          "attributedUnitsOrdered7dOtherSKU",
+          "attributedUnitsOrdered14dOtherSKU",
+          "attributedUnitsOrdered30dOtherSKU",
+          "attributedSales1dOtherSKU",
+          "attributedSales7dOtherSKU",
+          "attributedSales14dOtherSKU",
+          "attributedSales30dOtherSKU"
+        ] if record_type == :asins
       end
     end
   end
