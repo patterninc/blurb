@@ -15,7 +15,7 @@ class Blurb
       metrics: nil,
       segment: nil,
       creative_type: nil,
-      tactic:
+      tactic:: nil
     )
       # create payload
       metrics = get_default_metrics(record_type.to_s.underscore.to_sym, segment) if metrics.nil?
