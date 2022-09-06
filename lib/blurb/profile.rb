@@ -6,6 +6,7 @@ require "blurb/request_collection"
 require "blurb/request_collection_with_campaign_type"
 require "blurb/suggested_keyword_requests"
 require "blurb/history_request"
+require "blurb/invoice_request"
 
 class Blurb
   class Profile < BaseClass
@@ -21,7 +22,8 @@ class Blurb
       :profile_id,
       :suggested_keywords,
       :targets,
-      :history
+      :history,
+      :invoices
     )
 
     def initialize(profile_id:, account:)
@@ -137,6 +139,10 @@ class Blurb
       @history = HistoryRequest.new(
         headers: headers_hash,
         base_url: @account.api_url
+      )
+      @invoices = InvoiceRequest.new(
+        headers: headers_hash,
+        base_url: "#{@account.api_url}/invoices"
       )
     end
 
