@@ -1,6 +1,5 @@
 # Blurb
 
-[![CircleCI](https://circleci.com/gh/iserve-products/blurb.svg?style=shield)](https://circleci.com/gh/iserve-products/blurb)
 [![TravisCI](https://travis-ci.org/iserve-products/blurb.svg?branch=master)](https://travis-ci.org/iserve-products/blurb)
 [![Gem Version](https://badge.fury.io/rb/blurb.svg)](https://badge.fury.io/rb/blurb)
 
