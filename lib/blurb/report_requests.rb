@@ -47,11 +47,15 @@ class Blurb
       )
     end
 
-    def download(report_id)
+    def download_url(report_id)
       execute_request(
         api_path: "/reports/#{report_id}/download",
         request_type: :get,
       )
+    end
+
+    def download(report_id)
+      RestClient.get(download_url(report_id))
     end
 
     private
