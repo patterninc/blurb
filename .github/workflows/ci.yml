@@ -25,24 +25,3 @@ jobs:
           BUNDLE_GITHUB__COM: ${{ secrets.RUBY_GEM_BUNDLE_TOKEN }}
           BUNDLE_ENTERPRISE__CONTRIBSYS__COM: ${{ secrets.SIDEKIQ_ENTERPRISE_TOKEN }}
       
-      - name: install dependencies 
-        run: |
-          gem install bundler -v 2.0.2
-          bundle install --jobs=4 --retry=3 --path vendor/bundle
-
-      - name: Run tests
-        run: |
-          mkdir /tmp/test-results
-
-            bundle exec rspec --format progress \
-                            --format RspecJunitFormatter \
-                            --out /tmp/test-results/rspec.xml \
-                            --format progress 
-        
-
-      - name: Upload coverage results
-        uses: actions/upload-artifact@master
-        if: always()
-        with:
-          name: test-results
-          path: /tmp/test-results
