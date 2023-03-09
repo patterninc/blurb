@@ -7,6 +7,7 @@ require "blurb/request_collection_with_campaign_type"
 require "blurb/suggested_keyword_requests"
 require "blurb/history_request"
 require "blurb/invoice_request"
+require "blurb/v3/report_requests"
 
 class Blurb
   class Profile < BaseClass
@@ -92,6 +93,10 @@ class Blurb
         base_url: @account.api_url,
         campaign_type: :hsa
       )
+      @v3_reports = V3::ReportRequests.new(
+        headers: headers_hash(v3: true),
+        base_url: @account.api_url
+      )
       @ad_groups = RequestCollection.new(
         headers: headers_hash,
         base_url: "#{@account.api_url}/v2/sp/adGroups"
@@ -168,7 +173,8 @@ class Blurb
       return @sd_snapshots if campaign_type == :sd
     end
 
-    def reports(campaign_type)
+    def reports(campaign_type = nil)
+      return @v3_reports if @account.api_version == 3
       return @sp_reports if campaign_type == :sp
       return @sb_reports if campaign_type == :sb || campaign_type == :hsa
       return @sd_reports if campaign_type == :sd
@@ -203,6 +209,7 @@ class Blurb
       }
 
       headers_hash["Content-Encoding"] = "gzip" if opts[:gzip]
+      headers_hash["Content-Type"] = 'application/vnd.createasyncreportrequest.v3+json' if opts[:v3]
 
       return headers_hash
     end
