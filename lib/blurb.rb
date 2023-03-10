@@ -4,7 +4,6 @@ require "blurb/client"
 class Blurb
   attr_accessor :client, :account
 
-
   def initialize(
     # Default to env variables
     client_id: ENV["BLURB_CLIENT_ID"],

@@ -173,7 +173,7 @@ class Blurb
       return @sd_snapshots if campaign_type == :sd
     end
 
-    def reports(campaign_type = nil)
+    def reports(campaign_type)
       return @sp_reports if campaign_type == :sp
       return @sb_reports if campaign_type == :sb || campaign_type == :hsa
       return @sd_reports if campaign_type == :sd
