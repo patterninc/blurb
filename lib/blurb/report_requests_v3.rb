@@ -8,6 +8,7 @@ class Blurb
     def initialize(headers:, base_url:, bulk_api_limit: 100)
       super
       @base_url = "#{base_url}/reporting/reports"
+      @headers['Content-Type'] = 'application/vnd.createasyncreportrequest.v3+json'
     end
 
     def create(name:, start_date:, end_date:, configuration: {})

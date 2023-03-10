@@ -94,7 +94,7 @@ class Blurb
         campaign_type: :hsa
       )
       @v3_reports = ReportRequestsV3.new(
-        headers: headers_hash(reports_v3: true),
+        headers: headers_hash,
         base_url: @account.api_url
       )
       @ad_groups = RequestCollection.new(
@@ -209,7 +209,6 @@ class Blurb
       }
 
       headers_hash["Content-Encoding"] = "gzip" if opts[:gzip]
-      headers_hash["Content-Type"] = 'application/vnd.createasyncreportrequest.v3+json' if opts[:reports_v3]
 
       return headers_hash
     end
