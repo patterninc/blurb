@@ -7,8 +7,8 @@ class Blurb
   delegate :reports_api_version, to: :client
 
   def initialize(
-    reports_api_version: 2,
     # Default to env variables
+    reports_api_version: ENV["BLURB_REPORTS_API_VERSION"] || 2,
     client_id: ENV["BLURB_CLIENT_ID"],
     client_secret: ENV["BLURB_CLIENT_SECRET"],
     refresh_token: ENV["BLURB_REFRESH_TOKEN"],
