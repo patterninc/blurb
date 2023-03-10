@@ -6,8 +6,6 @@ class Blurb
   class Account < BaseClass
     attr_accessor :refresh_token, :api_url, :client, :profiles, :active_profile
 
-    delegate :reports_api_version, to: :client
-
     API_URLS = {
       "TEST" => "https://advertising-api-test.amazon.com",
       "NA" => "https://advertising-api.amazon.com",

@@ -174,10 +174,13 @@ class Blurb
     end
 
     def reports(campaign_type = nil)
-      return @v3_reports if @account.reports_api_version == 3
       return @sp_reports if campaign_type == :sp
       return @sb_reports if campaign_type == :sb || campaign_type == :hsa
       return @sd_reports if campaign_type == :sd
+    end
+
+    def reports_v3
+      @v3_reports
     end
 
     def request(api_path: "",request_type: :get, payload: nil, url_params: nil, headers: headers_hash)
