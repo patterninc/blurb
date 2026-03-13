@@ -79,7 +79,7 @@ You can find your profiles by making the following Blurb call.
 
   Blurb::Profile.list()
 ```
-
+...........................................................................................................................
 This will return a JSON payload of profile information for your account.  You can then select the profile ID you want to use.
 
 
