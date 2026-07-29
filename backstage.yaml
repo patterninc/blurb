@@ -1,0 +1,17 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: blurb
+  description: 'A Onboard an Existing Repo to Backstage created via Backstage'
+  annotations:
+    repo: patterninc/blurb
+  labels:
+    CostCenter: INFRA
+    Environment: stage
+    Name: blurb
+    Owner: sre-comm
+    Department: INFRA
+    CreatedBy: Backstage
+spec:
+  type: service
+  system: infra
