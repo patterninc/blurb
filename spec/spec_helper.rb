@@ -15,14 +15,6 @@ unless LIVE
 end
 
 require "bundler/setup"
-# Load what a Rails consumer already has loaded. Outside Rails the gem currently fails:
-#   - ActiveSupport >= 7.1 must be loaded before its core_ext files, and
-#     lib/blurb/request.rb requires only active_support/core_ext/string;
-#   - Request#make_request calls `present?` on a RestClient::Response, which needs
-#     active_support/core_ext/object/blank.
-# Follow-up: add both requires to lib/blurb/request.rb, then delete these two lines.
-require "active_support"
-require "active_support/core_ext/object/blank"
 require "blurb"
 require 'dotenv/load'
 require 'byebug'

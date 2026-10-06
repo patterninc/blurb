@@ -13,7 +13,11 @@ releases (0.1.0–0.4.x) are summarised only by the upgrade note below.
 
 ### Added
 
-- Development tooling only (no change to the gem's runtime code): `AGENTS.md`, ADRs, RuboCop, pre-commit, hermetic unit specs with WebMock, SimpleCov gate, committed `Gemfile.lock`, `Makefile`, PR CI (`Static Checks`, `PR Hygiene`).
+- Development tooling (no change to the gem's runtime behaviour beyond the require fix below): `AGENTS.md`, ADRs, RuboCop, pre-commit, hermetic unit specs with WebMock, SimpleCov gate, committed `Gemfile.lock`, `Makefile`, PR CI (`Static Checks`, `PR Hygiene`).
+
+### Fixed
+
+- `lib/blurb/request.rb` now requires `active_support` and `active_support/core_ext/object/blank` itself, so the gem loads outside Rails with ActiveSupport >= 7.1 and `present?` is defined. Require-only change; no effect where Rails already loaded them.
 
 ### Changed
 

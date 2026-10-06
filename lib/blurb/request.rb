@@ -1,3 +1,6 @@
+# ActiveSupport >= 7.1 must be loaded before any core_ext file; present? needs object/blank.
+require 'active_support'
+require 'active_support/core_ext/object/blank'
 require 'active_support/core_ext/string'
 require "rest-client"
 require "blurb/base_class"
