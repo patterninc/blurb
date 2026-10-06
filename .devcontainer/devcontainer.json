@@ -1,0 +1,10 @@
+{
+  "name": "blurb",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers/features/python:1": { "version": "3.12" },
+    "ghcr.io/devcontainers/features/ruby:1": { "version": "2.7.8" }
+  },
+  "postCreateCommand": "make bootstrap"
+}

@@ -1,0 +1,27 @@
+# Lint, layout (formatter) and complexity cops (audit items 10, 11, 21).
+# Offenses that predate RuboCop are frozen in .rubocop_todo.yml; fix them in their
+# own PRs and delete the matching todo entry. Don't regenerate the todo to hide new ones.
+inherit_from: .rubocop_todo.yml
+inherit_mode:
+  merge:
+    - Exclude
+
+AllCops:
+  TargetRubyVersion: 2.7
+  NewCops: enable
+  SuggestExtensions: false
+  Exclude:
+    - 'vendor/**/*'
+    - 'coverage/**/*'
+
+# Complexity limits (item 21): RuboCop defaults, enforced on new code.
+Metrics/CyclomaticComplexity:
+  Enabled: true
+Metrics/PerceivedComplexity:
+  Enabled: true
+Metrics/MethodLength:
+  Enabled: true
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+    - '*.gemspec'

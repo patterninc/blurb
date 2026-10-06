@@ -2,145 +2,144 @@
 
 | | |
 |---|---|
-| **Audit date** | 2026-09-10 |
+| **Audit date** | 2026-10-06 |
 | **Auditor** | Claude — gauge-repo skill |
 | **Rubric version** | `item-credit-v1` — 2026-09-04 (`references/best-practices.md`) |
+| **Audited ref** | `chore/ai-readiness-common-gaps` (PR #29) |
+
+## Changes since last audit (2026-09-10, 30.3%)
+
+- **Moved to Met:** 1 Skills, 2 AGENTS.md, 3 ADRs, 7 Changelog, 9 CODEOWNERS, 10 Linters, 11 Formatters, 12 Type checking, 13 Pre-commit, 14 Commit conventions, 18 License scanning, 21 Complexity, 23 Unit tests, 24 Integration tests, 25 Golden files, 29 Coverage, 32 Flaky quarantine, 33 Structured CI output, 34 Deterministic fixtures, 36 Devcontainer, 48 Lockfiles.
+- **Runbooks (4) moved from N/A to Met:** the release runbook the last audit called standard `bundler/gem_tasks` now exists (`docs/runbooks/release-gem.md`), so the item is scored rather than declined.
+- **Gap → Partial:** 16 Required CI checks (PR checks exist and pass, not yet required), 49 Agent-dispatch manifest (present; `clickup_list_id` unset).
+- **Still Gap:** 30 Mutation testing, 43 Structured logging.
 
 ## Repo profile
 
-`blurb` is a Ruby gem (library/SDK, published to RubyGems, currently `0.5.9` per `blurb.gemspec`) wrapping the Amazon Advertising API v2. It has no deployed service, no database, no browser or terminal UI, and no AWS footprint of its own — the artifact is a distributed package consumed by other applications. The codebase is small (~17 files under `lib/`) and flat, with an RSpec suite under `spec/` that exercises the **live** Amazon Advertising API using credentials supplied via `dotenv`/environment variables (`spec/spec_helper.rb` sleeps 1s between examples to avoid API throttling). CI is a single GitHub Actions workflow (`.github/workflows/ci.yml`) that checks out the repo and installs gems but contains **no test or lint step**; a stale `.travis.yml` also remains from the pre-Actions era. Local git history shows a single squashed commit by `patterninc-gha-runner`; the gemspec lists three historical authors and the repo is effectively dormant/maintenance-mode. A `backstage.yaml` catalog entry registers the repo in Backstage (CostCenter INFRA, owner `sre-comm`). The GitHub owner was verified as `patterninc` (`gh repo view` → `patterninc/blurb`), so Pattern's inherited Wiz and Toolsmith controls apply. An active org-level ruleset (`require-pr-review`) protects the default branch.
+`blurb` is a Ruby gem (library/SDK, published to RubyGems, `0.5.9` per `blurb.gemspec`) wrapping the Amazon Advertising API v2. It has no deployed service, no database, no browser or terminal UI, and no AWS footprint of its own: the artifact is a distributed package consumed by other applications. The codebase is small (~17 files under `lib/`, one namespace). Ruby is pinned to 2.7.8 (`.ruby-version`, `.tool-versions`, `.devcontainer/`). Hermetic unit specs live in `spec/unit/` (WebMock, JSON fixtures, golden payload files); live-API specs in `spec/blurb/` are tagged `:live` and need credentials. PR CI is `Static Checks` (pre-commit incl. RuboCop and Steep, rspec with SimpleCov, Trivy license scan, JUnit upload) and `PR Hygiene` (Conventional Commit titles); the legacy push workflow `.github/workflows/ci.yml` still only installs gems. History shows ~10 contributors over time; the repo is in maintenance mode and owned by SRE (`backstage.yaml` Owner `sre-comm`). The GitHub owner was verified as `patterninc` (`gh repo view` → `patterninc/blurb`, public), so Pattern's inherited Wiz and Toolsmith controls apply. The org ruleset `require-pr-review` protects the default branch `master`.
 
 ## Scorecard
 
 | Metric | Value |
 |--------|-------|
 | **Critical gates** | **RED** |
-| **Adjusted compliance** | **30.3%** |
+| **Adjusted compliance** | **91.2%** |
 
-Critical gates are RED: AGENTS.md (item 2) and required CI checks (item 16) are Gaps, and unit tests (23), integration tests (24), and reproducible builds (48) are Partial. Adjusted compliance is calculated independently:
+Critical gates are RED only because required CI checks (item 16) is Partial: `Static Checks` and `PR Hygiene` run and pass on PRs, but no ruleset marks them required on `master`. Every other applicable gate (2, 6, 15, 19, 20, 23, 24, 40, 48) is Met. Adjusted compliance is calculated independently:
 
-`(8 Met + 0.5 × 4 Partial) / (49 total − 16 justified N/A) = 10 / 33 = 30.3%`
+`(30 Met + 0.5 × 2 Partial) / (49 total − 15 justified N/A) = 31 / 34 = 91.2%`
 
 ### Status totals
 
 | Status | Items |
 |--------|------:|
-| Met | 8 |
-| Partial | 4 |
-| Gap | 21 |
-| N/A | 16 |
+| Met | 30 |
+| Partial | 2 |
+| Gap | 2 |
+| N/A | 15 |
 | **Total** | **49** |
 
 ### Per-category breakdown
 
 | Category | Met | Partial | Gap | N/A |
 |----------|----:|--------:|----:|----:|
-| Documentation & Context | 1 | 0 | 5 | 3 |
-| Guardrails & Enforcement | 3 | 0 | 8 | 2 |
-| Testing & Feedback Loops | 0 | 3 | 5 | 5 |
-| Environment & Tooling | 4 | 1 | 2 | 6 |
-| Agent dispatch | 0 | 0 | 1 | 0 |
-| **Total** | **8** | **4** | **21** | **16** |
+| Documentation & Context | 7 | 0 | 0 | 2 |
+| Guardrails & Enforcement | 10 | 1 | 0 | 2 |
+| Testing & Feedback Loops | 7 | 0 | 1 | 5 |
+| Environment & Tooling | 6 | 0 | 1 | 6 |
+| Agent dispatch | 0 | 1 | 0 | 0 |
+| **Total** | **30** | **2** | **2** | **15** |
 
 ## Documentation & Context
 
 | # | Practice | Status | Evidence | Recommendation / rationale |
 |---|----------|--------|----------|----------------------------|
-| 1 | Skills / reusable prompt workflows | **Gap** | No `.claude/skills/`, `.claude/commands/`, or equivalent | Add a skill for the one recurring workflow this repo has (cutting and publishing a gem release). Low priority given dormancy. |
-| 2 | AGENTS.md | **Gap** | No `AGENTS.md`, `CLAUDE.md`, or `.cursorrules` | Add `AGENTS.md` covering: Ruby version, `bin/setup`, how to run specs (and that they require live Amazon Advertising credentials via `.env`), release process, and code layout under `lib/blurb/`. |
-| 3 | Architecture decision records | **Gap** | No `docs/adr/` or equivalent | Capture the few structural decisions (request/retry semantics in `lib/blurb/request.rb`, campaign-type code mapping in `lib/blurb/base_class.rb`) as short ADRs. Low priority. |
-| 4 | Runbooks | **Not applicable** | — | Library with no operational surface; the only recurring task is gem release, which is standard `bundler/gem_tasks` (`Rakefile`). |
-| 5 | API contract docs (OpenAPI / protobuf) | **Not applicable** | — | The repo consumes Amazon's third-party API; it owns no wire contract. Its public surface is Ruby classes documented in `README.md`. |
-| 6 | README with setup & run instructions | **Met** | `README.md` — installation, credential acquisition walkthrough, refresh-token flow, and per-resource usage examples | — |
-| 7 | Changelog with migration notes | **Gap** | No `CHANGELOG.md`; version history only visible in `blurb.gemspec` bumps | Published gem with breaking API-version changes (README notes the v2.0 migration) — add a changelog with upgrade notes per release. |
+| 1 | Skills / reusable prompt workflows | **Met** | `.claude/skills/change-and-verify/SKILL.md` (change, verify, release flow), `.claude/skills/change-github-workflows/SKILL.md` | — |
+| 2 | AGENTS.md | **Met** | `AGENTS.md` (layout, commands, do-not-touch, agent tooling); `CLAUDE.md` is a symlink to it | — |
+| 3 | Architecture decision records | **Met** | `docs/adr/0001`–`0003` (request path and key casing, campaign-type URL codes) with index `docs/adr/README.md` | ADRs 0002/0003 are `Proposed — owner to confirm`; the owner should accept or correct them. |
+| 4 | Runbooks | **Met** | `docs/runbooks/release-gem.md` (release, verify, yank/rollback), indexed in `docs/runbooks/README.md` | — |
+| 5 | API contract docs (OpenAPI / protobuf) | **Not applicable** | — | The repo consumes Amazon's third-party API; it owns no wire contract. Its public surface is Ruby classes, now typed in `sig/blurb.rbs`. |
+| 6 | README with setup & run instructions | **Met** | `README.md` — installation, credential walkthrough, refresh-token flow, per-resource usage | The Travis badge, `iserve-products` links and `.env` variable names in "Development" are stale; fix them after PR #26 lands. |
+| 7 | Changelog with migration notes | **Met** | `CHANGELOG.md` (Keep a Changelog, v0.5.2–v0.5.9 plus `Unreleased`, upgrade notes) | — |
 | 8 | On-call playbooks | **Not applicable** | — | Library; nothing is paged. Incidents surface in consuming applications. |
-| 9 | CODEOWNERS | **Gap** | No `.github/CODEOWNERS`; `backstage.yaml` names owner `sre-comm` | The org ruleset already requires PR review; add a one-line CODEOWNERS pointing at the owning team so reviews auto-route. |
+| 9 | CODEOWNERS | **Met** | `.github/CODEOWNERS`: `* @patterninc/sre` (backstage Owner `sre-comm`) | — |
 
 ## Guardrails & Enforcement
 
 | # | Practice | Status | Evidence | Recommendation / rationale |
 |---|----------|--------|----------|----------------------------|
-| 10 | Linters | **Gap** | No `.rubocop.yml` or lint step anywhere | Add RuboCop with a minimal config and wire it into CI. |
-| 11 | Formatters | **Gap** | No formatter config | Cover via RuboCop's layout cops (same change as item 10). |
-| 12 | Type checking | **Gap** | No Sorbet/RBS | Optional RBS signatures for the public API (`Blurb`, `Client`, `Account`) would help agents and consumers; low priority for a dormant wrapper. |
-| 13 | Pre-commit hooks | **Gap** | No `.pre-commit-config.yaml` or `.githooks/` | Add a pre-commit hook running RuboCop once it exists. Low priority. |
-| 14 | Commit message conventions | **Gap** | No commitlint config; local history is a single squashed commit | Adopt Conventional Commits if changelog automation (item 7) is added; otherwise skip. Low priority. |
-| 15 | Branch protection rules | **Met** | Org ruleset `require-pr-review` (active, `~DEFAULT_BRANCH`): `pull_request`, `non_fast_forward`, `deletion` rules | — |
-| 16 | Required CI checks before merge | **Gap** | Ruleset has no `required_status_checks` rule, and `.github/workflows/ci.yml` installs gems but never runs the test suite | First make CI actually run tests (see items 23/25), then mark the job required on the default branch. |
-| 17 | Dependency allow-lists / deny-lists | **Not applicable** | — | Three runtime dependencies (`rest-client`, `oauth2`, `activesupport`) on a dormant gem; a package allow-list is ceremony beyond this repo's scale. |
-| 18 | License compliance scanning | **Gap** | No license-check job | Published MIT gem redistributing dependencies; a small CI license check is cheap insurance. Low priority. |
-| 19 | Secret scanning | **Met** | Inherited Pattern Wiz policy (owner verified `patterninc`) | — |
-| 20 | SAST / static analysis gates | **Met** | Inherited Pattern Wiz policy (owner verified `patterninc`) | — |
-| 21 | Max complexity limits | **Gap** | No complexity enforcement | Enable RuboCop metrics cops with the same change as item 10. |
-| 22 | Import boundary enforcement | **Not applicable** | — | Flat single-gem codebase (~17 files, one namespace); there are no architectural layers to police. |
+| 10 | Linters | **Met** | `.rubocop.yml` (RuboCop 1.50, `NewCops: enable`), run by the `rubocop` pre-commit hook in `Static Checks`; existing offenses frozen per file in `.rubocop_todo.yml` | Pay the todo down in small PRs. |
+| 11 | Formatters | **Met** | RuboCop layout cops (`make fmt`), `end-of-file-fixer` / `trailing-whitespace` hooks | — |
+| 12 | Type checking | **Met** | `sig/blurb.rbs` (public API), `sig/vendor.rbs` (dependency stubs), `Steepfile`; `steep check` runs as a pre-commit hook in `Static Checks` and as `make typecheck` | Two diagnostics are downgraded to information for the known positional-hash call in `RequestCollection#execute_bulk_request`; restore them when that is fixed. |
+| 13 | Pre-commit hooks | **Met** | `.pre-commit-config.yaml` (hygiene, RuboCop, Steep, Conventional Commits); `make bootstrap` installs them | — |
+| 14 | Commit message conventions | **Met** | `conventional-pre-commit` on `commit-msg`; `.github/workflows/pr-hygiene.yml` checks PR titles | — |
+| 15 | Branch protection rules | **Met** | Org ruleset `require-pr-review` on `~DEFAULT_BRANCH`: `pull_request`, `non_fast_forward`, `deletion` | — |
+| 16 | Required CI checks before merge | **Partial** | `Static Checks` and `PR Hygiene` run on every PR and pass, but no ruleset has a `required_status_checks` rule for `master` | An admin applies a repo ruleset requiring `Static Checks` and `PR Hygiene` on `master` (`set-branch-rules.sh` dry run is ready). |
+| 17 | Dependency allow-lists / deny-lists | **Not applicable** | — | Three runtime dependencies on a maintenance-mode gem; a package allow-list is ceremony beyond this repo's scale. |
+| 18 | License compliance scanning | **Met** | Trivy `--scanners license` over `vendor/bundle` in `Static Checks`; one documented ignore in `.trivyignore.yaml` (diff-lcs, dev-only, also MIT) | — |
+| 19 | Secret scanning | **Met** | Inherited Pattern Wiz policy (owner verified `patterninc`); `Wiz Secret Scanner` reports on PRs | — |
+| 20 | SAST / static analysis gates | **Met** | Inherited Pattern Wiz policy (owner verified `patterninc`); `Wiz SAST Scanner` reports on PRs | — |
+| 21 | Max complexity limits | **Met** | `Metrics/CyclomaticComplexity`, `PerceivedComplexity`, `MethodLength` enabled at defaults in `.rubocop.yml`; existing violators listed in `.rubocop_todo.yml` | — |
+| 22 | Import boundary enforcement | **Not applicable** | — | Flat single-gem codebase (~17 files, one namespace); there are no layers to police. |
 
 ## Testing & Feedback Loops
 
 | # | Practice | Status | Evidence | Recommendation / rationale |
 |---|----------|--------|----------|----------------------------|
-| 23 | Unit tests | **Partial** | 16 spec files under `spec/blurb/`, but every example calls the live Amazon API with real credentials (`spec/spec_helper.rb` sleeps 1s per example to dodge throttling) — there are no isolated unit tests, and nothing runs in CI | Stub HTTP with WebMock/VCR so the suite runs hermetically without credentials, then run it in CI. |
-| 24 | Integration tests | **Partial** | The existing specs *are* integration tests against the real API, but they require a live advertising account/`.env` and are never executed in CI | Keep a credential-gated, tagged live-API suite for pre-release verification; document how to run it. |
-| 25 | Snapshot / golden-file tests | **Gap** | No `testdata`/cassette fixtures | VCR cassettes double as golden files for request/response shapes — same work as item 23. |
-| 26 | Contract tests (Pact) | **Not applicable** | — | The wire contract is owned by Amazon, a third party; consumer-driven contract testing has no counterpart to verify against. Recorded cassettes (item 25) pin the observed contract. |
+| 23 | Unit tests | **Met** | `spec/unit/` (24 examples): request key casing, error mapping, 307 downloads, URL shapes, bulk splitting, account token flow; WebMock blocks real HTTP; run by `make test` in `Static Checks` | — |
+| 24 | Integration tests | **Met** | Live-API specs in `spec/blurb/` tagged `:live`, run with `make test-live` (`BLURB_LIVE=1`); documented in `AGENTS.md` and `docs/runbooks/release-gem.md` as the pre-release check | Credential-gated by design; never run in PR CI. |
+| 25 | Snapshot / golden-file tests | **Met** | `spec/unit/golden_payloads_spec.rb` compares the exact JSON sent for sp/hsa/sd report creates and history retrieve with `spec/fixtures/golden/*.json`; `UPDATE_GOLDEN=1` regenerates | — |
+| 26 | Contract tests (Pact) | **Not applicable** | — | The wire contract is owned by Amazon; consumer-driven contract testing has no provider to verify against. Golden payloads (item 25) pin the observed contract. |
 | 27 | End-to-end tests (Playwright) | **Not applicable** | — | No UI of any kind; headless client library. |
 | 28 | Visual regression tests | **Not applicable** | — | No visual surface. |
-| 29 | Test coverage thresholds | **Gap** | No SimpleCov or CI coverage gate | Add SimpleCov with a modest threshold once the suite runs in CI. |
-| 30 | Mutation testing | **Gap** | None | Only worthwhile after the suite is hermetic and CI-run; low priority. |
+| 29 | Test coverage thresholds | **Met** | SimpleCov `minimum_coverage 82` in `spec/spec_helper.rb` (current 82.66%), enforced by `make test` in CI | — |
+| 30 | Mutation testing | **Gap** | None | Add `mutant-rspec` scoped to `Blurb::Request` after the Ruby 3 upgrade: current mutant needs Ruby >= 3.0, and the last 2.7-compatible release (0.11.25) needs `parser ~> 3.2.2`, which conflicts with RuboCop 1.50's `rubocop-ast`. |
 | 31 | Load / performance benchmarks | **Not applicable** | — | Client for a rate-limited third-party API; throughput is bounded by Amazon throttling, not this code. |
-| 32 | Flaky test quarantine | **Gap** | No tagging/quarantine mechanism; live-API tests are inherently flaky | Tag live-API specs (e.g. `:live`) and exclude them from the default run — falls out of the item 23/24 split. |
-| 33 | Structured CI output | **Partial** | `rspec_junit_formatter` is declared in `blurb.gemspec`, but CI has no test step so no JUnit output is ever produced | Emit JUnit XML from the CI rspec run once one exists. |
-| 34 | Deterministic test fixtures | **Gap** | Specs depend on live account state and unseeded Faker data | VCR cassettes (item 23) make inputs and outputs fixed. |
+| 32 | Flaky test quarantine | **Met** | Live, inherently flaky specs are tagged `:live` by path in `spec/spec_helper.rb` and excluded from the default and CI run | — |
+| 33 | Structured CI output | **Met** | `make test` writes `rspec-junit.xml` (`RspecJunitFormatter`); `Static Checks` uploads `**/*-junit.xml` | — |
+| 34 | Deterministic test fixtures | **Met** | `spec/fixtures/*.json` payloads and fixed dates/IDs in unit specs; no unit spec reads live state or unseeded Faker | — |
 | 35 | Smoke tests for deploys | **Not applicable** | — | Nothing is deployed; the artifact is a published gem. |
 
 ## Environment & Tooling
 
 | # | Practice | Status | Evidence | Recommendation / rationale |
 |---|----------|--------|----------|----------------------------|
-| 36 | Devcontainer config | **Gap** | No `.devcontainer/`; Ruby version disagrees across configs (CI 2.7.2, stale Travis 2.6.2, no `.ruby-version`) | Add a `.ruby-version` at minimum; a devcontainer is optional at this scale. |
-| 37 | One-command setup | **Met** | `bin/setup` (bundle install); `bin/console` for an interactive session | — |
+| 36 | Devcontainer config | **Met** | `.devcontainer/devcontainer.json` (Ruby 2.7.8, Python, gh; `make bootstrap`); `.ruby-version`, `.tool-versions` | — |
+| 37 | One-command setup | **Met** | `make bootstrap` (gems + hooks); `make all` runs everything CI runs; `bin/setup`, `bin/console` | — |
 | 38 | Seed scripts for local databases | **Not applicable** | — | No database. |
 | 39 | MCP servers for external tools | **Met** | Toolsmith-managed MCP access (owner verified `patterninc`) | — |
-| 40 | Scoped secrets per environment | **Met** | Amazon credentials enter only via env vars/`dotenv` (`.env` gitignored per `.gitignore`); CI tokens held as GitHub Actions secrets (`ci.yml`); no deployment, so no per-environment split is needed | — |
+| 40 | Scoped secrets per environment | **Met** | Amazon credentials only via `BLURB_*` env vars / gitignored `.env`; PR workflows use no secrets beyond `GITHUB_TOKEN`; nothing is deployed | The legacy `ci.yml` passes unrelated `RUBY_GEM_BUNDLE_TOKEN` / `SIDEKIQ_ENTERPRISE_TOKEN`; drop them when that workflow is retired. |
 | 41 | Preview environments per PR | **Not applicable** | — | Nothing to deploy. |
-| 42 | Hot-reload / watch mode | **Not applicable** | — | Library with no runnable app; `bin/console` provides the interactive feedback loop appropriate to a gem this size. |
-| 43 | Structured logging (JSON) | **Gap** | `lib/blurb/request.rb` logs via bare `puts` (`log` helper, lines 113–118) | Route through an injectable `Logger` so consuming apps control format/level; JSON structure is the consumer's concern, but `puts` pollutes consumers' stdout. |
-| 44 | Observable traces and metrics | **Not applicable** | — | Instrumentation of production behavior belongs to consuming applications; the gem has no runtime of its own. |
+| 42 | Hot-reload / watch mode | **Not applicable** | — | Library with no runnable app; `bin/console` is the interactive loop for a gem this size. |
+| 43 | Structured logging (JSON) | **Gap** | `lib/blurb/request.rb` `log` helper prints with `puts` when `BLURB_LOGGING` is set | Replace it with an injectable `Logger` so consuming apps control format and level. Runtime behaviour change: needs the owner. |
+| 44 | Observable traces and metrics | **Not applicable** | — | Instrumentation belongs to consuming applications; the gem has no runtime of its own. |
 | 45 | Feature flags with local overrides | **Not applicable** | — | Library; no runtime features to toggle. |
 | 46 | Database migration tooling | **Not applicable** | — | No database. |
 | 47 | Dependency update automation | **Met** | Org-wide Wiz for verified Pattern repos | — |
-| 48 | Reproducible builds (lockfiles) | **Partial** | `Gemfile.lock` is gitignored; gemspec constraints are loose — `activesupport` is fully unpinned, so CI (`bundler-cache: true`) resolves a different graph over time | Commit `Gemfile.lock` (modern Bundler guidance, even for gems) and add an upper bound on `activesupport`. |
+| 48 | Reproducible builds (lockfiles) | **Met** | `Gemfile.lock` committed for linux/darwin x86_64 and arm64; Ruby pinned in `.ruby-version`; CI installs from the lock (`bundler-cache`) | An upper bound on the runtime `activesupport` dependency would protect consumers; it changes their resolution, so it is an owner decision. |
 
 ## Agent dispatch
 
 | # | Practice | Status | Evidence | Recommendation / rationale |
 |---|----------|--------|----------|----------------------------|
-| 49 | Agent-dispatch manifest | **Gap** | No `.agents/pattern-agents.json` | Add the manifest with `schema_version`, `github.repo` (`patterninc/blurb`), ClickUp list, Slack channel, and skills metadata. No `aws[]` needed — the repo has no AWS footprint. |
+| 49 | Agent-dispatch manifest | **Partial** | `.agents/pattern-agents.json` has `schema_version`, `github.repo`, `slack_channel`, `datadog`, `skills.plugins`; no `aws[]` needed (no AWS footprint). `clickup_list_id` is not set | The owner names the ClickUp list for this repo; add it as `clickup_list_id`. |
 
 ## Prioritized recommendations
 
-1. **[M] Gap — required CI checks (16):** Add an `rspec` (and later RuboCop) step to `.github/workflows/ci.yml`, then make the job a required status check on the default branch via the ruleset. Blocked on recommendation 3 for the test step to be meaningful.
-2. **[S] Gap — AGENTS.md (2):** Write `AGENTS.md` covering setup (`bin/setup`), the credential-dependent test suite and how to run it, Ruby version, release process, and layout of `lib/blurb/`.
-3. **[M] Partial — unit tests (23):** Stub HTTP with WebMock/VCR so the spec suite runs hermetically without live Amazon credentials; remove the 1s inter-test sleep for stubbed runs.
-4. **[M] Partial — integration tests (24):** Split live-API specs behind a `:live` tag gated on credentials; document the pre-release live run. (Also resolves flaky quarantine, item 32.)
-5. **[S] Partial — reproducible builds (48):** Commit `Gemfile.lock`, add an upper bound to the `activesupport` dependency, and add a `.ruby-version` file (also narrows item 36).
-6. **[S] Gap — agent-dispatch manifest (49):** Add `.agents/pattern-agents.json` with GitHub, ClickUp, Slack, and skills metadata.
-7. **[S] Gap — changelog (7):** Add `CHANGELOG.md` with per-release upgrade notes, backfilling the v2.0 API migration note from the README.
-8. **[M] Gap — linters/formatter/complexity (10, 11, 21):** Add RuboCop (lint + layout + metrics cops) and run it in CI.
-9. **[S] Gap — CODEOWNERS (9):** Map the repo to `sre-comm` (per `backstage.yaml`) so the ruleset's required reviews auto-route.
-10. **[S] Gap — coverage threshold (29):** Add SimpleCov with a starter threshold once CI runs the suite.
-11. **[S] Gap — structured logging (43):** Replace the `puts`-based `log` helper in `lib/blurb/request.rb` with an injectable `Logger`.
-12. **[S] Cleanup:** Delete the stale `.travis.yml` and the dead TravisCI badge/`iserve-products` homepage links in `README.md`/`blurb.gemspec`.
+1. **[S] Partial — required CI checks (16):** An admin adds a repo ruleset requiring `Static Checks` and `PR Hygiene` on `master` (both have reported on PR #29).
+2. **[S] Gap — structured logging (43):** Replace the `puts`-based `log` in `lib/blurb/request.rb` with an injectable `Logger` (minor version bump, `CHANGELOG.md` note).
+3. **[M] Gap — mutation testing (30):** After moving the gem to Ruby 3.x, add `mutant-rspec` scoped to `Blurb::Request` and run it incrementally (`--since master`) in CI.
+4. **[S] Partial — agent-dispatch manifest (49):** Set `clickup_list_id` in `.agents/pattern-agents.json` once the owner names the list; confirm or drop the default `datadog` fields.
 
 ## Declined practices
 
 | # | Practice | Rationale |
 |---|----------|-----------|
-| 4 | Runbooks | No operational surface; gem release is standard `bundler/gem_tasks`. |
 | 5 | API contract docs | Consumes Amazon's third-party API; owns no wire contract. |
 | 8 | On-call playbooks | Library — nothing is paged; incidents surface in consuming apps. |
-| 17 | Dependency allow/deny lists | Three runtime dependencies on a dormant gem; policy ceremony beyond repo scale. |
+| 17 | Dependency allow/deny lists | Three runtime dependencies on a maintenance-mode gem; policy ceremony beyond repo scale. |
 | 22 | Import boundary enforcement | Flat ~17-file single namespace; no layers to police. |
-| 26 | Contract tests | Contract is owned by a third party (Amazon); cassette fixtures pin the observed shape instead. |
+| 26 | Contract tests | Contract is owned by a third party (Amazon); golden payload files pin the observed shape instead. |
 | 27 | End-to-end tests | No UI; headless client library. |
 | 28 | Visual regression tests | No visual surface. |
 | 31 | Load/perf benchmarks | Throughput bounded by Amazon API throttling, not this code. |
@@ -154,7 +153,8 @@ Critical gates are RED: AGENTS.md (item 2) and required CI checks (item 16) are 
 
 ## Beyond the checklist
 
-- `backstage.yaml` registers the repo in the Backstage catalog with cost-center, environment, and ownership labels — machine-readable ownership metadata most repos this size lack.
-- Standard Bundler gem scaffold is intact and idiomatic: `bin/setup`, `bin/console`, `Rakefile` with `spec` as the default task, `.rspec` with documentation format.
-- `rspec_junit_formatter` and `dotenv` are already declared as dev dependencies — the plumbing for structured CI output and credential hygiene exists even though CI doesn't use it yet.
-- `.gitignore` proactively excludes `.env` and `.byebug_history`, keeping local credentials and debug artifacts out of history.
+- `backstage.yaml` registers the repo in the Backstage catalog with cost-center, environment and ownership labels.
+- The RBS signatures in `sig/` ship with the gem, so consuming apps that use Steep get types for `Blurb` without a separate collection entry.
+- `.rubocop_todo.yml` is exclude-only (no raised `Max`), so new code meets RuboCop defaults while old offenses are paid down file by file.
+- `.trivyignore.yaml` records why its one license exception is acceptable, next to the rule.
+- The unit specs found two real load-order bugs (ActiveSupport >= 7.1 and `present?` outside Rails), fixed by require-only changes in `lib/blurb/request.rb`.

@@ -26,6 +26,7 @@ class Blurb
       count = MIN_COUNT if count < MIN_COUNT
       count = MAX_COUNT if count > MAX_COUNT
 
+      # @type var payload: Hash[Symbol, untyped]
       payload = {
         sort: {
           key: 'DATE',

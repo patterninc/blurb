@@ -1,0 +1,8 @@
+# License scan (audit item 18): `trivy rootfs --scanners license vendor/bundle` in Static Checks.
+licenses:
+  # diff-lcs (rspec dev dependency) is triple-licensed MIT / Artistic-2.0 / GPL-2.0-or-later;
+  # we use it under MIT, and it is never shipped with the gem.
+  - id: GPL-2.0-or-later
+    paths:
+      - "ruby/*/specifications/diff-lcs-*.gemspec"
+    statement: diff-lcs is also MIT-licensed; dev-only (rspec)

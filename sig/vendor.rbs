@@ -1,0 +1,44 @@
+# Minimal stubs for runtime dependencies that ship no RBS (rest-client, oauth2,
+# activesupport). Only what lib/ references; everything is untyped.
+module RestClient
+  def self.get: (*untyped) -> untyped
+
+  class Request
+    def self.execute: (untyped) -> untyped
+  end
+
+  class ExceptionWithResponse < StandardError
+    def response: () -> untyped
+  end
+
+  class TooManyRequests < ExceptionWithResponse
+  end
+
+  class TemporaryRedirect < ExceptionWithResponse
+  end
+
+  class NotAcceptable < ExceptionWithResponse
+  end
+end
+
+module OAuth2
+  class Client
+    def initialize: (*untyped) -> void
+    def request: (*untyped) -> untyped
+  end
+end
+
+module ActiveSupport
+  class TimeWithZone
+  end
+end
+
+class Object
+  def present?: () -> bool
+  def blank?: () -> bool
+end
+
+class String
+  def camelize: (?Symbol first_letter) -> String
+  def underscore: () -> String
+end

@@ -1,0 +1,25 @@
+{
+  "sort": {
+    "key": "DATE",
+    "direction": "ASC"
+  },
+  "fromDate": 1704067200000,
+  "toDate": 1706659200000,
+  "eventTypes": {
+    "CAMPAIGN": {
+      "eventTypeIds": [
+        1,
+        2
+      ],
+      "filters": [
+        "BUDGET_AMOUNT"
+      ],
+      "parents": [
+        {
+          "campaignId": 3
+        }
+      ]
+    }
+  },
+  "count": 50
+}

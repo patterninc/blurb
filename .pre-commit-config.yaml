@@ -1,0 +1,40 @@
+# Added by closing-ai-readiness-gaps (items 10, 11, 12, 13, 14, 17). `make lint` runs every hook; CI runs the same.
+default_install_hook_types: [pre-commit, commit-msg]
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-merge-conflict
+      - id: check-yaml
+        args: [--allow-multiple-documents]
+      - id: check-added-large-files
+      - id: detect-private-key
+      - id: end-of-file-fixer
+        exclude: \.md$
+      - id: trailing-whitespace
+        exclude: \.md$
+
+  # RuboCop: lint, layout and complexity cops (items 10, 11, 21). Uses the Gemfile.lock version.
+  - repo: local
+    hooks:
+      - id: rubocop
+        name: rubocop
+        entry: bundle exec rubocop --force-exclusion
+        language: system
+        types: [ruby]
+      # Type check lib/ against sig/*.rbs (item 12). Same as `make typecheck`.
+      - id: steep
+        name: steep check
+        entry: bundle exec steep check
+        language: system
+        pass_filenames: false
+        files: ^(lib/.*\.rb|sig/.*\.rbs|Steepfile|Gemfile\.lock)$
+
+  # Conventional Commits (item 14), enforced on commit-msg
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v4.4.0
+    hooks:
+      - id: conventional-pre-commit
+        stages: [commit-msg]
+        args: [--strict, feat, fix, docs, chore, refactor, test, ci, build, perf, revert, style]

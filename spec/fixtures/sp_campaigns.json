@@ -1,0 +1,3 @@
+[
+  {"campaignId": 123456789, "name": "Fixture campaign", "campaignType": "sponsoredProducts", "targetingType": "manual", "state": "enabled", "dailyBudget": 10.0, "startDate": "20240101", "premiumBidAdjustment": false}
+]

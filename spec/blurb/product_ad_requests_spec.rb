@@ -18,4 +18,3 @@ RSpec.describe "SP Product Ad Requests" do
 
   include_examples "request collection"
 end
-

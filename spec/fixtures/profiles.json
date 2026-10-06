@@ -1,0 +1,4 @@
+[
+  {"profileId": 1111111111, "countryCode": "US", "currencyCode": "USD", "timezone": "America/Los_Angeles", "accountInfo": {"marketplaceStringId": "ATVPDKIKX0DER", "id": "A1FAKEACCOUNT", "type": "seller"}},
+  {"profileId": 2222222222, "countryCode": "CA", "currencyCode": "CAD", "timezone": "America/Los_Angeles", "accountInfo": {"marketplaceStringId": "A2EUQ1WTGCTBG2", "id": "A1FAKEACCOUNT", "type": "seller"}}
+]

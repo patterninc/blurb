@@ -1,3 +1,6 @@
+# ActiveSupport >= 7.1 must be loaded before any core_ext file; present? needs object/blank.
+require 'active_support'
+require 'active_support/core_ext/object/blank'
 require 'active_support/core_ext/string'
 require "rest-client"
 require "blurb/base_class"
@@ -16,6 +19,7 @@ class Blurb
     end
 
     def request_config
+      # @type var request_config: Hash[Symbol, untyped]
       request_config = {
         method: @request_type,
         url: @url,
@@ -42,7 +46,7 @@ class Blurb
       rescue RestClient::TooManyRequests => err
         raise RequestThrottled.new(JSON.parse(err.response.body))
       rescue RestClient::TemporaryRedirect => err
-        return RestClient.get(err.response.headers[:location])  # If this happens, then we are downloading a report from the api, so we can simply download the location
+        return RestClient.get(err.response.headers[:location]) # If this happens, then we are downloading a report from the api, so we can simply download the location
       rescue RestClient::NotAcceptable => err
         if @url.include?("report")
           raise InvalidReportRequest.new(JSON.parse(err.response.body))
@@ -52,7 +56,7 @@ class Blurb
       rescue RestClient::ExceptionWithResponse => err
         if err.response.present?
           raise FailedRequest.new(JSON.parse(err.response.body))
-        else 
+        else
           raise err
         end
       end
