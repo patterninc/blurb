@@ -1,0 +1,20 @@
+# PR title = squash-commit message (item 14). Added by closing-ai-readiness-gaps.
+# Make "PR Hygiene" a required status check (item 16).
+name: 'PR Hygiene'
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  pull-requests: read
+
+jobs:
+  hygiene:
+    name: 'PR Hygiene'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Conventional Commit PR title
+        uses: amannn/action-semantic-pull-request@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

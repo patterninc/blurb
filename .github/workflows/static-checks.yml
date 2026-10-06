@@ -1,0 +1,41 @@
+# Credential-free PR checks (items 10, 11, 13, 23): the same hooks and tests as `make all`.
+# Added by closing-ai-readiness-gaps. Make "Static Checks" a required status check (item 16).
+name: 'Static Checks'
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  static:
+    name: 'Static Checks'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Pre-commit hooks (format, lint, validate)
+        run: |
+          pip install pre-commit
+          pre-commit run --all-files --show-diff-on-failure
+
+      - name: Unit tests
+        run: make test
+
+      - name: Upload test results (item 33)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: '**/*-junit.xml'
+          if-no-files-found: ignore

@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "github": {
+    "repo": "patterninc/blurb"
+  },
+  "slack_channel": "#sre-comm",
+  "datadog": {
+    "service": "blurb",
+    "env": "production"
+  },
+  "skills": {
+    "plugins": [
+      "ai-sdlc",
+      "terraform",
+      ".claude/skills/change-github-workflows",
+      ".claude/skills/change-and-verify"
+    ]
+  }
+}
