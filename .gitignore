@@ -1,6 +1,5 @@
 /.bundle/
 /.yardoc
-/Gemfile.lock
 /_yardoc/
 /coverage/
 /doc/
@@ -12,3 +11,7 @@
 .rspec_status
 .env
 .byebug_history
+
+# test output (Makefile `test` target)
+rspec-junit.xml
+/vendor/

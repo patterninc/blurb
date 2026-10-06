@@ -15,6 +15,15 @@ repos:
       - id: trailing-whitespace
         exclude: \.md$
 
+  # RuboCop: lint, layout and complexity cops (items 10, 11, 21). Uses the Gemfile.lock version.
+  - repo: local
+    hooks:
+      - id: rubocop
+        name: rubocop
+        entry: bundle exec rubocop --force-exclusion
+        language: system
+        types: [ruby]
+
   # Conventional Commits (item 14), enforced on commit-msg
   - repo: https://github.com/compilerla/conventional-pre-commit
     rev: v4.4.0
