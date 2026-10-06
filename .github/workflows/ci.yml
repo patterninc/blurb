@@ -24,4 +24,3 @@ jobs:
         env:
           BUNDLE_GITHUB__COM: ${{ secrets.RUBY_GEM_BUNDLE_TOKEN }}
           BUNDLE_ENTERPRISE__CONTRIBSYS__COM: ${{ secrets.SIDEKIQ_ENTERPRISE_TOKEN }}
-      

@@ -52,7 +52,7 @@ class Blurb
       rescue RestClient::ExceptionWithResponse => err
         if err.response.present?
           raise FailedRequest.new(JSON.parse(err.response.body))
-        else 
+        else
           raise err
         end
       end

@@ -6,4 +6,4 @@ class Blurb
       sd: 'sd'
     }.freeze
   end
-end 
+end
