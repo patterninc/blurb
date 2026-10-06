@@ -1,0 +1,208 @@
+# Type signatures for the gem's public API (audit item 12). `make typecheck` (part of
+# `make lint` and CI) runs `steep check` of lib/ against these. Keep them in step with
+# lib/: a new public method needs a signature here.
+class Blurb
+  type campaign_type_key = :sp | :sb | :hsa | :sd
+  type headers = Hash[String, untyped]
+  # Responses are parsed JSON with snake_case Symbol keys (docs/adr/0002).
+  type response = untyped
+
+  attr_accessor client: Client
+  attr_accessor account: Account
+
+  def initialize: (?client_id: String?, ?client_secret: String?, ?refresh_token: String?, ?region: String?, ?profile_id: (String | Integer)?) -> void
+  def profiles: () -> Array[Profile]
+  def active_profile: () -> Profile?
+
+  class BaseClass
+    CAMPAIGN_TYPE_CODES: Hash[Symbol, String]
+  end
+
+  class BaseException < StandardError
+  end
+
+  class FailedRequest < StandardError
+  end
+
+  class InvalidReportRequest < StandardError
+  end
+
+  class RequestThrottled < StandardError
+  end
+
+  class Client < BaseClass
+    attr_accessor client_id: String?
+    attr_accessor client_secret: String?
+
+    def initialize: (client_id: String?, client_secret: String?) -> void
+  end
+
+  class Account < BaseClass
+    # Keyed by region: "TEST", "NA", "EU", "FE".
+    API_URLS: Hash[String?, String]
+
+    attr_accessor refresh_token: String?
+    attr_accessor api_url: String?
+    attr_accessor client: Client
+    attr_accessor profiles: Array[Profile]
+    attr_accessor active_profile: Profile?
+
+    @token_refreshed_at: Float
+    @authorization_token: String?
+
+    def initialize: (refresh_token: String?, region: String?, client: Client, ?profile_id: (String | Integer)?) -> void
+    def initialize_profiles: (?(String | Integer)? profile_id) -> Profile?
+    def set_active_profile: (String | Integer profile_id) -> Profile?
+    def get_profile: (String | Integer profile_id) -> Profile?
+    def profile_list: () -> response
+    def retrieve_profile: (String | Integer profile_id) -> response
+    def retrieve_token: () -> String?
+
+    private
+
+    def profile_request: (String api_path) -> response
+    def authorization_client: () -> untyped
+  end
+
+  class Profile < BaseClass
+    attr_accessor account: Account
+    attr_accessor ad_groups: RequestCollection
+    attr_accessor sd_ad_groups: RequestCollection
+    attr_accessor campaign_negative_keywords: RequestCollection
+    attr_accessor portfolios: RequestCollection
+    attr_accessor product_ads: RequestCollection
+    attr_accessor sd_product_ads: RequestCollection
+    attr_accessor profile_id: String | Integer
+    attr_accessor suggested_keywords: SuggestedKeywordRequests
+    attr_accessor targets: RequestCollection
+    attr_accessor history: HistoryRequest
+
+    @base_url: String?
+    @sp_campaigns: CampaignRequests
+    @sb_campaigns: CampaignRequests
+    @sd_campaigns: CampaignRequests
+    @sp_keywords: RequestCollectionWithCampaignType
+    @sb_keywords: RequestCollectionWithCampaignType
+    @sp_negative_keywords: RequestCollectionWithCampaignType
+    @sb_negative_keywords: RequestCollectionWithCampaignType
+    @sp_snapshots: SnapshotRequests
+    @sb_snapshots: SnapshotRequests
+    @sp_reports: ReportRequests
+    @sb_reports: ReportRequests
+    @sd_reports: ReportRequests
+
+    def initialize: (profile_id: String | Integer, account: Account) -> void
+    def campaigns: (campaign_type_key campaign_type) -> CampaignRequests?
+    def keywords: (campaign_type_key campaign_type) -> RequestCollectionWithCampaignType?
+    def negative_keywords: (campaign_type_key campaign_type) -> RequestCollectionWithCampaignType?
+    def snapshots: (campaign_type_key campaign_type) -> SnapshotRequests?
+    def reports: (campaign_type_key campaign_type) -> ReportRequests?
+    def request: (?api_path: String, ?request_type: Symbol, ?payload: untyped, ?url_params: Hash[untyped, untyped]?, ?headers: headers) -> response
+    def profile_details: () -> response
+    def headers_hash: (?Hash[Symbol, untyped] opts) -> headers
+  end
+
+  class Request < BaseClass
+    @url: String
+    @payload: String?
+    @headers: headers
+    @request_type: Symbol
+
+    def initialize: (url: String, request_type: Symbol, headers: headers, ?payload: untyped, ?url_params: Hash[untyped, untyped]?) -> void
+    def request_config: () -> Hash[Symbol, untyped]
+    def make_request: () -> response
+
+    private
+
+    def setup_url: (String url, Hash[untyped, untyped]? url_params) -> String
+    def convert_payload: (untyped payload) -> String?
+    def convert_response: (untyped resp) -> response
+    def camelcase_keys: (untyped value) -> untyped
+    def camelcase_key: (untyped k) -> untyped
+    def underscore_keys: (untyped value) -> untyped
+    def underscore_key: (untyped k) -> Symbol
+    def log: (String header, untyped message) -> void
+  end
+
+  class RequestCollection < BaseClass
+    # nil when Account was built with an unknown region (no API_URLS entry).
+    @base_url: String?
+    @headers: headers
+    @api_limit: Integer
+
+    def initialize: (headers: headers, base_url: String, ?bulk_api_limit: Integer) -> void
+    def list: (?Hash[untyped, untyped]? url_params) -> response
+    def list_extended: (?Hash[untyped, untyped]? url_params) -> response
+    def retrieve: (untyped resource_id) -> response
+    def retrieve_extended: (untyped resource_id) -> response
+    def create: (**untyped create_params) -> response
+    def create_bulk: (Array[Hash[Symbol, untyped]] create_array) -> Array[response]
+    def update: (**untyped update_params) -> response
+    def update_bulk: (Array[Hash[Symbol, untyped]] update_array) -> Array[response]
+    def delete: (untyped resource_id) -> response
+
+    private
+
+    def execute_request: (request_type: Symbol, ?api_path: String, ?payload: untyped, ?url_params: Hash[untyped, untyped]?) -> response
+    def execute_bulk_request: (**untyped execute_request_params) -> Array[response]
+  end
+
+  class RequestCollectionWithCampaignType < RequestCollection
+    @campaign_type: String
+
+    def initialize: (campaign_type: String, resource: String, base_url: String?, headers: headers, ?bulk_api_limit: Integer) -> void
+  end
+
+  class CampaignRequests < RequestCollectionWithCampaignType
+    private
+
+    def map_campaign_payload: (Array[Hash[Symbol, untyped]] payload) -> Array[Hash[Symbol, untyped]]
+  end
+
+  class SnapshotRequests < RequestCollectionWithCampaignType
+    def initialize: (campaign_type: String, base_url: String?, headers: headers) -> void
+    def create: (Symbol | String record_type, ?String state_filter) -> response
+    def retrieve: (untyped snapshot_id) -> response
+    def download: (untyped snapshot_id) -> response
+  end
+
+  class ReportRequests < RequestCollectionWithCampaignType
+    SD_TACTIC: String
+
+    def initialize: (campaign_type: String, base_url: String?, headers: headers) -> void
+    def create: (record_type: Symbol | String, ?report_date: Date | Time, ?metrics: Array[String | Symbol]?, ?segment: String?) -> response
+    def retrieve: (untyped report_id) -> response
+    def download: (untyped report_id) -> response
+
+    private
+
+    def get_default_metrics: (Symbol record_type, ?String? segment) -> untyped
+  end
+
+  class HistoryRequest < RequestCollection
+    FROM_DATE: String
+    TO_DATE: String
+    MAX_COUNT: Integer
+    MIN_COUNT: Integer
+    FILTERS: Array[String]
+    PARENT_CAMPAIGN_ID: nil
+
+    def initialize: (base_url: String?, headers: headers) -> void
+    def retrieve: (campaign_ids: Array[untyped], ?from_date: String | Integer, ?to_date: String | Integer, ?filters: Array[String], ?parent_campaign_id: untyped, ?count: Integer) -> response
+  end
+
+  class SuggestedKeywordRequests
+    @base_url: String
+    @headers: headers
+
+    def initialize: (base_url: String, headers: headers) -> void
+    def ad_group_retrieve: (untyped ad_group_id) -> response
+    def ad_group_retrieve_extended: (untyped ad_group_id) -> response
+    def asin_retrieve: (String asin_value, ?Integer max_num_suggestions) -> response
+    def asin_list: (Array[String] asin_list, ?Integer max_num_suggestions) -> response
+
+    private
+
+    def execute_request: (request_type: Symbol, ?api_path: String, ?payload: untyped, ?url_params: Hash[untyped, untyped]?) -> response
+  end
+end

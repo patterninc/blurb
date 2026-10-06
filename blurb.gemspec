@@ -39,6 +39,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "webmock", "~> 3.18"
   spec.add_development_dependency "simplecov", "~> 0.22"
   spec.add_development_dependency "rubocop", "~> 1.50.2"
+  spec.add_development_dependency "steep", "~> 1.4.0"
 
   spec.add_runtime_dependency "rest-client", "~> 2.0"
   spec.add_runtime_dependency "oauth2", "~> 1.4.0"

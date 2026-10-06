@@ -1,4 +1,4 @@
-# Added by closing-ai-readiness-gaps (items 10, 11, 13, 14, 17). `make lint` runs every hook; CI runs the same.
+# Added by closing-ai-readiness-gaps (items 10, 11, 12, 13, 14, 17). `make lint` runs every hook; CI runs the same.
 default_install_hook_types: [pre-commit, commit-msg]
 
 repos:
@@ -23,6 +23,13 @@ repos:
         entry: bundle exec rubocop --force-exclusion
         language: system
         types: [ruby]
+      # Type check lib/ against sig/*.rbs (item 12). Same as `make typecheck`.
+      - id: steep
+        name: steep check
+        entry: bundle exec steep check
+        language: system
+        pass_filenames: false
+        files: ^(lib/.*\.rb|sig/.*\.rbs|Steepfile|Gemfile\.lock)$
 
   # Conventional Commits (item 14), enforced on commit-msg
   - repo: https://github.com/compilerla/conventional-pre-commit

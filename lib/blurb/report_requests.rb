@@ -18,6 +18,7 @@ class Blurb
     )
       # create payload
       metrics = get_default_metrics(record_type.to_s.underscore.to_sym, segment) if metrics.nil?
+      # @type var payload: Hash[Symbol, untyped]
       payload = {
         metrics: metrics.map{ |m| m.to_s.camelize(:lower) }.join(","),
         report_date: report_date

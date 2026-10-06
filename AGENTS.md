@@ -13,6 +13,7 @@ Ruby gem (`blurb`, version in `blurb.gemspec`, currently 0.5.9) that wraps the A
 - `lib/blurb/errors/` — `FailedRequest`, `RequestThrottled`, `InvalidReportRequest` (all inherit `BaseException`).
 - `spec/unit/` — hermetic unit specs; HTTP stubbed with WebMock, payloads in `spec/fixtures/`. Run by `make test` and CI.
 - `spec/blurb/` — live-API integration specs (tagged `:live`); they call the real Amazon Advertising API and are excluded unless `BLURB_LIVE=1`.
+- `sig/blurb.rbs` — RBS signatures for the public API, checked by Steep (`Steepfile`); `sig/vendor.rbs` stubs rest-client, oauth2 and ActiveSupport. A new or changed public method needs its signature updated.
 - `bin/setup`, `bin/console` — `bundle install`; an IRB session with the gem loaded.
 - `backstage.yaml` — Backstage catalog entry (owner, cost center).
 - `.travis.yml` — stale, Travis no longer runs; `.github/workflows/ci.yml` is the legacy push workflow (installs gems only).
@@ -23,6 +24,7 @@ Ruby gem (`blurb`, version in `blurb.gemspec`, currently 0.5.9) that wraps the A
 |---|---|
 | `make bootstrap` | `bundle install` plus git hooks (Ruby version in `.ruby-version` / `.tool-versions`) |
 | `make lint` | Every pre-commit hook on every file, including RuboCop — what CI runs |
+| `make typecheck` | `steep check` of `lib/` against `sig/blurb.rbs` (also a pre-commit hook, so `make lint` and CI run it) |
 | `make test` | Hermetic unit specs and golden payload files (`spec/fixtures/golden/`, regenerate with `UPDATE_GOLDEN=1 make test`) with coverage gate; writes `rspec-junit.xml` |
 | `make test-live` | Live-API specs; needs a `.env` with `BLURB_CLIENT_ID`, `BLURB_CLIENT_SECRET`, `BLURB_REFRESH_TOKEN`, `BLURB_REGION`, `BLURB_PROFILE_ID` |
 | `make all` | Everything CI runs |

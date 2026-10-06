@@ -14,6 +14,8 @@ releases (0.1.0–0.4.x) are summarised only by the upgrade note below.
 ### Added
 
 - Development tooling (no change to the gem's runtime behaviour beyond the require fix below): `AGENTS.md`, ADRs, RuboCop, pre-commit, hermetic unit specs with WebMock, SimpleCov gate, committed `Gemfile.lock`, `Makefile`, PR CI (`Static Checks`, `PR Hygiene`).
+- RBS signatures for the public API in `sig/` (shipped with the gem), type-checked with Steep (`make typecheck`, pre-commit and CI). `lib/` gains only `# @type` comments.
+- Golden-file specs for report and history request payloads (`spec/fixtures/golden/`).
 
 ### Fixed
 
