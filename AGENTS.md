@@ -23,7 +23,7 @@ Ruby gem (`blurb`, version in `blurb.gemspec`, currently 0.5.9) that wraps the A
 |---|---|
 | `make bootstrap` | `bundle install` plus git hooks (Ruby version in `.ruby-version` / `.tool-versions`) |
 | `make lint` | Every pre-commit hook on every file, including RuboCop — what CI runs |
-| `make test` | Hermetic unit specs with coverage gate; writes `rspec-junit.xml` |
+| `make test` | Hermetic unit specs and golden payload files (`spec/fixtures/golden/`, regenerate with `UPDATE_GOLDEN=1 make test`) with coverage gate; writes `rspec-junit.xml` |
 | `make test-live` | Live-API specs; needs a `.env` with `BLURB_CLIENT_ID`, `BLURB_CLIENT_SECRET`, `BLURB_REFRESH_TOKEN`, `BLURB_REGION`, `BLURB_PROFILE_ID` |
 | `make all` | Everything CI runs |
 

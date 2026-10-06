@@ -10,7 +10,7 @@ unless LIVE
   SimpleCov.start do
     add_filter "/spec/"
     # Current hermetic coverage, rounded down. Raise it as unit specs are added.
-    minimum_coverage 77
+    minimum_coverage 82
   end
 end
 
