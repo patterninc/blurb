@@ -6,7 +6,7 @@ metadata:
   annotations:
     repo: patterninc/blurb
   labels:
-    CostCenter: INFRA
+    CostCenter: PREDICT
     Environment: stage
     Name: blurb
     Owner: sre-comm
